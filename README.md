@@ -2,13 +2,14 @@
 
 ## Repository structure
     .
-    ├── notebooks               # POC code in Jupyter notebooks
+    ├── notebook                # POC code in Jupyter notebooks
     ├── horizon-dataset         # Data folders
     │   ├── clean_script.ipynb  # Script to clean raw files
     │   ├── clean-data/         # Folder including 6 cleaned data files
+    │   ├── ...         
     ├── .gitignore              
     ├── app.py                  # Streamlit app
-    ├── requirement.txt         # All packages required for scripts to run 
+    ├── requirements.txt        # All packages required for scripts to run 
     ├── README.md               # Instructions to run script
     └── ...
 
@@ -19,14 +20,21 @@ A simple Streamlit app template for you to modify!
 
 ### How to run it on your own machine
 
-1. Install the requirements
+1. Create virtual environment - Python 3.9
+   
+   ```
+   $ python -m venv venv/
+   $ source venv/bin/activate
+   ```
+
+2. Install the requirements
 
    ```
    $ pip install -r requirements.txt
    ```
 
-2. Run the app
+3. Run the app
 
    ```
-   $ streamlit run app.py
+   $ python -m streamlit run app.py
    ```

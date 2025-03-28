@@ -171,7 +171,7 @@ cython_debug/
 .pypirc
 
 # notebook draft files
-notebook/*
+# notebook/*
 .DS_Store
 .log
 *.sh
