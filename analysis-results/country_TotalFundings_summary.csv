@@ -1,0 +1,205 @@
+Index,countryID,CountryNames,totalCost,ecContribution,netEcContribution
+1,DE,['Deutschland' 'Alemania' 'Allemagne' 'Niemcy' 'Germania' 'Germany'],47090800043.520004,42863374866.479996,42803670281.46
+2,FR,['Francia' 'France' 'Francja' 'Frankreich'],37378256225.04,30033484459.32,29908276944.600002
+3,ES,['Espagne' 'España' 'Spain' 'Spanien' 'Spagna' 'Hiszpania'],27022720952.760002,27153279324.239998,27255171349.14
+4,NL,"['Netherlands' 'Paesi Bassi' 'Niderlandy' 'Pays-Bas' 'Países Bajos'
+ 'Niederlande']",25005786566.88,22746530271.6,22637362424.28
+5,IT,['Italia' 'Italien' 'Italy' 'Włochy' 'Italie'],24926212583.760002,22865783945.04,22543655553.18
+6,BE,['Belgique' 'Belgio' 'Belgien' 'Belgia' 'Bélgica' 'Belgium'],22299916233.6,20366490002.94,19928106581.579998
+7,SE,['Schweden' 'Svezia' 'Suecia' 'Szwecja' 'Sweden' 'Suède'],9851207211.42,8758633049.099998,8774397658.8
+8,EL,['Grecia' 'Grecja' 'Grèce' 'Greece' 'Griechenland'],9791075269.5,10063504750.5,10065124554.3
+9,NO,['Norway' 'Norvège' 'Norvegia' 'Noruega' 'Norwegia' 'Norwegen'],9328541968.86,8540890782.719999,8504846693.400001
+10,AT,['Austria' 'Autriche' 'Österreich'],8952618470.22,8334870329.400001,8320569714.059999
+11,FI,['Finlandia' 'Finland' 'Finlande' 'Finnland'],7833811571.219999,7462505004.719999,7482087546.780001
+12,DK,['Denmark' 'Dania' 'Danemark' 'Dinamarca' 'Danimarca' 'Dänemark'],7677888846.960001,7523014050.299999,7523144813.039999
+13,PT,['Portugal' 'Portogallo' 'Portugalia'],5692860424.14,5959343677.08,5975914558.200001
+14,IL,['Israel' 'Israele' 'Izrael' 'Israël'],5643075114.6,4887018697.44,4870462889.94
+15,IE,['Irlanda' 'Irlandia' 'Ireland' 'Irland' 'Irlande'],5462659515.24,5372020850.64,5365578961.0199995
+16,PL,['Polonia' 'Polen' 'Polska' 'Pologne' 'Poland'],3893913841.56,3820561771.1400003,3959203830.4800005
+17,SI,['Slovenia' 'Słowenia' 'Eslovenia' 'Slovénie' 'Slowenien'],3509970551.2799997,2148940128.54,2145406134.2400002
+18,CZ,['Czechy' 'Tchéquie' 'Tschechien' 'Czechia' 'Chequia' 'Cechia'],2799058838.58,2917764377.58,2939050848.06
+19,UK,"['Regno Unito' 'Royaume-Uni' 'United Kingdom' 'Vereinigtes Königreich'
+ 'Zjednoczone Królestwo' 'Reino Unido']",2402036767.8,2503046932.2,2516253830.3999996
+20,TR,['Turquie' 'Türkei' 'Turquía' 'Turkey' 'Turchia' 'Turcja'],2135907792.84,1738904459.52,1738948876.02
+21,RO,['Romania' 'Rumänien' 'Rumunia' 'Rumanía' 'Roumanie'],1962166351.1399999,1738999436.04,1729667322.12
+22,CY,['Chypre' 'Zypern' 'Chipre' 'Cipro' 'Cypr' 'Cyprus'],1742296905.66,1791374924.94,1784516159.94
+23,EE,['Estonia' 'Estonie' 'Estland'],1560642571.26,1534034466.3600001,1539451513.1399999
+24,LU,['Luxembourg' 'Lussemburgo' 'Luxemburgo' 'Luksemburg' 'Luxemburg'],1439207795.82,1210829389.1999998,1199315166.3600001
+25,HU,['Hungary' 'Ungheria' 'Hongrie' 'Węgry' 'Hungría' 'Ungarn'],1276587037.5,1174668908.16,1198293594.18
+26,HR,['Croatie' 'Croatia' 'Croacia' 'Kroatien' 'Chorwacja' 'Croazia'],1122853094.82,789391509.24,807538924.98
+27,BG,['Bulgaria' 'Bułgaria' 'Bulgarie' 'Bulgarien'],1077914807.76,979081710.54,979941715.62
+28,LT,['Lituania' 'Lithuania' 'Litauen' 'Lituanie' 'Litwa'],943485328.5,934538571.54,936462359.04
+29,CH,['Switzerland' 'Szwajcaria' 'Suiza' 'Schweiz' 'Svizzera' 'Suisse'],900177547.26,613971513.0,609530254.14
+30,SK,['Słowacja' 'Slovakia' 'Slovacchia' 'Eslovaquia' 'Slowakei' 'Slovaquie'],683499651.42,652060363.5600001,653543940.12
+31,US,"['Stany Zjednoczone' 'Estados Unidos' 'Vereinigte Staaten' 'États-Unis'
+ 'Stati Uniti' 'United States']",660740154.72,410058264.41999996,413496257.28
+32,LV,['Lettonie' 'Letonia' 'Lettonia' 'Łotwa' 'Latvia' 'Lettland'],651556399.38,588629132.9399999,586010017.02
+33,RS,['Serbia' 'Serbien' 'Serbie'],578804389.98,726762872.16,742119583.08
+34,IS,['Islandia' 'Islanda' 'Iceland' 'Island' 'Islande'],509146687.38,370401220.56,370080595.56
+35,UA,['Ukraine' 'Ucraina' 'Ucrania' 'Ukraina'],381622101.06,409159001.58,404451886.02
+36,ZA,"['Sud Africa' 'Sudáfrica' 'Südafrika' 'Afrique du Sud'
+ 'Republika Południowej Afryki' 'South Africa']",376527508.79999995,364863483.96,371340350.46
+37,MT,['Malta' 'Malte'],302073127.56,268866736.02,270142486.02
+38,KE,['Kenya' 'Kenia'],230263431.78,234125479.98,237472429.98
+39,ET,['Etiopia' 'Etiopía' 'Äthiopien' 'Éthiopie' 'Ethiopia'],162160959.66,89545926.66,89545926.66
+40,UG,['Uganda' 'Ouganda'],129421028.52,132639248.52,132639248.52
+41,TZ,['Tanzania' 'Tanzanie' 'Tansania'],117600617.69999999,118848018.96000001,118848018.96000001
+42,GH,['Ghana'],98509816.5,103979267.22,103979267.22
+43,TN,['Tunisia' 'Tunisie' 'Tunesien' 'Túnez' 'Tunezja'],92553829.44,78173117.03999999,79023617.03999999
+44,CD,"['República Democrática del Congo' 'Demokratyczna Republika Konga'
+ 'Repubblica democratica del Congo' 'Demokratische Republik Kongo'
+ 'République démocratique du Congo' 'Democratic Republic of the Congo']",91455265.98,90719695.92,90719695.92
+45,NG,['Nigeria'],87575301.6,86370087.6,86487162.6
+46,SN,['Senegal' 'Sénégal'],78550865.34,77582224.32000001,80035158.24000001
+47,MZ,['Mozambique' 'Mozambik' 'Mozambico' 'Mosambik'],68969877.42,68969870.64,68969870.64
+48,MK,"['Macedonia Północna' 'Macedonia del Nord' 'Macedonia del Norte'
+ 'Macédoine du Nord' 'Nordmazedonien' 'North Macedonia']",58837292.28,67538189.58,72997934.58
+49,CA,['Canada' 'Kanada' 'Canadá'],57252568.5,63370863.96,63370863.96
+50,ZM,['Zambia' 'Sambia' 'Zambie'],54570236.220000006,55549550.94,55549550.94
+51,BF,['Burkina Faso' 'Burkina'],49600151.76,49765661.76,49765661.76
+52,BA,"['Bosnien und Herzegowina' 'Bosnia-Erzegovina' 'Bośnia i Hercegowina'
+ 'Bosnia y Herzegovina' 'Bosnie-Herzégovine' 'Bosnia and Herzegovina']",49558882.5,54133030.38,54133030.38
+53,EG,['Egypt' 'Égypte' 'Egipt' 'Egitto' 'Egipto' 'Ägypten'],45843162.0,30940421.22,31275993.72
+54,MA,['Morocco' 'Maroko' 'Marokko' 'Marruecos' 'Marocco' 'Maroc'],45435110.099999994,34564679.04,34564679.04
+55,AU,['Australia' 'Australien' 'Australie'],45244428.660000004,47555546.58,47555546.58
+56,NZ,"['Nueva Zelanda' 'Nowa Zelandia' 'New Zealand' 'Nuova Zelanda'
+ 'Neuseeland' 'Nouvelle-Zélande']",41025801.0,39352841.82,39352841.82
+57,RW,['Ruanda' 'Rwanda'],40923997.5,37478447.28,37478447.28
+58,MH,"['Marshallinseln' 'Isole Marshall' 'Marshall Islands' 'Wyspy Marshalla'
+ 'Îles Marshall' 'Islas Marshall']",40849500.0,28594650.0,28594650.0
+59,ML,['Mali'],37433125.08,37433125.08,37433125.08
+60,AL,['Albania' 'Albanie' 'Albanien'],34693099.5,41661315.0,41661315.0
+61,MD,['Moldova' 'Moldau' 'Moldavia' 'Moldavie' 'Mołdawia'],33092399.400000002,38887394.46,38939894.46
+62,FO,['Faeroe Islands' 'Fær Øer' 'Islas Feroe' 'Wyspy Owcze' 'Féroé' 'Färöer'],32022979.740000002,22485441.42,22485441.42
+63,GE,['Georgia' 'Géorgie' 'Georgien' 'Gruzja'],31944356.04,34527844.68,34761844.68
+64,CI,"['Côte d’Ivoire' 'Wybrzeże Kości Słoniowej' 'Costa d’Avorio'
+ 'Costa de Marfil']",31304032.5,31896532.5,32361532.5
+65,CM,['Kamerun' 'Camerun' 'Cameroun' 'Camerún' 'Cameroon'],30337704.36,29947563.119999997,29947563.119999997
+66,GA,['Gabon' 'Gabón' 'Gabun'],29638270.08,29603482.08,29603482.08
+67,CO,['Colombia' 'Kolumbia' 'Colombie' 'Kolumbien'],27022377.0,32513095.98,31971220.98
+68,MG,['Madagascar' 'Madagaskar'],26302341.96,26302341.96,29538966.78
+69,LB,['Liban' 'Líbano' 'Libanon' 'Libano' 'Lebanon'],26197957.5,26815307.28,26815307.28
+70,TH,['Thailand' 'Tajlandia' 'Thaïlande' 'Thailandia' 'Tailandia'],24462457.5,23952532.5,23952532.5
+71,AM,['Armenia' 'Armenien' 'Arménie'],22424205.0,42003027.36,42003027.36
+72,KR,"['Corée du Sud' 'Corea del Sur' 'Corea del Sud' 'Südkorea' 'South Korea'
+ 'Korea Południowa']",22086022.5,19989037.5,19989037.5
+73,BJ,['Benin' 'Bénin' 'Benín'],19145557.5,19145557.5,19145557.5
+74,CG,['Congo' 'Kongo' 'Republik Kongo'],18687322.86,18687322.86,18687322.86
+75,ME,['Montenegro' 'Czarnogóra' 'Monténégro'],17888835.72,26707148.880000003,26707148.880000003
+76,ZW,['Zimbabwe' 'Zimbabue' 'Simbabwe'],17620176.96,17620176.96,17620176.96
+77,PK,['Pakistan' 'Pakistán'],15622537.5,15622533.0,15622533.0
+78,CV,"['Kap Verde' 'Cap-Vert' 'Cabo Verde' 'Capo Verde'
+ 'Republika Zielonego Przylądka' 'Cape Verde']",15607078.5,14632828.5,14632828.5
+79,SG,['Singapur' 'Singapore' 'Singapour'],14924272.5,14924272.5,14924272.5
+80,GL,['Groenlandia' 'Grönland' 'Groenland' 'Grenlandia' 'Greenland'],14744745.0,18853313.04,18853313.04
+81,GN,['Guinea' 'Guinée' 'Gwinea'],12711517.5,12711517.5,12711517.5
+82,IN,['India' 'Indien' 'Indie' 'Inde'],12253577.94,12253577.94,13220420.940000001
+83,PH,['Philippines' 'Philippinen' 'Filipiny' 'Filipinas' 'Filippine'],11308525.5,11043995.28,11043995.28
+84,BD,['Bangladesh' 'Bangladesz' 'Bangladés' 'Bangladesch'],10193086.5,13418619.0,14237619.0
+85,BR,['Brasilien' 'Brésil' 'Brazylia' 'Brasil' 'Brasile' 'Brazil'],9577553.28,9421042.2,9421042.2
+86,PE,['Peru' 'Perú' 'Pérou'],9491212.5,10517400.0,10517400.0
+87,JO,['Jordania' 'Jordanien' 'Jordanie' 'Giordania' 'Jordan'],9107295.0,9107295.0,9107295.0
+88,MW,['Malawi' 'Malaui'],9076732.2,9076732.2,9076732.2
+89,BI,['Burundi'],8988956.28,8988956.28,8988956.28
+90,KH,['Cambodge' 'Kambodża' 'Cambogia' 'Cambodia' 'Camboya' 'Kambodscha'],8300925.0,8300925.0,8300925.0
+91,JP,['Japan' 'Japón' 'Giappone' 'Japon' 'Japonia'],7922140.5,7673642.279999999,7673642.279999999
+92,XK,['Kosovo' 'Kosowo'],7415533.5,9050383.5,9050383.5
+93,DZ,['Algeria' 'Algieria' 'Algerien' 'Argelia' 'Algérie'],7112633.9399999995,5077184.1,5077184.1
+94,CL,['Chile' 'Chili' 'Cile'],6773250.0,8996850.0,9265350.0
+95,CR,['Costa Rica' 'Kostaryka'],6376950.0,9620827.5,9620827.5
+96,AR,['Argentina' 'Argentine' 'Argentinien' 'Argentyna'],5660421.0,8058283.5,8058283.5
+97,VN,['Vietnam' 'Viêt Nam' 'Wietnam'],5340000.0,6977922.0,6977922.0
+98,NI,['Nicaragua' 'Nikaragua'],4381057.5,4381057.5,4381057.5
+99,LR,['Liberia'],4256992.5,2554195.5,2554195.5
+100,LK,['Sri Lanka'],4231305.0,4231305.0,4231305.0
+101,MU,['Mauritius' 'Maurice' 'Mauricio' 'Maurizio'],4182375.0,4182375.0,3847500.0
+102,SZ,['Eswatini'],3435172.5,3435171.0,3435171.0
+103,GM,['Gambia' 'The Gambia' 'Gambie'],3262500.0,3262500.0,3262500.0
+104,CN,['China' 'Chiny' 'Chine' 'Cina'],3024525.0,3024525.0,3024525.0
+105,EC,['Ecuador' 'Ekwador' 'Équateur'],3019188.0,3019188.0,3019188.0
+106,GT,['Guatemala' 'Gwatemala'],2818125.0,2818125.0,2818125.0
+107,TW,['Taiwan' 'Taïwan' 'Tajwan' 'Taiwán'],2669167.5,2669167.5,2669167.5
+108,AW,['Aruba'],2628750.0,2628750.0,2628750.0
+109,BW,['Botswana' 'Botsuana'],2415856.5,6325612.800000001,6325612.800000001
+110,PS,['Palestina' 'Palestine' 'Palestyna' 'Palästina'],2376294.0,2376294.0,2376294.0
+111,KG,"['Kirgisistan' 'Kirghizstan' 'Kirghizistan' 'Kyrgyzstan' 'Kirgistan'
+ 'Kirguistán']",2335050.0,2335050.0,2335050.0
+112,MY,['Malaysia' 'Malezja' 'Malasia' 'Malaisie'],1815000.0,1815000.0,1815000.0
+113,ID,['Indonesia' 'Indonésie' 'Indonezja' 'Indonesien'],1594125.0,1594125.0,1594125.0
+114,IR,['Iran' 'Irán'],1349835.0,1349835.0,1349835.0
+115,MX,['Messico' 'Meksyk' 'Mexiko' 'Mexique' 'México' 'Mexico'],1246875.0,1996875.0,1996875.0
+116,IQ,['Iraq' 'Irak'],1155750.0,1155750.0,1155750.0
+117,HT,['Haiti' 'Haïti' 'Haití'],1140000.0,1140000.0,1140000.0
+118,BQ,"['Bonaire; Sint Eustatius i Saba' ""Bonaire; Sant'Eustachio e Saba""
+ 'Bonaire; Saint Eustatius and Saba' 'Bonaire; Saint-Eustache et Saba'
+ 'Bonaire; San Eustaquio y Saba' 'Bonaire; Sint Eustatius und Saba']",1107000.0,1107000.0,1107000.0
+119,TG,['Togo'],1098375.0,1098375.0,1098375.0
+120,SL,['Sierra Leone' 'Sierra Leona'],995250.0,961200.0,961200.0
+121,MV,['Maldives' 'Maldive' 'Maldivas' 'Malediwy' 'Malediven'],844425.0,844425.0,844425.0
+122,MR,['Mauritania' 'Mauritanie' 'Mauretanien' 'Mauretania'],823312.5,823312.5,823312.5
+123,AF,['Afghanistan' 'Afganistán' 'Afganistan'],721500.0,721500.0,721500.0
+124,PG,"['Papua Nuova Guinea' 'Papua New Guinea' 'Papouasie - Nouvelle-Guinée'
+ 'Papúa Nueva Guinea' 'Papua-Nowa Gwinea' 'Papua-Neuguinea']",643500.0,643500.0,643500.0
+125,TD,['Chad' 'Tschad' 'Tchad' 'Ciad' 'Czad'],616875.0,616875.0,616875.0
+126,DJ,['Djibouti' 'Gibuti' 'Dżibuti' 'Yibuti' 'Dschibuti'],616875.0,616875.0,616875.0
+127,LS,['Lesotho' 'Lesoto'],495577.5,495577.5,495577.5
+128,UZ,['Uzbekistan' 'Uzbekistán' 'Usbekistan' 'Ouzbékistan'],388500.0,388500.0,388500.0
+129,VE,['Venezuela' 'Wenezuela'],372150.0,372150.0,372150.0
+130,LY,['Libia' 'Libyen' 'Libye' 'Libya' 'Libia; Gran Giamahiria araba libica'],344250.0,344250.0,344250.0
+131,SD,['Sudan' 'Sudán' 'Soudan'],218250.0,218250.0,218250.0
+132,KZ,['Kazakhstan' 'Kazachstan' 'Kasachstan' 'Kazakstan' 'Kazajistán'],216375.0,216375.0,216375.0
+133,AZ,"['Azerbaïdjan' 'Azerbaiyán' 'Azerbaijan' 'Azerbaigian' 'Aserbaidschan'
+ 'Azerbejdżan']",137700.0,111438.0,111438.0
+134,PF,"['Französisch-Polynesien' 'Polinesia Francesa' 'French Polynesia'
+ 'Polinezja Francuska' 'Polinesia francese' 'Polynésie française']",75000.0,516600.0,516600.0
+135,NC,"['Nouvelle-Calédonie' 'Nowa Kaledonia' 'Neukaledonien' 'New Caledonia'
+ 'Nuova Caledonia' 'Nueva Caledonia']",15108.0,15108.0,15108.0
+136,QA,['Qatar' 'Katar'],0.0,0.0,0.0
+137,CU,['Kuba' 'Cuba'],0.0,67905.0,67905.0
+138,GW,['Guinea-Bissau' 'Guinea-Bisáu' 'Guinée-Bissau' 'Gwinea Bissau'],0.0,0.0,0.0
+139,GU,['Guam'],0.0,0.0,0.0
+140,GQ,"['Äquatorialguinea' 'Guinea Ecuatorial' 'Equatorial Guinea'
+ 'Guinea equatoriale' 'Guinée équatoriale' 'Gwinea Równikowa']",0.0,0.0,0.0
+141,GI,['Gibraltar' 'Gibilterra'],0.0,0.0,0.0
+142,FJ,['Fidji' 'Figi' 'Fiji' 'Fiyi' 'Fidżi' 'Fidschi'],0.0,0.0,0.0
+143,DO,"['Republika Dominikańska' 'República Dominicana' 'Repubblica dominicana'
+ 'Dominikanische Republik' 'Dominican Republic' 'République dominicaine']",0.0,0.0,0.0
+144,CF,"['República Centroafricana' 'Zentralafrikanische Republik'
+ 'République centrafricaine' 'Republika Środkowoafrykańska'
+ 'Repubblica centrafricana' 'Central African Republic']",0.0,0.0,0.0
+145,UY,['Urugwaj' 'Uruguay'],0.0,248716.08,248716.08
+146,TM,['Turkmenistan' 'Turkmenistán' 'Turkménistan'],0.0,0.0,0.0
+147,VA,"['Holy See/Vatican City' 'Heiliger Stuhl/Vatikanstadt'
+ 'Santa Sede/Stato della Città del Vaticano'
+ 'Santa Sede / Estado de la Ciudad del Vaticano' 'Stolica Apostolska'
+ 'Saint-Siège/État de la Cité du Vatican']",0.0,0.0,0.0
+148,BT,['Bhutan' 'Bhoutan' 'Bután'],0.0,0.0,0.0
+149,BO,['Bolivia' 'Bolivie' 'Bolivien' 'Boliwia'],0.0,0.0,0.0
+150,AO,['Angola'],0.0,0.0,0.0
+151,AI,['Anguila' 'Anguilla'],0.0,0.0,0.0
+152,HK,['Hong Kong' 'Hongkong'],0.0,0.0,0.0
+153,TJ,"['Tadjikistan' 'Tadschikistan' 'Tadżykistan' 'Tajikistan' 'Tayikistán'
+ 'Tagikistan']",0.0,0.0,0.0
+154,PY,['Paragwaj' 'Paraguay'],0.0,0.0,0.0
+155,MC,['Monaco' 'Monako' 'Mónaco'],0.0,0.0,0.0
+156,PA,['Panamá' 'Panama'],0.0,0.0,0.0
+157,SA,"['Arabia Saudyjska' 'Saudi-Arabien' 'Saudi Arabia' 'Arabie saoudite'
+ 'Arabia Saudí' 'Arabia Saudita']",0.0,0.0,0.0
+158,NP,['Nepal' 'Népal'],0.0,0.0,0.0
+159,NE,['Niger' 'Níger'],0.0,0.0,1675515.36
+160,MO,['Makau' 'Macau' 'Macao'],0.0,0.0,0.0
+161,MN,['Mongolie' 'Mongolia' 'Mongolei'],0.0,0.0,0.0
+162,LI,['Liechtenstein'],0.0,0.0,0.0
+163,IM,"['Île de Man' 'Wyspa Man' 'Insel Man' 'Isla de Man' 'Isle of Man'
+ 'Isola di Man']",0.0,0.0,0.0
+164,SR,['Surinam' 'Suriname'],0.0,888810.0,888810.0
+165,ST,"['Santo Tomé y Príncipe' 'Wyspy Świętego Tomasza i Książęca'
+ 'São Tomé und Príncipe' 'São Tomé and Príncipe' 'Sao Tomé-et-Principe'
+ 'Sao Tomé e Principe']",0.0,0.0,0.0
+166,SV,['Salwador' 'El Salvador'],0.0,0.0,0.0
+167,LA,['Demokratische Volksrepublik Laos' 'Laos'],0.0,0.0,0.0
+168,AE,"['Emiratos Árabes Unidos' 'Émirats arabes unis' 'Emirati arabi uniti'
+ 'United Arab Emirates' 'Vereinigte Arabische Emirate'
+ 'Zjednoczone Emiraty Arabskie']",0.0,0.0,0.0
+169,KW,['Koweït' 'Kuwejt' 'Kuwait'],0.0,0.0,0.0
+170,AD,['Andorra' 'Andorre' 'Andora'],0.0,0.0,0.0
