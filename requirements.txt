@@ -1,3 +1,4 @@
-streamlit
-plotly
-pandas
+streamlit==1.42.2
+plotly==6.0.0
+pandas==2.2.3
+typing-extensions==4.12.2

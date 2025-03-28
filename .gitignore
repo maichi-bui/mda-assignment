@@ -170,18 +170,8 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# data files
-realtime_data/processed_data/*
-realtime_data/raw_data/*
-static_data/raw_data/*
-static_data/processed_data/*
-# exception to keep folders
-!static_data/processed_data/.gitkeep
-!static_data/raw_data/.gitkeep 
-!realtime_data/processed_data/.gitkeep 
-!realtime_data/raw_data/.gitkeep 
 # notebook draft files
-notebook/*
+# notebook/*
 .DS_Store
 .log
 *.sh
