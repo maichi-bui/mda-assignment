@@ -175,3 +175,7 @@ cython_debug/
 .DS_Store
 .log
 *.sh
+chatbot/figures/*
+chatbot/pdfs/*
+!chatbot/pdfs/.gitkeep
+!chatbot/figures/.gitkeep
