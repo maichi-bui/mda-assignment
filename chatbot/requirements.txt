@@ -1,0 +1,7 @@
+setuptools
+langchain_core
+langchain_community
+langchain_ollama
+pdfplumber
+langdetect
+unstructured[pdf]

@@ -29,7 +29,9 @@ A simple Streamlit app template for you to modify!
 
 2. Install the requirements
 
+   
    ```
+   $ curl -fsSL https://ollama.com/install.sh | sh
    $ pip install -r requirements.txt
    ```
 
