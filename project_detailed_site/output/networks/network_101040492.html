@@ -1,0 +1,274 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightgray", "id": "project_101061388", "label": "Project 101061388", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101094837", "label": "Project 101094837", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101132581", "label": "Project 101132581", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101078945", "label": "Project 101078945", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101132580", "label": "Project 101132580", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101123325", "label": "Project 101123325", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101168853", "label": "Project 101168853", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101073821", "label": "Project 101073821", "shape": "star", "size": 10}, {"color": "red", "id": "project_101040492", "label": "Project 101040492", "shape": "star", "size": 20}, {"color": "blue", "id": "org_997516864", "label": "LISER - LUXEMBOURG INSTITUTE OF SOCIO-ECONOMIC RESEARCH", "shape": "dot", "size": 15, "title": "LISER - LUXEMBOURG INSTITUTE OF SOCIO-ECONOMIC RESEARCH (LU)"}, {"color": "gray", "id": "org_999423205", "label": "EKONOMSKI FAKULTET, UNIVERZITET U BEOGRADU", "shape": "dot", "size": 8, "title": "EKONOMSKI FAKULTET, UNIVERZITET U BEOGRADU (RS)"}, {"color": "gray", "id": "org_996226085", "label": "OBSERVATOIRE SOCIAL EUROPEEN ASBL", "shape": "dot", "size": 8, "title": "OBSERVATOIRE SOCIAL EUROPEEN ASBL (BE)"}, {"color": "gray", "id": "org_999517295", "label": "ZEW - LEIBNIZ-ZENTRUM FUR EUROPAISCHE WIRTSCHAFTSFORSCHUNG GMBH MANNHEIM", "shape": "dot", "size": 8, "title": "ZEW - LEIBNIZ-ZENTRUM FUR EUROPAISCHE WIRTSCHAFTSFORSCHUNG GMBH MANNHEIM (DE)"}, {"color": "gray", "id": "org_895561328", "label": "ALDGATE STRATEGY GROUP SPOLKA Z OGRANICZONA ODPOWIEDZIALNOSCIA", "shape": "dot", "size": 8, "title": "ALDGATE STRATEGY GROUP SPOLKA Z OGRANICZONA ODPOWIEDZIALNOSCIA (PL)"}, {"color": "gray", "id": "org_940719872", "label": "ZENTRUM FUR SOZIALE INNOVATION GMBH", "shape": "dot", "size": 8, "title": "ZENTRUM FUR SOZIALE INNOVATION GMBH (AT)"}, {"color": "gray", "id": "org_986526667", "label": "FUNDACJA NAUKOWA INSTYTUT BADAN STRUKTURALNYCH", "shape": "dot", "size": 8, "title": "FUNDACJA NAUKOWA INSTYTUT BADAN STRUKTURALNYCH (PL)"}, {"color": "gray", "id": "org_998874379", "label": "WIENER INSTITUT FUR INTERNATIONALE WIRTSCHAFTSVERGLEICHE", "shape": "dot", "size": 8, "title": "WIENER INSTITUT FUR INTERNATIONALE WIRTSCHAFTSVERGLEICHE (AT)"}, {"color": "gray", "id": "org_999846319", "label": "UNIVERSITA DEGLI STUDI DI PERUGIA", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI PERUGIA (IT)"}, {"color": "gray", "id": "org_999991334", "label": "KATHOLIEKE UNIVERSITEIT LEUVEN", "shape": "dot", "size": 8, "title": "KATHOLIEKE UNIVERSITEIT LEUVEN (BE)"}, {"color": "gray", "id": "org_953793241", "label": "MINISTERIO DA EDUCACAO, CIENCIA E INOVACAO", "shape": "dot", "size": 8, "title": "MINISTERIO DA EDUCACAO, CIENCIA E INOVACAO (PT)"}, {"color": "gray", "id": "org_999980664", "label": "UNIVERSITE CATHOLIQUE DE LOUVAIN", "shape": "dot", "size": 8, "title": "UNIVERSITE CATHOLIQUE DE LOUVAIN (BE)"}, {"color": "gray", "id": "org_999829635", "label": "UNIVERSIDAD DE SANTIAGO DE COMPOSTELA", "shape": "dot", "size": 8, "title": "UNIVERSIDAD DE SANTIAGO DE COMPOSTELA (ES)"}, {"color": "gray", "id": "org_960782479", "label": "UNIVERSIDADE NOVA DE LISBOA", "shape": "dot", "size": 8, "title": "UNIVERSIDADE NOVA DE LISBOA (PT)"}, {"color": "gray", "id": "org_919261629", "label": "MINDSHAKER SERVICOS INFORMATICOS, LDA", "shape": "dot", "size": 8, "title": "MINDSHAKER SERVICOS INFORMATICOS, LDA (PT)"}, {"color": "gray", "id": "org_999613325", "label": "INESC ID - INSTITUTO DE ENGENHARIADE SISTEMAS E COMPUTADORES, INVESTIGACAO E DESENVOLVIMENTO EM LISBOA", "shape": "dot", "size": 8, "title": "INESC ID - INSTITUTO DE ENGENHARIADE SISTEMAS E COMPUTADORES, INVESTIGACAO E DESENVOLVIMENTO EM LISBOA (PT)"}, {"color": "gray", "id": "org_999986484", "label": "UNIVERSITAT AUTONOMA DE BARCELONA", "shape": "dot", "size": 8, "title": "UNIVERSITAT AUTONOMA DE BARCELONA (ES)"}, {"color": "gray", "id": "org_999988909", "label": "NEDERLANDSE ORGANISATIE VOOR TOEGEPAST NATUURWETENSCHAPPELIJK ONDERZOEK TNO", "shape": "dot", "size": 8, "title": "NEDERLANDSE ORGANISATIE VOOR TOEGEPAST NATUURWETENSCHAPPELIJK ONDERZOEK TNO (NL)"}, {"color": "gray", "id": "org_968696321", "label": "INSTITUTE OF PHILOSOPHY AND SOCIOLOGY", "shape": "dot", "size": 8, "title": "INSTITUTE OF PHILOSOPHY AND SOCIOLOGY (BG)"}, {"color": "gray", "id": "org_999771144", "label": "FONDAZIONE ENI ENRICO MATTEI", "shape": "dot", "size": 8, "title": "FONDAZIONE ENI ENRICO MATTEI (IT)"}, {"color": "gray", "id": "org_972715807", "label": "RWI - LEIBNIZ-INSTITUT FUR WIRTSCHAFTSFORSCHUNG e.V.", "shape": "dot", "size": 8, "title": "RWI - LEIBNIZ-INSTITUT FUR WIRTSCHAFTSFORSCHUNG e.V. (DE)"}, {"color": "gray", "id": "org_999985805", "label": "UNIVERSITEIT UTRECHT", "shape": "dot", "size": 8, "title": "UNIVERSITEIT UTRECHT (NL)"}, {"color": "gray", "id": "org_999867077", "label": "UNIVERSIDAD POMPEU FABRA", "shape": "dot", "size": 8, "title": "UNIVERSIDAD POMPEU FABRA (ES)"}, {"color": "gray", "id": "org_999893364", "label": "INSTITUT DRUSTVENIH ZNANOSTI IVO PILAR", "shape": "dot", "size": 8, "title": "INSTITUT DRUSTVENIH ZNANOSTI IVO PILAR (HR)"}, {"color": "gray", "id": "org_999902870", "label": "UNIVERSITEIT ANTWERPEN", "shape": "dot", "size": 8, "title": "UNIVERSITEIT ANTWERPEN (BE)"}, {"color": "gray", "id": "org_999994535", "label": "HELSINGIN YLIOPISTO", "shape": "dot", "size": 8, "title": "HELSINGIN YLIOPISTO (FI)"}, {"color": "gray", "id": "org_999974359", "label": "UNIVERSITY COLLEGE DUBLIN, NATIONAL UNIVERSITY OF IRELAND, DUBLIN", "shape": "dot", "size": 8, "title": "UNIVERSITY COLLEGE DUBLIN, NATIONAL UNIVERSITY OF IRELAND, DUBLIN (IE)"}, {"color": "gray", "id": "org_988862039", "label": "STICHTING CENTERDATA", "shape": "dot", "size": 8, "title": "STICHTING CENTERDATA (NL)"}, {"color": "gray", "id": "org_998622567", "label": "Iscte - Instituto Universit\u00e1rio de Lisboa", "shape": "dot", "size": 8, "title": "Iscte - Instituto Universit\u00e1rio de Lisboa (PT)"}, {"color": "gray", "id": "org_999497119", "label": "INSTITUT NATIONAL D\u0027ETUDES DEMOGRAPHIQUES", "shape": "dot", "size": 8, "title": "INSTITUT NATIONAL D\u0027ETUDES DEMOGRAPHIQUES (FR)"}, {"color": "gray", "id": "org_999868241", "label": "UNIVERZITA SV. CYRILA A METODA V TRNAVE", "shape": "dot", "size": 8, "title": "UNIVERZITA SV. CYRILA A METODA V TRNAVE (SK)"}, {"color": "gray", "id": "org_999881239", "label": "DEBRECENI EGYETEM", "shape": "dot", "size": 8, "title": "DEBRECENI EGYETEM (HU)"}, {"color": "gray", "id": "org_999847580", "label": "THE MANCHESTER METROPOLITAN UNIVERSITY", "shape": "dot", "size": 8, "title": "THE MANCHESTER METROPOLITAN UNIVERSITY (UK)"}, {"color": "gray", "id": "org_955904446", "label": "BUNDESINSTITUT FUR BEVOLKERUNGSFORSCHUNG", "shape": "dot", "size": 8, "title": "BUNDESINSTITUT FUR BEVOLKERUNGSFORSCHUNG (DE)"}, {"color": "gray", "id": "org_999902482", "label": "THE GLASGOW CALEDONIAN UNIVERSITY", "shape": "dot", "size": 8, "title": "THE GLASGOW CALEDONIAN UNIVERSITY (UK)"}, {"color": "gray", "id": "org_913138019", "label": "ZNANSTVENO-RAZISKOVALNO SREDISCE KOPER", "shape": "dot", "size": 8, "title": "ZNANSTVENO-RAZISKOVALNO SREDISCE KOPER (SI)"}, {"color": "gray", "id": "org_957858317", "label": "DEUTSCHES JUGENDINSTITUT EV", "shape": "dot", "size": 8, "title": "DEUTSCHES JUGENDINSTITUT EV (DE)"}, {"color": "gray", "id": "org_999993953", "label": "ALMA MATER STUDIORUM - UNIVERSITA DI BOLOGNA", "shape": "dot", "size": 8, "title": "ALMA MATER STUDIORUM - UNIVERSITA DI BOLOGNA (IT)"}, {"color": "gray", "id": "org_999887059", "label": "UNIVERSITA TA MALTA", "shape": "dot", "size": 8, "title": "UNIVERSITA TA MALTA (MT)"}, {"color": "gray", "id": "org_999977851", "label": "NORGES TEKNISK-NATURVITENSKAPELIGE UNIVERSITET NTNU", "shape": "dot", "size": 8, "title": "NORGES TEKNISK-NATURVITENSKAPELIGE UNIVERSITET NTNU (NO)"}, {"color": "gray", "id": "org_999870472", "label": "PANTEIO PANEPISTIMIO KOINONIKON KAIPOLITIKON EPISTIMON", "shape": "dot", "size": 8, "title": "PANTEIO PANEPISTIMIO KOINONIKON KAIPOLITIKON EPISTIMON (EL)"}, {"color": "gray", "id": "org_999421653", "label": "TALLINN UNIVERSITY", "shape": "dot", "size": 8, "title": "TALLINN UNIVERSITY (EE)"}, {"color": "gray", "id": "org_999830702", "label": "DAUGAVPILS UNIVERSITATE", "shape": "dot", "size": 8, "title": "DAUGAVPILS UNIVERSITATE (LV)"}, {"color": "gray", "id": "org_973964488", "label": "ASTIKI MI KERDOSKOPIKI ETAIREIA PROLIPTIKIS PERIVALLONTIKIS KAI ERGASIAKIS IATRIKIS", "shape": "dot", "size": 8, "title": "ASTIKI MI KERDOSKOPIKI ETAIREIA PROLIPTIKIS PERIVALLONTIKIS KAI ERGASIAKIS IATRIKIS (EL)"}, {"color": "gray", "id": "org_936369713", "label": "KOMITEEN FOR SUNDHEDSOPLYSNING", "shape": "dot", "size": 8, "title": "KOMITEEN FOR SUNDHEDSOPLYSNING (DK)"}, {"color": "gray", "id": "org_999977463", "label": "TECHNISCHE UNIVERSITAET MUENCHEN", "shape": "dot", "size": 8, "title": "TECHNISCHE UNIVERSITAET MUENCHEN (DE)"}, {"color": "gray", "id": "org_999902094", "label": "VRIJE UNIVERSITEIT BRUSSEL", "shape": "dot", "size": 8, "title": "VRIJE UNIVERSITEIT BRUSSEL (BE)"}, {"color": "gray", "id": "org_945229111", "label": "TREXIMA BRATISLAVA SPOL SRO", "shape": "dot", "size": 8, "title": "TREXIMA BRATISLAVA SPOL SRO (SK)"}, {"color": "gray", "id": "org_999975911", "label": "UNIVERSITEIT MAASTRICHT", "shape": "dot", "size": 8, "title": "UNIVERSITEIT MAASTRICHT (NL)"}, {"color": "gray", "id": "org_999973971", "label": "ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE", "shape": "dot", "size": 8, "title": "ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE (CH)"}, {"color": "gray", "id": "org_954983722", "label": "IST-ID ASSOCIACAO DO INSTITUTO SUPERIOR TECNICO PARA A INVESTIGACAO E O DESENVOLVIMENTO", "shape": "dot", "size": 8, "title": "IST-ID ASSOCIACAO DO INSTITUTO SUPERIOR TECNICO PARA A INVESTIGACAO E O DESENVOLVIMENTO (PT)"}, {"color": "gray", "id": "org_999969606", "label": "ZILINSKA UNIVERZITA V ZILINE", "shape": "dot", "size": 8, "title": "ZILINSKA UNIVERZITA V ZILINE (SK)"}, {"color": "gray", "id": "org_902417094", "label": "HBITS", "shape": "dot", "size": 8, "title": "HBITS (BE)"}, {"color": "gray", "id": "org_999543776", "label": "EUROQUALITY SAS", "shape": "dot", "size": 8, "title": "EUROQUALITY SAS (FR)"}, {"color": "gray", "id": "org_999974844", "label": "UNIVERSIDAD POLITECNICA DE MADRID", "shape": "dot", "size": 8, "title": "UNIVERSIDAD POLITECNICA DE MADRID (ES)"}, {"color": "gray", "id": "org_913909751", "label": "IES R\u0026D", "shape": "dot", "size": 8, "title": "IES R\u0026D (IE)"}, {"color": "gray", "id": "org_953545600", "label": "ARDEN ENERGY LIMITED", "shape": "dot", "size": 8, "title": "ARDEN ENERGY LIMITED (IE)"}, {"color": "gray", "id": "org_887711506", "label": "VERVOORT ARCHITECTEN", "shape": "dot", "size": 8, "title": "VERVOORT ARCHITECTEN (NL)"}, {"color": "gray", "id": "org_958622095", "label": "AGENZIA MOBILITA\u0027 AMBIENTE E TERRITORIO SRL", "shape": "dot", "size": 8, "title": "AGENZIA MOBILITA\u0027 AMBIENTE E TERRITORIO SRL (IT)"}, {"color": "gray", "id": "org_999604110", "label": "FUNDACION TECNALIA RESEARCH \u0026 INNOVATION", "shape": "dot", "size": 8, "title": "FUNDACION TECNALIA RESEARCH \u0026 INNOVATION (ES)"}, {"color": "gray", "id": "org_913604007", "label": "THE IMPACT LAB SARL", "shape": "dot", "size": 8, "title": "THE IMPACT LAB SARL (LU)"}, {"color": "gray", "id": "org_898119509", "label": "SCHROEDER ET ASSOCIES SA", "shape": "dot", "size": 8, "title": "SCHROEDER ET ASSOCIES SA (LU)"}, {"color": "gray", "id": "org_907256618", "label": "STICHTING GTB LAB", "shape": "dot", "size": 8, "title": "STICHTING GTB LAB (NL)"}, {"color": "gray", "id": "org_934320200", "label": "LUXEMBOURG INSTITUTE OF SCIENCE AND TECHNOLOGY", "shape": "dot", "size": 8, "title": "LUXEMBOURG INSTITUTE OF SCIENCE AND TECHNOLOGY (LU)"}, {"color": "gray", "id": "org_884063627", "label": "KAW ARCHITECTEN EN ADVISEURS 3 BV", "shape": "dot", "size": 8, "title": "KAW ARCHITECTEN EN ADVISEURS 3 BV (NL)"}, {"color": "gray", "id": "org_998702204", "label": "COMUNE DI MILANO", "shape": "dot", "size": 8, "title": "COMUNE DI MILANO (IT)"}, {"color": "gray", "id": "org_884166641", "label": "DINYCON SISTEMAS SL", "shape": "dot", "size": 8, "title": "DINYCON SISTEMAS SL (ES)"}, {"color": "gray", "id": "org_916226693", "label": "R2M SOLUTION", "shape": "dot", "size": 8, "title": "R2M SOLUTION (FR)"}, {"color": "gray", "id": "org_986523078", "label": "DEMO CONSULTANTS BV", "shape": "dot", "size": 8, "title": "DEMO CONSULTANTS BV (NL)"}, {"color": "gray", "id": "org_992549979", "label": "DUBLIN CITY COUNCIL", "shape": "dot", "size": 8, "title": "DUBLIN CITY COUNCIL (IE)"}, {"color": "gray", "id": "org_974602457", "label": "CITY OF DUBLIN ENERGY MANAGEMENT AGENCY LIMITED", "shape": "dot", "size": 8, "title": "CITY OF DUBLIN ENERGY MANAGEMENT AGENCY LIMITED (IE)"}, {"color": "gray", "id": "org_905424870", "label": "STICHTING ISOCARP INSTITUTE CENTER OF URBAN EXCELLENCE", "shape": "dot", "size": 8, "title": "STICHTING ISOCARP INSTITUTE CENTER OF URBAN EXCELLENCE (NL)"}, {"color": "gray", "id": "org_913178274", "label": "AYUNTAMIENTO DE LAREDO", "shape": "dot", "size": 8, "title": "AYUNTAMIENTO DE LAREDO (ES)"}, {"color": "gray", "id": "org_888220368", "label": "COMMUNE DE BECKERICH", "shape": "dot", "size": 8, "title": "COMMUNE DE BECKERICH (LU)"}, {"color": "gray", "id": "org_884077886", "label": "FUNDACION BEGIRUNE FUNDAZIOA", "shape": "dot", "size": 8, "title": "FUNDACION BEGIRUNE FUNDAZIOA (ES)"}, {"color": "gray", "id": "org_952850110", "label": "R2M SOLUTION SRL", "shape": "dot", "size": 8, "title": "R2M SOLUTION SRL (IT)"}, {"color": "gray", "id": "org_994163865", "label": "NOBATEK INEF 4", "shape": "dot", "size": 8, "title": "NOBATEK INEF 4 (FR)"}, {"color": "gray", "id": "org_999979888", "label": "TECHNISCHE UNIVERSITAET WIEN", "shape": "dot", "size": 8, "title": "TECHNISCHE UNIVERSITAET WIEN (AT)"}, {"color": "gray", "id": "org_895144810", "label": "Komimo vzw", "shape": "dot", "size": 8, "title": "Komimo vzw (BE)"}, {"color": "gray", "id": "org_999898214", "label": "UNIVERSIDAD DE ZARAGOZA", "shape": "dot", "size": 8, "title": "UNIVERSIDAD DE ZARAGOZA (ES)"}, {"color": "gray", "id": "org_947045339", "label": "Mpact asbl", "shape": "dot", "size": 8, "title": "Mpact asbl (BE)"}, {"color": "gray", "id": "org_909584812", "label": "ADEPORTO - AG\u00caNCIA DE ENERGIA DO PORTO", "shape": "dot", "size": 8, "title": "ADEPORTO - AG\u00caNCIA DE ENERGIA DO PORTO (PT)"}, {"color": "gray", "id": "org_999882015", "label": "UNIVERSIDAD DE GRANADA", "shape": "dot", "size": 8, "title": "UNIVERSIDAD DE GRANADA (ES)"}, {"color": "gray", "id": "org_991858078", "label": "ILS - INSTITUT FUR LANDES- UND STADTENTWICKLUNGSFORSCHUNG GGMBH", "shape": "dot", "size": 8, "title": "ILS - INSTITUT FUR LANDES- UND STADTENTWICKLUNGSFORSCHUNG GGMBH (DE)"}, {"color": "gray", "id": "org_999608960", "label": "FUNDACION ZARAGOZA LOGISTICS CENTER", "shape": "dot", "size": 8, "title": "FUNDACION ZARAGOZA LOGISTICS CENTER (ES)"}, {"color": "gray", "id": "org_941379181", "label": "CONCITO", "shape": "dot", "size": 8, "title": "CONCITO (DK)"}, {"color": "gray", "id": "org_997916213", "label": "INSTITUT FUR SOZIAL OKOLOGISCHE FORSCHUNG GMBH", "shape": "dot", "size": 8, "title": "INSTITUT FUR SOZIAL OKOLOGISCHE FORSCHUNG GMBH (DE)"}, {"color": "gray", "id": "org_999878620", "label": "UNIVERSITE DU LUXEMBOURG", "shape": "dot", "size": 8, "title": "UNIVERSITE DU LUXEMBOURG (LU)"}, {"color": "gray", "id": "org_997365350", "label": "STRATEC", "shape": "dot", "size": 8, "title": "STRATEC (BE)"}, {"color": "gray", "id": "org_999978724", "label": "JOHANN WOLFGANG GOETHE-UNIVERSITAET FRANKFURT AM MAIN", "shape": "dot", "size": 8, "title": "JOHANN WOLFGANG GOETHE-UNIVERSITAET FRANKFURT AM MAIN (DE)"}, {"color": "gray", "id": "org_934224655", "label": "Wien 3420 Aspern Development AG", "shape": "dot", "size": 8, "title": "Wien 3420 Aspern Development AG (AT)"}, {"color": "gray", "id": "org_999987357", "label": "UNIVERSITAET FUER BODENKULTUR WIEN", "shape": "dot", "size": 8, "title": "UNIVERSITAET FUER BODENKULTUR WIEN (AT)"}, {"color": "gray", "id": "org_897707744", "label": "EIT KIC URBAN MOBILITY SL", "shape": "dot", "size": 8, "title": "EIT KIC URBAN MOBILITY SL (ES)"}, {"color": "gray", "id": "org_999990655", "label": "DANMARKS TEKNISKE UNIVERSITET", "shape": "dot", "size": 8, "title": "DANMARKS TEKNISKE UNIVERSITET (DK)"}, {"color": "gray", "id": "org_884464722", "label": "Soci\u00e9t\u00e9 de d\u00e9veloppement Agora S.\u00e0r.l. et Cie", "shape": "dot", "size": 8, "title": "Soci\u00e9t\u00e9 de d\u00e9veloppement Agora S.\u00e0r.l. et Cie (LU)"}, {"color": "gray", "id": "org_999894916", "label": "UNIVERSIDADE DO PORTO", "shape": "dot", "size": 8, "title": "UNIVERSIDADE DO PORTO (PT)"}, {"color": "gray", "id": "org_938690438", "label": "REGIONALVERBAND FRANKFURTRHEINMAIN", "shape": "dot", "size": 8, "title": "REGIONALVERBAND FRANKFURTRHEINMAIN (DE)"}, {"color": "gray", "id": "org_999839335", "label": "ERASMUS UNIVERSITEIT ROTTERDAM", "shape": "dot", "size": 8, "title": "ERASMUS UNIVERSITEIT ROTTERDAM (NL)"}, {"color": "gray", "id": "org_998927923", "label": "INSTITUT FUR HOHERE STUDIEN - INSTITUTE FOR ADVANCED STUDIES", "shape": "dot", "size": 8, "title": "INSTITUT FUR HOHERE STUDIEN - INSTITUTE FOR ADVANCED STUDIES (AT)"}, {"color": "gray", "id": "org_913755812", "label": "HYDRO DOLOMITI ENERGIA SRL", "shape": "dot", "size": 8, "title": "HYDRO DOLOMITI ENERGIA SRL (IT)"}, {"color": "gray", "id": "org_999584128", "label": "AIT AUSTRIAN INSTITUTE OF TECHNOLOGY GMBH", "shape": "dot", "size": 8, "title": "AIT AUSTRIAN INSTITUTE OF TECHNOLOGY GMBH (AT)"}, {"color": "gray", "id": "org_997255837", "label": "TELEFONICA SA", "shape": "dot", "size": 8, "title": "TELEFONICA SA (ES)"}, {"color": "gray", "id": "org_972800488", "label": "ELEKTROENERGETSKI KOORDINACIONI CENTAR DOO", "shape": "dot", "size": 8, "title": "ELEKTROENERGETSKI KOORDINACIONI CENTAR DOO (RS)"}, {"color": "gray", "id": "org_943122465", "label": "SLOVENSKE ZELEZNICE INFRASTRUKTURADRUZBA ZA UPRAVLJANJE IN VZDRZEVANJE ZELEZNISKE INFRASTRUKTURE TER VODENJE ZELEZNISKEGA PROMETA DOO", "shape": "dot", "size": 8, "title": "SLOVENSKE ZELEZNICE INFRASTRUKTURADRUZBA ZA UPRAVLJANJE IN VZDRZEVANJE ZELEZNISKE INFRASTRUKTURE TER VODENJE ZELEZNISKEGA PROMETA DOO (SI)"}, {"color": "gray", "id": "org_957062432", "label": "TELEKOM SLOVENIJE DD", "shape": "dot", "size": 8, "title": "TELEKOM SLOVENIJE DD (SI)"}, {"color": "gray", "id": "org_999773375", "label": "XLAB RAZVOJ PROGRAMSKE OPREME IN SVETOVANJE DOO", "shape": "dot", "size": 8, "title": "XLAB RAZVOJ PROGRAMSKE OPREME IN SVETOVANJE DOO (SI)"}, {"color": "gray", "id": "org_998894555", "label": "CONSORCIO REGIONAL DE TRANSPORTES PUBLICOS REGULARES DE MADRID", "shape": "dot", "size": 8, "title": "CONSORCIO REGIONAL DE TRANSPORTES PUBLICOS REGULARES DE MADRID (ES)"}, {"color": "gray", "id": "org_999697424", "label": "INSTITUT MIKROELEKTRONICKYCH APLIKACI SRO", "shape": "dot", "size": 8, "title": "INSTITUT MIKROELEKTRONICKYCH APLIKACI SRO (CZ)"}, {"color": "gray", "id": "org_999978821", "label": "ISTITUTO SUPERIORE DI SANITA", "shape": "dot", "size": 8, "title": "ISTITUTO SUPERIORE DI SANITA (IT)"}, {"color": "gray", "id": "org_921121410", "label": "IDCQ HOSPITALES Y SANIDAD SL", "shape": "dot", "size": 8, "title": "IDCQ HOSPITALES Y SANIDAD SL (ES)"}, {"color": "gray", "id": "org_945489653", "label": "TRIESTE TRASPORTI SPA", "shape": "dot", "size": 8, "title": "TRIESTE TRASPORTI SPA (IT)"}, {"color": "gray", "id": "org_954502214", "label": "ADDITESS ADVANCED INTEGRATED TECHNOLOGY SOLUTIONS \u0026 SERVICES LTD", "shape": "dot", "size": 8, "title": "ADDITESS ADVANCED INTEGRATED TECHNOLOGY SOLUTIONS \u0026 SERVICES LTD (CY)"}, {"color": "gray", "id": "org_900235758", "label": "HERMES BAY S.R.L.", "shape": "dot", "size": 8, "title": "HERMES BAY S.R.L. (IT)"}, {"color": "gray", "id": "org_929256994", "label": "INSTITUT ZA KORPORATIVNE VARNOSTNE STUDIJE LJUBLJANA", "shape": "dot", "size": 8, "title": "INSTITUT ZA KORPORATIVNE VARNOSTNE STUDIJE LJUBLJANA (SI)"}, {"color": "gray", "id": "org_999507401", "label": "HELMHOLTZ-ZENTRUM HEREON GMBH", "shape": "dot", "size": 8, "title": "HELMHOLTZ-ZENTRUM HEREON GMBH (DE)"}, {"color": "gray", "id": "org_903934271", "label": "SQUAREDEV", "shape": "dot", "size": 8, "title": "SQUAREDEV (BE)"}, {"color": "gray", "id": "org_999792775", "label": "INSIEL - INFORMATICA PER IL SISTEMA DEGLI ENTI LOCALI S.P.A.", "shape": "dot", "size": 8, "title": "INSIEL - INFORMATICA PER IL SISTEMA DEGLI ENTI LOCALI S.P.A. (IT)"}, {"color": "gray", "id": "org_933754496", "label": "MUNICIPALITY OF JERUSALEM", "shape": "dot", "size": 8, "title": "MUNICIPALITY OF JERUSALEM (IL)"}, {"color": "gray", "id": "org_999993856", "label": "ATOS SPAIN SA", "shape": "dot", "size": 8, "title": "ATOS SPAIN SA (ES)"}, {"color": "gray", "id": "org_914500966", "label": "GRAND PORT MARITIME DE BORDEAUX", "shape": "dot", "size": 8, "title": "GRAND PORT MARITIME DE BORDEAUX (FR)"}, {"color": "gray", "id": "org_996622718", "label": "SLOVENSKE ZELEZNICE DOO", "shape": "dot", "size": 8, "title": "SLOVENSKE ZELEZNICE DOO (SI)"}, {"color": "gray", "id": "org_983174347", "label": "REGIONE AUTONOMA FRIULI-VENEZIA GIULIA", "shape": "dot", "size": 8, "title": "REGIONE AUTONOMA FRIULI-VENEZIA GIULIA (IT)"}, {"color": "gray", "id": "org_892629115", "label": "PLINOVODI, DRUZBA ZA UPRAVLJANJE S PRENOSNIM SISTEMOM, D.O.O.", "shape": "dot", "size": 8, "title": "PLINOVODI, DRUZBA ZA UPRAVLJANJE S PRENOSNIM SISTEMOM, D.O.O. (SI)"}, {"color": "gray", "id": "org_917790915", "label": "TELEFONICA INNOVACION DIGITAL SL", "shape": "dot", "size": 8, "title": "TELEFONICA INNOVACION DIGITAL SL (ES)"}, {"color": "gray", "id": "org_999470347", "label": "HELMHOLTZ-ZENTRUM FUR INFEKTIONSFORSCHUNG GMBH", "shape": "dot", "size": 8, "title": "HELMHOLTZ-ZENTRUM FUR INFEKTIONSFORSCHUNG GMBH (DE)"}, {"color": "gray", "id": "org_999827501", "label": "MINISTERIO DEL INTERIOR", "shape": "dot", "size": 8, "title": "MINISTERIO DEL INTERIOR (ES)"}, {"color": "gray", "id": "org_886333718", "label": "CAFC SPA", "shape": "dot", "size": 8, "title": "CAFC SPA (IT)"}, {"color": "gray", "id": "org_999976784", "label": "UNIVERSITY OF WARWICK", "shape": "dot", "size": 8, "title": "UNIVERSITY OF WARWICK (UK)"}, {"color": "gray", "id": "org_952242696", "label": "MINISTRSTVO ZA INFRASTRUKTURO", "shape": "dot", "size": 8, "title": "MINISTRSTVO ZA INFRASTRUKTURO (SI)"}, {"color": "gray", "id": "org_888542117", "label": "ACOSOL SA", "shape": "dot", "size": 8, "title": "ACOSOL SA (ES)"}, {"color": "gray", "id": "org_999882306", "label": "UNIVERZITETNI KLINICNI CENTER LJUBLJANA", "shape": "dot", "size": 8, "title": "UNIVERZITETNI KLINICNI CENTER LJUBLJANA (SI)"}, {"color": "gray", "id": "org_885665388", "label": "SKYLD SECURITY AND DEFENCE LIMITED", "shape": "dot", "size": 8, "title": "SKYLD SECURITY AND DEFENCE LIMITED (CY)"}, {"color": "gray", "id": "org_952979120", "label": "ATOS IT SOLUTIONS AND SERVICES IBERIA SL", "shape": "dot", "size": 8, "title": "ATOS IT SOLUTIONS AND SERVICES IBERIA SL (ES)"}, {"color": "gray", "id": "org_998079755", "label": "ELES DOO OPERATER KOMBINIRANEGA PRENOSNEGA IN DISTRIBUCIJSKEGA ELEKTROENERGETSKEGA OMREZJA", "shape": "dot", "size": 8, "title": "ELES DOO OPERATER KOMBINIRANEGA PRENOSNEGA IN DISTRIBUCIJSKEGA ELEKTROENERGETSKEGA OMREZJA (SI)"}, {"color": "gray", "id": "org_999702371", "label": "NETCOMPANY-INTRASOFT SA", "shape": "dot", "size": 8, "title": "NETCOMPANY-INTRASOFT SA (LU)"}, {"color": "gray", "id": "org_907816987", "label": "PROLOG - EESTI TARNEAHELATE JUHTIMISE UHING", "shape": "dot", "size": 8, "title": "PROLOG - EESTI TARNEAHELATE JUHTIMISE UHING (EE)"}, {"color": "gray", "id": "org_991581919", "label": "PROMETNI INSTITUT LJUBLJANA DOO", "shape": "dot", "size": 8, "title": "PROMETNI INSTITUT LJUBLJANA DOO (SI)"}, {"color": "gray", "id": "org_904152909", "label": "QS INSTITUTO DE INVESTIGACION E INNOVACION SL", "shape": "dot", "size": 8, "title": "QS INSTITUTO DE INVESTIGACION E INNOVACION SL (ES)"}, {"color": "gray", "id": "org_998823163", "label": "CARR COMMUNICATIONS LIMITED", "shape": "dot", "size": 8, "title": "CARR COMMUNICATIONS LIMITED (IE)"}]);
+                  edges = new vis.DataSet([{"color": "#cccccc", "from": "project_101061388", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_999423205"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_996226085"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_999517295"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_895561328"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_940719872"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_986526667"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_998874379"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_999846319"}, {"color": "#cccccc", "from": "project_101061388", "to": "org_999991334"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_953793241"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_999980664"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_999829635"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_960782479"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_919261629"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_999613325"}, {"color": "#cccccc", "from": "project_101094837", "to": "org_999986484"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_999988909"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_968696321"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_999771144"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_972715807"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_895561328"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_986526667"}, {"color": "#cccccc", "from": "project_101132581", "to": "org_999985805"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999867077"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999893364"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999902870"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999994535"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999974359"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_988862039"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_998622567"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999497119"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999868241"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999881239"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999847580"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_955904446"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999902482"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_913138019"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_957858317"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999993953"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999887059"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999991334"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999977851"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999870472"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999421653"}, {"color": "#cccccc", "from": "project_101078945", "to": "org_999830702"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_973964488"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_936369713"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999994535"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999977463"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999902094"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_945229111"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999975911"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999517295"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999973971"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_954983722"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999969606"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_902417094"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999543776"}, {"color": "#cccccc", "from": "project_101132580", "to": "org_999974844"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_913909751"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_953545600"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_887711506"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_958622095"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_999604110"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_913604007"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_898119509"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_907256618"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_934320200"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_884063627"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_998702204"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_884166641"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_916226693"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_986523078"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_992549979"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_974602457"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_905424870"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_913178274"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_888220368"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_884077886"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_952850110"}, {"color": "#cccccc", "from": "project_101123325", "to": "org_994163865"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999979888"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_895144810"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999898214"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_947045339"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_909584812"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999977463"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999882015"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999902094"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_991858078"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999608960"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_941379181"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_997916213"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999878620"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_997365350"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999978724"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_934224655"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999987357"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_897707744"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999990655"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_884464722"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999894916"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_938690438"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999839335"}, {"color": "#cccccc", "from": "project_101168853", "to": "org_999974844"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_998927923"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_913755812"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999584128"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_997255837"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_972800488"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_943122465"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_957062432"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999773375"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_998894555"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999697424"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999978821"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_997516864"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_921121410"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_945489653"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_954502214"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_900235758"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_929256994"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999507401"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_903934271"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999792775"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_933754496"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999993856"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_914500966"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_996622718"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_983174347"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_892629115"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_917790915"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999470347"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999827501"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_886333718"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999976784"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_952242696"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_888542117"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999882306"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_885665388"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_952979120"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_998079755"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999702371"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_907816987"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_999974844"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_991581919"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_904152909"}, {"color": "#cccccc", "from": "project_101073821", "to": "org_998823163"}, {"color": "black", "from": "project_101040492", "to": "org_997516864"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -30,
+            "springConstant": 0.05,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightgray", "id": "project_101061343", "label": "Project 101061343", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101162110", "label": "Project 101162110", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101154447", "label": "Project 101154447", "shape": "star", "size": 10}, {"color": "red", "id": "project_101039196", "label": "Project 101039196", "shape": "star", "size": 20}, {"color": "lightgray", "id": "project_101096435", "label": "Project 101096435", "shape": "star", "size": 10}, {"color": "gray", "id": "org_999547850", "label": "FUNDACION SECTOR PUBLICO ESTATAL CENTRO NACIONAL INVESTIGACIONES ONCOLOGICAS CARLOS III", "shape": "dot", "size": 8, "title": "FUNDACION SECTOR PUBLICO ESTATAL CENTRO NACIONAL INVESTIGACIONES ONCOLOGICAS CARLOS III (ES)"}, {"color": "gray", "id": "org_992925951", "label": "FUNDACION IMDEA AGUA", "shape": "dot", "size": 8, "title": "FUNDACION IMDEA AGUA (ES)"}, {"color": "gray", "id": "org_972732491", "label": "FUNDACION IMDEA ALIMENTACION", "shape": "dot", "size": 8, "title": "FUNDACION IMDEA ALIMENTACION (ES)"}, {"color": "gray", "id": "org_999544067", "label": "FUNDACION PARA EL CONOCIMIENTO MADRIMASD", "shape": "dot", "size": 8, "title": "FUNDACION PARA EL CONOCIMIENTO MADRIMASD (ES)"}, {"color": "gray", "id": "org_999991722", "label": "AGENCIA ESTATAL CONSEJO SUPERIOR DE INVESTIGACIONES CIENTIFICAS", "shape": "dot", "size": 8, "title": "AGENCIA ESTATAL CONSEJO SUPERIOR DE INVESTIGACIONES CIENTIFICAS (ES)"}, {"color": "gray", "id": "org_999874546", "label": "UNIVERSIDAD COMPLUTENSE DE MADRID", "shape": "dot", "size": 8, "title": "UNIVERSIDAD COMPLUTENSE DE MADRID (ES)"}, {"color": "gray", "id": "org_999835746", "label": "UNIVERSIDAD DE ALCALA", "shape": "dot", "size": 8, "title": "UNIVERSIDAD DE ALCALA (ES)"}, {"color": "blue", "id": "org_998520426", "label": "FUNDACION IMDEA SOFTWARE", "shape": "dot", "size": 15, "title": "FUNDACION IMDEA SOFTWARE (ES)"}, {"color": "gray", "id": "org_998683192", "label": "Fundacion IMDEA Energia", "shape": "dot", "size": 8, "title": "Fundacion IMDEA Energia (ES)"}, {"color": "gray", "id": "org_999886283", "label": "UNIVERSIDAD REY JUAN CARLOS", "shape": "dot", "size": 8, "title": "UNIVERSIDAD REY JUAN CARLOS (ES)"}, {"color": "gray", "id": "org_999861354", "label": "UNIVERSIDAD AUTONOMA DE MADRID", "shape": "dot", "size": 8, "title": "UNIVERSIDAD AUTONOMA DE MADRID (ES)"}, {"color": "gray", "id": "org_999974844", "label": "UNIVERSIDAD POLITECNICA DE MADRID", "shape": "dot", "size": 8, "title": "UNIVERSIDAD POLITECNICA DE MADRID (ES)"}, {"color": "gray", "id": "org_999899572", "label": "UNIVERSIDAD CARLOS III DE MADRID", "shape": "dot", "size": 8, "title": "UNIVERSIDAD CARLOS III DE MADRID (ES)"}, {"color": "gray", "id": "org_927868924", "label": "ORGANIZACION DE ESTADOS IBEROAMERICANOS PARA LA EDUCACION LA CIENCIA Y LA CULTURA", "shape": "dot", "size": 8, "title": "ORGANIZACION DE ESTADOS IBEROAMERICANOS PARA LA EDUCACION LA CIENCIA Y LA CULTURA (ES)"}, {"color": "gray", "id": "org_999979888", "label": "TECHNISCHE UNIVERSITAET WIEN", "shape": "dot", "size": 8, "title": "TECHNISCHE UNIVERSITAET WIEN (AT)"}, {"color": "gray", "id": "org_952269953", "label": "WINGS ICT SOLUTIONS TECHNOLOGIES PLIROFORIKIS KAI EPIKOINONION ANONYMI ETAIREIA", "shape": "dot", "size": 8, "title": "WINGS ICT SOLUTIONS TECHNOLOGIES PLIROFORIKIS KAI EPIKOINONION ANONYMI ETAIREIA (EL)"}, {"color": "gray", "id": "org_999977948", "label": "TECHNISCHE UNIVERSITAET GRAZ", "shape": "dot", "size": 8, "title": "TECHNISCHE UNIVERSITAET GRAZ (AT)"}, {"color": "gray", "id": "org_999974359", "label": "UNIVERSITY COLLEGE DUBLIN, NATIONAL UNIVERSITY OF IRELAND, DUBLIN", "shape": "dot", "size": 8, "title": "UNIVERSITY COLLEGE DUBLIN, NATIONAL UNIVERSITY OF IRELAND, DUBLIN (IE)"}, {"color": "gray", "id": "org_999988909", "label": "NEDERLANDSE ORGANISATIE VOOR TOEGEPAST NATUURWETENSCHAPPELIJK ONDERZOEK TNO", "shape": "dot", "size": 8, "title": "NEDERLANDSE ORGANISATIE VOOR TOEGEPAST NATUURWETENSCHAPPELIJK ONDERZOEK TNO (NL)"}, {"color": "gray", "id": "org_932760440", "label": "TEKNOLOGIAN TUTKIMUSKESKUS VTT OY", "shape": "dot", "size": 8, "title": "TEKNOLOGIAN TUTKIMUSKESKUS VTT OY (FI)"}, {"color": "gray", "id": "org_882199481", "label": "ABSTRACT MACHINES SAS", "shape": "dot", "size": 8, "title": "ABSTRACT MACHINES SAS (FR)"}, {"color": "gray", "id": "org_958872452", "label": "NOKIA SOLUTIONS AND NETWORKS HELLAS SINGLE MEMBER SA", "shape": "dot", "size": 8, "title": "NOKIA SOLUTIONS AND NETWORKS HELLAS SINGLE MEMBER SA (EL)"}, {"color": "gray", "id": "org_889724062", "label": "ULTRAVIOLET CONSULT DOO", "shape": "dot", "size": 8, "title": "ULTRAVIOLET CONSULT DOO (RS)"}, {"color": "gray", "id": "org_917790915", "label": "TELEFONICA INNOVACION DIGITAL SL", "shape": "dot", "size": 8, "title": "TELEFONICA INNOVACION DIGITAL SL (ES)"}, {"color": "gray", "id": "org_999925471", "label": "NOKIA SOLUTIONS AND NETWORKS OY", "shape": "dot", "size": 8, "title": "NOKIA SOLUTIONS AND NETWORKS OY (FI)"}, {"color": "gray", "id": "org_950760051", "label": "NOKIA NETWORKS FRANCE", "shape": "dot", "size": 8, "title": "NOKIA NETWORKS FRANCE (FR)"}, {"color": "gray", "id": "org_898982906", "label": "PRIVREDNO DRUSTVO ZENTRIX LAB DRUSTVO SA OGRANICENOM ODGOVORNOSCU PANCEVO", "shape": "dot", "size": 8, "title": "PRIVREDNO DRUSTVO ZENTRIX LAB DRUSTVO SA OGRANICENOM ODGOVORNOSCU PANCEVO (RS)"}, {"color": "gray", "id": "org_999977269", "label": "TECHNISCHE UNIVERSITEIT EINDHOVEN", "shape": "dot", "size": 8, "title": "TECHNISCHE UNIVERSITEIT EINDHOVEN (NL)"}]);
+                  edges = new vis.DataSet([{"color": "#cccccc", "from": "project_101061343", "to": "org_999547850"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_992925951"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_972732491"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999544067"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999991722"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999874546"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999835746"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_998520426"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_998683192"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999886283"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999861354"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999974844"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_999899572"}, {"color": "#cccccc", "from": "project_101061343", "to": "org_927868924"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999547850"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_992925951"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_972732491"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999544067"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999991722"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999874546"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999835746"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_998520426"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_998683192"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999886283"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999861354"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999974844"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_999899572"}, {"color": "#cccccc", "from": "project_101162110", "to": "org_927868924"}, {"color": "#cccccc", "from": "project_101154447", "to": "org_998520426"}, {"color": "black", "from": "project_101039196", "to": "org_998520426"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_999979888"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_952269953"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_999977948"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_999974359"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_999988909"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_932760440"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_882199481"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_958872452"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_889724062"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_917790915"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_998520426"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_999925471"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_950760051"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_898982906"}, {"color": "#cccccc", "from": "project_101096435", "to": "org_999977269"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -30,
+            "springConstant": 0.05,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,274 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightgray", "id": "project_101132862", "label": "Project 101132862", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101104684", "label": "Project 101104684", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101096329", "label": "Project 101096329", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101136953", "label": "Project 101136953", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101136299", "label": "Project 101136299", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101080238", "label": "Project 101080238", "shape": "star", "size": 10}, {"color": "red", "id": "project_101040267", "label": "Project 101040267", "shape": "star", "size": 20}, {"color": "lightgray", "id": "project_101057389", "label": "Project 101057389", "shape": "star", "size": 10}, {"color": "gray", "id": "org_999884828", "label": "KLINIKUM DER UNIVERSITAET ZU KOELN", "shape": "dot", "size": 8, "title": "KLINIKUM DER UNIVERSITAET ZU KOELN (DE)"}, {"color": "gray", "id": "org_999902579", "label": "UNIVERSITE LYON 1 CLAUDE BERNARD", "shape": "dot", "size": 8, "title": "UNIVERSITE LYON 1 CLAUDE BERNARD (FR)"}, {"color": "gray", "id": "org_919397332", "label": "PHILIPS FRANCE COMMERCIAL", "shape": "dot", "size": 8, "title": "PHILIPS FRANCE COMMERCIAL (FR)"}, {"color": "gray", "id": "org_892786449", "label": "STICHTING EUPATI FOUNDATION", "shape": "dot", "size": 8, "title": "STICHTING EUPATI FOUNDATION (NL)"}, {"color": "gray", "id": "org_951278904", "label": "PHILIPS MEDICAL SYSTEMS TECHNOLOGIES LTD", "shape": "dot", "size": 8, "title": "PHILIPS MEDICAL SYSTEMS TECHNOLOGIES LTD (IL)"}, {"color": "blue", "id": "org_998129904", "label": "MEDICAL RESEARCH INFRASTRUCTURE DEVELOPMENT AND HEALTH SERVICES FUND BY THE SHEBA MEDICAL CENTER", "shape": "dot", "size": 15, "title": "MEDICAL RESEARCH INFRASTRUCTURE DEVELOPMENT AND HEALTH SERVICES FUND BY THE SHEBA MEDICAL CENTER (IL)"}, {"color": "gray", "id": "org_951404713", "label": "FUNDACION INSTITUTO DE ESTUDIOS DE CIENCIAS DE LA SALUD DE CASTILLA Y LEON", "shape": "dot", "size": 8, "title": "FUNDACION INSTITUTO DE ESTUDIOS DE CIENCIAS DE LA SALUD DE CASTILLA Y LEON (ES)"}, {"color": "gray", "id": "org_919322739", "label": "STICHTING AMSTERDAM UMC", "shape": "dot", "size": 8, "title": "STICHTING AMSTERDAM UMC (NL)"}, {"color": "gray", "id": "org_999469765", "label": "HOSPICES CIVILS DE LYON", "shape": "dot", "size": 8, "title": "HOSPICES CIVILS DE LYON (FR)"}, {"color": "gray", "id": "org_999940021", "label": "NOVO NORDISK A/S", "shape": "dot", "size": 8, "title": "NOVO NORDISK A/S (DK)"}, {"color": "gray", "id": "org_999608766", "label": "PHILIPS MEDICAL SYSTEMS NEDERLAND BV", "shape": "dot", "size": 8, "title": "PHILIPS MEDICAL SYSTEMS NEDERLAND BV (NL)"}, {"color": "gray", "id": "org_936940752", "label": "PHILIPS GMBH", "shape": "dot", "size": 8, "title": "PHILIPS GMBH (DE)"}, {"color": "gray", "id": "org_997154957", "label": "CONSORCIO CENTRO DE INVESTIGACION BIOMEDICA EN RED M.P.", "shape": "dot", "size": 8, "title": "CONSORCIO CENTRO DE INVESTIGACION BIOMEDICA EN RED M.P. (ES)"}, {"color": "gray", "id": "org_887946537", "label": "STICHTING CARDIOLOGIE CENTRA NEDERLAND", "shape": "dot", "size": 8, "title": "STICHTING CARDIOLOGIE CENTRA NEDERLAND (NL)"}, {"color": "gray", "id": "org_999654744", "label": "REGION HOVEDSTADEN", "shape": "dot", "size": 8, "title": "REGION HOVEDSTADEN (DK)"}, {"color": "gray", "id": "org_995163935", "label": "FUNDACIO PRIVADA INSTITUT D\u0027INVESTIGACIO ONCOLOGICA DE VALL-HEBRON (VHIO)", "shape": "dot", "size": 8, "title": "FUNDACIO PRIVADA INSTITUT D\u0027INVESTIGACIO ONCOLOGICA DE VALL-HEBRON (VHIO) (ES)"}, {"color": "gray", "id": "org_999454924", "label": "INSTITUT GUSTAVE ROUSSY", "shape": "dot", "size": 8, "title": "INSTITUT GUSTAVE ROUSSY (FR)"}, {"color": "gray", "id": "org_996252081", "label": "BANC DE SANG I TEIXITS", "shape": "dot", "size": 8, "title": "BANC DE SANG I TEIXITS (ES)"}, {"color": "gray", "id": "org_952728375", "label": "UNICANCER", "shape": "dot", "size": 8, "title": "UNICANCER (FR)"}, {"color": "gray", "id": "org_885271568", "label": "CITOYENS ET RECHERCHE", "shape": "dot", "size": 8, "title": "CITOYENS ET RECHERCHE (FR)"}, {"color": "gray", "id": "org_998954404", "label": "FUNDACION BANCARIA CAIXA D\u0027ESTALVIS I PENSIONS DE BARCELONA LA CAIXA", "shape": "dot", "size": 8, "title": "FUNDACION BANCARIA CAIXA D\u0027ESTALVIS I PENSIONS DE BARCELONA LA CAIXA (ES)"}, {"color": "gray", "id": "org_908584063", "label": "BCN HEALTH ECONOMICS \u0026 OUTCOMES RESEARCH SL", "shape": "dot", "size": 8, "title": "BCN HEALTH ECONOMICS \u0026 OUTCOMES RESEARCH SL (ES)"}, {"color": "gray", "id": "org_999984738", "label": "STICHTING HET NEDERLANDS KANKER INSTITUUT-ANTONI VAN LEEUWENHOEK ZIEKENHUIS", "shape": "dot", "size": 8, "title": "STICHTING HET NEDERLANDS KANKER INSTITUUT-ANTONI VAN LEEUWENHOEK ZIEKENHUIS (NL)"}, {"color": "gray", "id": "org_917632708", "label": "INNOVANDUM HEALTH SL", "shape": "dot", "size": 8, "title": "INNOVANDUM HEALTH SL (ES)"}, {"color": "gray", "id": "org_951218473", "label": "ASPHALION SL", "shape": "dot", "size": 8, "title": "ASPHALION SL (ES)"}, {"color": "gray", "id": "org_999522921", "label": "REGION STOCKHOLM", "shape": "dot", "size": 8, "title": "REGION STOCKHOLM (SE)"}, {"color": "gray", "id": "org_951934333", "label": "ASSUTA MEDICAL CENTERS LTD", "shape": "dot", "size": 8, "title": "ASSUTA MEDICAL CENTERS LTD (IL)"}, {"color": "gray", "id": "org_999977463", "label": "TECHNISCHE UNIVERSITAET MUENCHEN", "shape": "dot", "size": 8, "title": "TECHNISCHE UNIVERSITAET MUENCHEN (DE)"}, {"color": "gray", "id": "org_999902094", "label": "VRIJE UNIVERSITEIT BRUSSEL", "shape": "dot", "size": 8, "title": "VRIJE UNIVERSITEIT BRUSSEL (BE)"}, {"color": "gray", "id": "org_999914801", "label": "ACADEMISCH ZIEKENHUIS GRONINGEN", "shape": "dot", "size": 8, "title": "ACADEMISCH ZIEKENHUIS GRONINGEN (NL)"}, {"color": "gray", "id": "org_923616832", "label": "LIETUVOS SVEIKATOS MOKSLU UNIVERSITETO LIGONINE KAUNO KLINIKOS", "shape": "dot", "size": 8, "title": "LIETUVOS SVEIKATOS MOKSLU UNIVERSITETO LIGONINE KAUNO KLINIKOS (LT)"}, {"color": "gray", "id": "org_886495223", "label": "CYBER ONE GMBH", "shape": "dot", "size": 8, "title": "CYBER ONE GMBH (DE)"}, {"color": "gray", "id": "org_999582188", "label": "Univerzitetni klinicni center Maribor", "shape": "dot", "size": 8, "title": "Univerzitetni klinicni center Maribor (SI)"}, {"color": "gray", "id": "org_886537224", "label": "THERMOMIND LTD", "shape": "dot", "size": 8, "title": "THERMOMIND LTD (IL)"}, {"color": "gray", "id": "org_889529965", "label": "The University of Texas MD Anderson Cancer Center", "shape": "dot", "size": 8, "title": "The University of Texas MD Anderson Cancer Center (US)"}, {"color": "gray", "id": "org_999841081", "label": "UNIVERSITATSKLINIKUM HEIDELBERG", "shape": "dot", "size": 8, "title": "UNIVERSITATSKLINIKUM HEIDELBERG (DE)"}, {"color": "gray", "id": "org_951542259", "label": "AZIENDA OSPEDALIERA CITTA DELLA SALUTE E DELLA SCIENZA DI TORINO", "shape": "dot", "size": 8, "title": "AZIENDA OSPEDALIERA CITTA DELLA SALUTE E DELLA SCIENZA DI TORINO (IT)"}, {"color": "gray", "id": "org_999907720", "label": "TECHNION - ISRAEL INSTITUTE OF TECHNOLOGY", "shape": "dot", "size": 8, "title": "TECHNION - ISRAEL INSTITUTE OF TECHNOLOGY (IL)"}, {"color": "gray", "id": "org_998454369", "label": "ACCELOPMENT SCHWEIZ AG", "shape": "dot", "size": 8, "title": "ACCELOPMENT SCHWEIZ AG (CH)"}, {"color": "gray", "id": "org_999975717", "label": "UNIVERSITY COLLEGE CORK -  NATIONAL UNIVERSITY OF IRELAND, CORK", "shape": "dot", "size": 8, "title": "UNIVERSITY COLLEGE CORK -  NATIONAL UNIVERSITY OF IRELAND, CORK (IE)"}, {"color": "gray", "id": "org_886604930", "label": "CANCER PATIENTS EUROPE", "shape": "dot", "size": 8, "title": "CANCER PATIENTS EUROPE (BE)"}, {"color": "gray", "id": "org_999989976", "label": "MEDIZINISCHE UNIVERSITAET WIEN", "shape": "dot", "size": 8, "title": "MEDIZINISCHE UNIVERSITAET WIEN (AT)"}, {"color": "gray", "id": "org_999969703", "label": "ISTITUTO EUROPEO DI ONCOLOGIA SRL", "shape": "dot", "size": 8, "title": "ISTITUTO EUROPEO DI ONCOLOGIA SRL (IT)"}, {"color": "gray", "id": "org_998420031", "label": "INSTITUT CATALA D\u0027ONCOLOGIA", "shape": "dot", "size": 8, "title": "INSTITUT CATALA D\u0027ONCOLOGIA (ES)"}, {"color": "gray", "id": "org_882375051", "label": "WSG WESTDEUTSCHE STUDIENGRUPPE GMBH", "shape": "dot", "size": 8, "title": "WSG WESTDEUTSCHE STUDIENGRUPPE GMBH (DE)"}, {"color": "gray", "id": "org_882423163", "label": "GR ESPANOL DE ESTUDIO Y TRATAMIENTODE INTENSIFIC. Y OTRAS ESTRATEG.EXPERIMENT. EN TUMORES SOLIDOS - GRUPO SOLTI", "shape": "dot", "size": 8, "title": "GR ESPANOL DE ESTUDIO Y TRATAMIENTODE INTENSIFIC. Y OTRAS ESTRATEG.EXPERIMENT. EN TUMORES SOLIDOS - GRUPO SOLTI (ES)"}, {"color": "gray", "id": "org_999995602", "label": "UNIVERSITA DEGLI STUDI DI PADOVA", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI PADOVA (IT)"}, {"color": "gray", "id": "org_891115818", "label": "REVEAL GENOMICS SL", "shape": "dot", "size": 8, "title": "REVEAL GENOMICS SL (ES)"}, {"color": "gray", "id": "org_999477525", "label": "FUNDACIO DE RECERCA CLINIC BARCELONA-INSTITUT D INVESTIGACIONS BIOMEDIQUES AUGUST PI I SUNYER", "shape": "dot", "size": 8, "title": "FUNDACIO DE RECERCA CLINIC BARCELONA-INSTITUT D INVESTIGACIONS BIOMEDIQUES AUGUST PI I SUNYER (ES)"}, {"color": "gray", "id": "org_941447178", "label": "VEREIN ZUR PRAVENTION UND THERAPIE BOSARTIGER ERKRANKUNGEN, AUSTRIAN BREAST AND COLORECTAL CANCER STUDY GROUP, ABCSG", "shape": "dot", "size": 8, "title": "VEREIN ZUR PRAVENTION UND THERAPIE BOSARTIGER ERKRANKUNGEN, AUSTRIAN BREAST AND COLORECTAL CANCER STUDY GROUP, ABCSG (AT)"}, {"color": "gray", "id": "org_941691812", "label": "EUROPA DONNA  THE EUROPEAN BREAST CANCER COALITION", "shape": "dot", "size": 8, "title": "EUROPA DONNA  THE EUROPEAN BREAST CANCER COALITION (IT)"}, {"color": "gray", "id": "org_905096816", "label": "HOSPITAL CLINIC DE BARCELONA", "shape": "dot", "size": 8, "title": "HOSPITAL CLINIC DE BARCELONA (ES)"}, {"color": "gray", "id": "org_968344405", "label": "ISTITUTO ONCOLOGICO VENETO", "shape": "dot", "size": 8, "title": "ISTITUTO ONCOLOGICO VENETO (IT)"}, {"color": "gray", "id": "org_999839335", "label": "ERASMUS UNIVERSITEIT ROTTERDAM", "shape": "dot", "size": 8, "title": "ERASMUS UNIVERSITEIT ROTTERDAM (NL)"}, {"color": "gray", "id": "org_883086255", "label": "Sharing Progress in Cancer Care", "shape": "dot", "size": 8, "title": "Sharing Progress in Cancer Care (CH)"}, {"color": "gray", "id": "org_892332974", "label": "SOCIETE INTERNATIONALE D\u0027ONCOLOGIEGERIATRIQUE", "shape": "dot", "size": 8, "title": "SOCIETE INTERNATIONALE D\u0027ONCOLOGIEGERIATRIQUE (CH)"}, {"color": "gray", "id": "org_999547074", "label": "INSTITUT NATIONAL DE RECHERCHE EN INFORMATIQUE ET AUTOMATIQUE", "shape": "dot", "size": 8, "title": "INSTITUT NATIONAL DE RECHERCHE EN INFORMATIQUE ET AUTOMATIQUE (FR)"}, {"color": "gray", "id": "org_999993468", "label": "IMPERIAL COLLEGE OF SCIENCE TECHNOLOGY AND MEDICINE", "shape": "dot", "size": 8, "title": "IMPERIAL COLLEGE OF SCIENCE TECHNOLOGY AND MEDICINE (UK)"}, {"color": "gray", "id": "org_951490461", "label": "FONDATION CARDIOMETABOLISME NUTRITION", "shape": "dot", "size": 8, "title": "FONDATION CARDIOMETABOLISME NUTRITION (FR)"}, {"color": "gray", "id": "org_999645432", "label": "ASSISTANCE PUBLIQUE HOPITAUX DE PARIS", "shape": "dot", "size": 8, "title": "ASSISTANCE PUBLIQUE HOPITAUX DE PARIS (FR)"}, {"color": "gray", "id": "org_999841760", "label": "ALBERT-LUDWIGS-UNIVERSITAET FREIBURG", "shape": "dot", "size": 8, "title": "ALBERT-LUDWIGS-UNIVERSITAET FREIBURG (DE)"}, {"color": "gray", "id": "org_999990073", "label": "DEUTSCHES KREBSFORSCHUNGSZENTRUM HEIDELBERG", "shape": "dot", "size": 8, "title": "DEUTSCHES KREBSFORSCHUNGSZENTRUM HEIDELBERG (DE)"}, {"color": "gray", "id": "org_998753226", "label": "CLINIQUES UNIVERSITAIRES SAINT-LUC ASBL", "shape": "dot", "size": 8, "title": "CLINIQUES UNIVERSITAIRES SAINT-LUC ASBL (BE)"}, {"color": "gray", "id": "org_890309263", "label": "BETTHERA SRO", "shape": "dot", "size": 8, "title": "BETTHERA SRO (CZ)"}, {"color": "gray", "id": "org_995991539", "label": "FUNDACION PARA LA INVESTIGACION DEL HOSPITAL UNIVERSITARIO LA FE DE LA COMUNIDAD VALENCIANA", "shape": "dot", "size": 8, "title": "FUNDACION PARA LA INVESTIGACION DEL HOSPITAL UNIVERSITARIO LA FE DE LA COMUNIDAD VALENCIANA (ES)"}, {"color": "gray", "id": "org_999854564", "label": "UNIVERSITAET LEIPZIG", "shape": "dot", "size": 8, "title": "UNIVERSITAET LEIPZIG (DE)"}, {"color": "gray", "id": "org_999862906", "label": "BOURNEMOUTH UNIVERSITY", "shape": "dot", "size": 8, "title": "BOURNEMOUTH UNIVERSITY (UK)"}, {"color": "gray", "id": "org_999992692", "label": "CHARITE - UNIVERSITAETSMEDIZIN BERLIN", "shape": "dot", "size": 8, "title": "CHARITE - UNIVERSITAETSMEDIZIN BERLIN (DE)"}, {"color": "gray", "id": "org_928855996", "label": "EUROPEAN LIVER PATIENTS ASSOCIATION", "shape": "dot", "size": 8, "title": "EUROPEAN LIVER PATIENTS ASSOCIATION (BE)"}, {"color": "gray", "id": "org_919552532", "label": "MEDEXPRIM", "shape": "dot", "size": 8, "title": "MEDEXPRIM (FR)"}, {"color": "gray", "id": "org_999541642", "label": "FUNDACIO HOSPITAL UNIVERSITARI VALL D\u0027HEBRON - INSTITUT DE RECERCA", "shape": "dot", "size": 8, "title": "FUNDACIO HOSPITAL UNIVERSITARI VALL D\u0027HEBRON - INSTITUT DE RECERCA (ES)"}, {"color": "gray", "id": "org_999987745", "label": "UNIVERSITA DEGLI STUDI DI ROMA LA SAPIENZA", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI ROMA LA SAPIENZA (IT)"}, {"color": "gray", "id": "org_908013994", "label": "MATICAL INNOVATION SL", "shape": "dot", "size": 8, "title": "MATICAL INNOVATION SL (ES)"}, {"color": "gray", "id": "org_998511114", "label": "UNIVERSITATSKLINIKUM JENA", "shape": "dot", "size": 8, "title": "UNIVERSITATSKLINIKUM JENA (DE)"}, {"color": "gray", "id": "org_999574913", "label": "INSTITUT CATALA DE LA SALUT", "shape": "dot", "size": 8, "title": "INSTITUT CATALA DE LA SALUT (ES)"}, {"color": "gray", "id": "org_999977172", "label": "THE CHANCELLOR MASTERS AND SCHOLARS OF THE UNIVERSITY OF CAMBRIDGE", "shape": "dot", "size": 8, "title": "THE CHANCELLOR MASTERS AND SCHOLARS OF THE UNIVERSITY OF CAMBRIDGE (UK)"}, {"color": "gray", "id": "org_999911115", "label": "THE UNIVERSITY OF HERTFORDSHIRE HIGHER EDUCATION CORPORATION", "shape": "dot", "size": 8, "title": "THE UNIVERSITY OF HERTFORDSHIRE HIGHER EDUCATION CORPORATION (UK)"}, {"color": "gray", "id": "org_954530344", "label": "STICHTING VU", "shape": "dot", "size": 8, "title": "STICHTING VU (NL)"}, {"color": "gray", "id": "org_999882209", "label": "UNIVERSITAET ULM", "shape": "dot", "size": 8, "title": "UNIVERSITAET ULM (DE)"}, {"color": "gray", "id": "org_999987648", "label": "RUPRECHT-KARLS-UNIVERSITAET HEIDELBERG", "shape": "dot", "size": 8, "title": "RUPRECHT-KARLS-UNIVERSITAET HEIDELBERG (DE)"}, {"color": "gray", "id": "org_999843312", "label": "UNIVERSITAET DUISBURG-ESSEN", "shape": "dot", "size": 8, "title": "UNIVERSITAET DUISBURG-ESSEN (DE)"}, {"color": "gray", "id": "org_999555610", "label": "FUNDACION PARA LA INVESTIGACION BIOMEDICA DEL HOSPITAL GREGORIO MARANON", "shape": "dot", "size": 8, "title": "FUNDACION PARA LA INVESTIGACION BIOMEDICA DEL HOSPITAL GREGORIO MARANON (ES)"}, {"color": "gray", "id": "org_972782446", "label": "LIETUVOS SVEIKATOS MOKSLU UNIVERSITETAS", "shape": "dot", "size": 8, "title": "LIETUVOS SVEIKATOS MOKSLU UNIVERSITETAS (LT)"}, {"color": "gray", "id": "org_999609348", "label": "CENTRE HOSPITALIER UNIVERSITAIRE MONTPELLIER", "shape": "dot", "size": 8, "title": "CENTRE HOSPITALIER UNIVERSITAIRE MONTPELLIER (FR)"}, {"color": "gray", "id": "org_999896468", "label": "EOTVOS LORAND TUDOMANYEGYETEM", "shape": "dot", "size": 8, "title": "EOTVOS LORAND TUDOMANYEGYETEM (HU)"}, {"color": "gray", "id": "org_999975329", "label": "UNIVERSITY OF SOUTHAMPTON", "shape": "dot", "size": 8, "title": "UNIVERSITY OF SOUTHAMPTON (UK)"}, {"color": "gray", "id": "org_999531748", "label": "QUEENSLAND INSTITUTE OF MEDICAL RESEARCH", "shape": "dot", "size": 8, "title": "QUEENSLAND INSTITUTE OF MEDICAL RESEARCH (AU)"}, {"color": "gray", "id": "org_999976396", "label": "UNIVERSITAT ZURICH", "shape": "dot", "size": 8, "title": "UNIVERSITAT ZURICH (CH)"}, {"color": "gray", "id": "org_999894916", "label": "UNIVERSIDADE DO PORTO", "shape": "dot", "size": 8, "title": "UNIVERSIDADE DO PORTO (PT)"}, {"color": "gray", "id": "org_926738874", "label": "UNIVERSITY OF GIBRALTAR", "shape": "dot", "size": 8, "title": "UNIVERSITY OF GIBRALTAR (GI)"}, {"color": "gray", "id": "org_888246752", "label": "CENTRO DI NEUROLOGIA PSICHIATRIA E PSICOLOGIA CLINICA SRL", "shape": "dot", "size": 8, "title": "CENTRO DI NEUROLOGIA PSICHIATRIA E PSICOLOGIA CLINICA SRL (IT)"}, {"color": "gray", "id": "org_999820323", "label": "REICHMAN UNIVERSITY", "shape": "dot", "size": 8, "title": "REICHMAN UNIVERSITY (IL)"}, {"color": "gray", "id": "org_999857765", "label": "UNIVERSITAET zu LUEBECK", "shape": "dot", "size": 8, "title": "UNIVERSITAET zu LUEBECK (DE)"}, {"color": "gray", "id": "org_999600618", "label": "FUNDACIO INSTITUT D\u0027INVESTIGACIO BIOMEDICA DE BELLVITGE", "shape": "dot", "size": 8, "title": "FUNDACIO INSTITUT D\u0027INVESTIGACIO BIOMEDICA DE BELLVITGE (ES)"}, {"color": "gray", "id": "org_907850161", "label": "EURO YOUTH MENTAL HEALTH CIC", "shape": "dot", "size": 8, "title": "EURO YOUTH MENTAL HEALTH CIC (UK)"}, {"color": "gray", "id": "org_999421653", "label": "TALLINN UNIVERSITY", "shape": "dot", "size": 8, "title": "TALLINN UNIVERSITY (EE)"}, {"color": "gray", "id": "org_942416984", "label": "ZENTRUM FUR INTEGRATIVE PSYCHIATRIE GEMEINNUTZIGE GESELLSCHAFT MIT BESCHRANKTER HAFTUNG PRAVENTION-THERAPIE-REHABILITATION", "shape": "dot", "size": 8, "title": "ZENTRUM FUR INTEGRATIVE PSYCHIATRIE GEMEINNUTZIGE GESELLSCHAFT MIT BESCHRANKTER HAFTUNG PRAVENTION-THERAPIE-REHABILITATION (DE)"}, {"color": "gray", "id": "org_915056194", "label": "FCIENCIAS.ID - ASSOCIACAO PARA A INVESTIGACAO E DESENVOLVIMENTO DE CIENCIAS", "shape": "dot", "size": 8, "title": "FCIENCIAS.ID - ASSOCIACAO PARA A INVESTIGACAO E DESENVOLVIMENTO DE CIENCIAS (PT)"}, {"color": "gray", "id": "org_903770826", "label": "KRAFTVOLL TECHNOLOGIES GMBH", "shape": "dot", "size": 8, "title": "KRAFTVOLL TECHNOLOGIES GMBH (DE)"}, {"color": "gray", "id": "org_999513706", "label": "INESC TEC - INSTITUTO DE ENGENHARIADE SISTEMAS E COMPUTADORES, TECNOLOGIA E CIENCIA", "shape": "dot", "size": 8, "title": "INESC TEC - INSTITUTO DE ENGENHARIADE SISTEMAS E COMPUTADORES, TECNOLOGIA E CIENCIA (PT)"}, {"color": "gray", "id": "org_999838850", "label": "UNIVERSITA COMMERCIALE LUIGI BOCCONI", "shape": "dot", "size": 8, "title": "UNIVERSITA COMMERCIALE LUIGI BOCCONI (IT)"}, {"color": "gray", "id": "org_999880754", "label": "GDANSKI UNIWERSYTET MEDYCZNY", "shape": "dot", "size": 8, "title": "GDANSKI UNIWERSYTET MEDYCZNY (PL)"}, {"color": "gray", "id": "org_953176030", "label": "OSPEDALE SAN RAFFAELE SRL", "shape": "dot", "size": 8, "title": "OSPEDALE SAN RAFFAELE SRL (IT)"}, {"color": "gray", "id": "org_999857377", "label": "FACULDADE DE CIENCIAS DA UNIVERSIDADE DE LISBOA", "shape": "dot", "size": 8, "title": "FACULDADE DE CIENCIAS DA UNIVERSIDADE DE LISBOA (PT)"}, {"color": "gray", "id": "org_967498371", "label": "FUNDACAO D. ANNA DE SOMMER CHAMPALIMAUD E DR. CARLOS MONTEZ CHAMPALIMAUD", "shape": "dot", "size": 8, "title": "FUNDACAO D. ANNA DE SOMMER CHAMPALIMAUD E DR. CARLOS MONTEZ CHAMPALIMAUD (PT)"}]);
+                  edges = new vis.DataSet([{"color": "#cccccc", "from": "project_101132862", "to": "org_999884828"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_999902579"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_919397332"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_892786449"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_951278904"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_951404713"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_919322739"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_999469765"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_999940021"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_999608766"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_936940752"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_997154957"}, {"color": "#cccccc", "from": "project_101132862", "to": "org_887946537"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_999654744"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_995163935"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_999454924"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_996252081"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_952728375"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_885271568"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_998954404"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_908584063"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_999984738"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_917632708"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_951218473"}, {"color": "#cccccc", "from": "project_101104684", "to": "org_999522921"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999454924"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_951934333"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999977463"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999902094"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999914801"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_923616832"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_886495223"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999582188"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_886537224"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_889529965"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999841081"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_951542259"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999907720"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_998454369"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_999975717"}, {"color": "#cccccc", "from": "project_101096329", "to": "org_886604930"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_999989976"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_999969703"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_952728375"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_998420031"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_882375051"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_882423163"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_999995602"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_891115818"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_999477525"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_941447178"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_941691812"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_905096816"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_968344405"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_999839335"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_999975717"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_883086255"}, {"color": "#cccccc", "from": "project_101136953", "to": "org_892332974"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999547074"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999989976"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999993468"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_951490461"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999645432"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999841760"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999990073"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_998753226"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_890309263"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_995991539"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999854564"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999862906"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999992692"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999841081"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_928855996"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_919552532"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999541642"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_999987745"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_908013994"}, {"color": "#cccccc", "from": "project_101136299", "to": "org_998511114"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999574913"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999977172"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999911115"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_954530344"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999882209"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999987648"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999843312"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999555610"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_972782446"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999609348"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999896468"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999975329"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999531748"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999976396"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999894916"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_926738874"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_888246752"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999820323"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999857765"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999600618"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_907850161"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_999421653"}, {"color": "#cccccc", "from": "project_101080238", "to": "org_942416984"}, {"color": "black", "from": "project_101040267", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_915056194"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_903770826"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_999513706"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_999838850"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_999880754"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_998129904"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_953176030"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_999841081"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_999857377"}, {"color": "#cccccc", "from": "project_101057389", "to": "org_967498371"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -30,
+            "springConstant": 0.05,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightgray", "id": "project_101057917", "label": "Project 101057917", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101116713", "label": "Project 101116713", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101093186", "label": "Project 101093186", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101162747", "label": "Project 101162747", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101055412", "label": "Project 101055412", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101123525", "label": "Project 101123525", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101116395", "label": "Project 101116395", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101070617", "label": "Project 101070617", "shape": "star", "size": 10}, {"color": "red", "id": "project_101041207", "label": "Project 101041207", "shape": "star", "size": 20}, {"color": "lightgray", "id": "project_101045669", "label": "Project 101045669", "shape": "star", "size": 10}, {"color": "gray", "id": "org_999997833", "label": "INSTITUT NATIONAL DE LA SANTE ET DE LA RECHERCHE MEDICALE", "shape": "dot", "size": 8, "title": "INSTITUT NATIONAL DE LA SANTE ET DE LA RECHERCHE MEDICALE (FR)"}, {"color": "gray", "id": "org_999878426", "label": "MEDIZINISCHE HOCHSCHULE HANNOVER", "shape": "dot", "size": 8, "title": "MEDIZINISCHE HOCHSCHULE HANNOVER (DE)"}, {"color": "gray", "id": "org_997475348", "label": "INSTITUTUL NATIONAL DE BOLI INFECTIOASE PROF DR MATEI BALS BUCURESTI", "shape": "dot", "size": 8, "title": "INSTITUTUL NATIONAL DE BOLI INFECTIOASE PROF DR MATEI BALS BUCURESTI (RO)"}, {"color": "gray", "id": "org_999485964", "label": "FONDAZIONE IRCCS CA\u0027 GRANDA - OSPEDALE MAGGIORE POLICLINICO", "shape": "dot", "size": 8, "title": "FONDAZIONE IRCCS CA\u0027 GRANDA - OSPEDALE MAGGIORE POLICLINICO (IT)"}, {"color": "gray", "id": "org_999470347", "label": "HELMHOLTZ-ZENTRUM FUR INFEKTIONSFORSCHUNG GMBH", "shape": "dot", "size": 8, "title": "HELMHOLTZ-ZENTRUM FUR INFEKTIONSFORSCHUNG GMBH (DE)"}, {"color": "gray", "id": "org_999978530", "label": "KAROLINSKA INSTITUTET", "shape": "dot", "size": 8, "title": "KAROLINSKA INSTITUTET (SE)"}, {"color": "blue", "id": "org_907336546", "label": "CISPA - HELMHOLTZ-ZENTRUM FUR INFORMATIONSSICHERHEIT GGMBH", "shape": "dot", "size": 15, "title": "CISPA - HELMHOLTZ-ZENTRUM FUR INFORMATIONSSICHERHEIT GGMBH (DE)"}, {"color": "gray", "id": "org_999522921", "label": "REGION STOCKHOLM", "shape": "dot", "size": 8, "title": "REGION STOCKHOLM (SE)"}, {"color": "gray", "id": "org_999547074", "label": "INSTITUT NATIONAL DE RECHERCHE EN INFORMATIQUE ET AUTOMATIQUE", "shape": "dot", "size": 8, "title": "INSTITUT NATIONAL DE RECHERCHE EN INFORMATIQUE ET AUTOMATIQUE (FR)"}, {"color": "gray", "id": "org_970666488", "label": "PAL ROBOTICS SLU", "shape": "dot", "size": 8, "title": "PAL ROBOTICS SLU (ES)"}, {"color": "gray", "id": "org_888886758", "label": "YOOZ", "shape": "dot", "size": 8, "title": "YOOZ (FR)"}, {"color": "gray", "id": "org_999994535", "label": "HELSINGIN YLIOPISTO", "shape": "dot", "size": 8, "title": "HELSINGIN YLIOPISTO (FI)"}, {"color": "gray", "id": "org_921822526", "label": "PLURIBUS ONE SRL", "shape": "dot", "size": 8, "title": "PLURIBUS ONE SRL (IT)"}, {"color": "gray", "id": "org_999990946", "label": "KUNGLIGA TEKNISKA HOEGSKOLAN", "shape": "dot", "size": 8, "title": "KUNGLIGA TEKNISKA HOEGSKOLAN (SE)"}, {"color": "gray", "id": "org_999988230", "label": "EUROPEAN MOLECULAR BIOLOGY LABORATORY", "shape": "dot", "size": 8, "title": "EUROPEAN MOLECULAR BIOLOGY LABORATORY (DE)"}, {"color": "gray", "id": "org_999907526", "label": "THE UNIVERSITY OF BIRMINGHAM", "shape": "dot", "size": 8, "title": "THE UNIVERSITY OF BIRMINGHAM (UK)"}, {"color": "gray", "id": "org_999841663", "label": "UNIVERSITA DEGLI STUDI DI CAGLIARI", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI CAGLIARI (IT)"}, {"color": "gray", "id": "org_999973971", "label": "ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE", "shape": "dot", "size": 8, "title": "ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE (CH)"}, {"color": "gray", "id": "org_918515311", "label": "VALEO COMFORT AND DRIVING ASSISTANCE", "shape": "dot", "size": 8, "title": "VALEO COMFORT AND DRIVING ASSISTANCE (FR)"}, {"color": "gray", "id": "org_935293207", "label": "NVIDIA SWITZERLAND AG", "shape": "dot", "size": 8, "title": "NVIDIA SWITZERLAND AG (CH)"}, {"color": "gray", "id": "org_920901414", "label": "The Alan Turing Institute", "shape": "dot", "size": 8, "title": "The Alan Turing Institute (UK)"}, {"color": "gray", "id": "org_999596447", "label": "FONDAZIONE ISTITUTO ITALIANO DI TECNOLOGIA", "shape": "dot", "size": 8, "title": "FONDAZIONE ISTITUTO ITALIANO DI TECNOLOGIA (IT)"}, {"color": "gray", "id": "org_999979015", "label": "EIDGENOESSISCHE TECHNISCHE HOCHSCHULE ZUERICH", "shape": "dot", "size": 8, "title": "EIDGENOESSISCHE TECHNISCHE HOCHSCHULE ZUERICH (CH)"}, {"color": "gray", "id": "org_999840984", "label": "UNIVERSITY OF LANCASTER", "shape": "dot", "size": 8, "title": "UNIVERSITY OF LANCASTER (UK)"}, {"color": "gray", "id": "org_999977754", "label": "POLITECNICO DI TORINO", "shape": "dot", "size": 8, "title": "POLITECNICO DI TORINO (IT)"}, {"color": "gray", "id": "org_999995796", "label": "UNIVERSITA DEGLI STUDI DI MILANO", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI MILANO (IT)"}, {"color": "gray", "id": "org_998627417", "label": "LEONARDO - SOCIETA PER  AZIONI", "shape": "dot", "size": 8, "title": "LEONARDO - SOCIETA PER  AZIONI (IT)"}, {"color": "gray", "id": "org_999984350", "label": "THE CHANCELLOR, MASTERS AND SCHOLARS OF THE UNIVERSITY OF OXFORD", "shape": "dot", "size": 8, "title": "THE CHANCELLOR, MASTERS AND SCHOLARS OF THE UNIVERSITY OF OXFORD (UK)"}, {"color": "gray", "id": "org_999976687", "label": "UNIVERSITA DEGLI STUDI DI GENOVA", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI GENOVA (IT)"}, {"color": "gray", "id": "org_999990267", "label": "MAX-PLANCK-GESELLSCHAFT ZUR FORDERUNG DER WISSENSCHAFTEN EV", "shape": "dot", "size": 8, "title": "MAX-PLANCK-GESELLSCHAFT ZUR FORDERUNG DER WISSENSCHAFTEN EV (DE)"}, {"color": "gray", "id": "org_997491741", "label": "CENTRE DE VISIO PER COMPUTADOR", "shape": "dot", "size": 8, "title": "CENTRE DE VISIO PER COMPUTADOR (ES)"}, {"color": "gray", "id": "org_999840887", "label": "UNIVERSITA DEGLI STUDI DI MODENA E REGGIO EMILIA", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI MODENA E REGGIO EMILIA (IT)"}, {"color": "gray", "id": "org_999661437", "label": "CONSORZIO INTERUNIVERSITARIO NAZIONALE PER L\u0027INFORMATICA", "shape": "dot", "size": 8, "title": "CONSORZIO INTERUNIVERSITARIO NAZIONALE PER L\u0027INFORMATICA (IT)"}]);
+                  edges = new vis.DataSet([{"color": "#cccccc", "from": "project_101057917", "to": "org_999997833"}, {"color": "#cccccc", "from": "project_101057917", "to": "org_999878426"}, {"color": "#cccccc", "from": "project_101057917", "to": "org_997475348"}, {"color": "#cccccc", "from": "project_101057917", "to": "org_999485964"}, {"color": "#cccccc", "from": "project_101057917", "to": "org_999470347"}, {"color": "#cccccc", "from": "project_101057917", "to": "org_999978530"}, {"color": "#cccccc", "from": "project_101057917", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101057917", "to": "org_999522921"}, {"color": "#cccccc", "from": "project_101116713", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101093186", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101162747", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101055412", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101123525", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101116395", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999547074"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_970666488"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_888886758"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999994535"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_921822526"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999990946"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999988230"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999907526"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999841663"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999973971"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_918515311"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_935293207"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_920901414"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999596447"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999979015"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999840984"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999977754"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999995796"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_998627417"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999984350"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999976687"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999990267"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_997491741"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999840887"}, {"color": "#cccccc", "from": "project_101070617", "to": "org_999661437"}, {"color": "black", "from": "project_101041207", "to": "org_907336546"}, {"color": "#cccccc", "from": "project_101045669", "to": "org_907336546"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -30,
+            "springConstant": 0.05,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightgray", "id": "project_101135062", "label": "Project 101135062", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101159978", "label": "Project 101159978", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101084344", "label": "Project 101084344", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101171793", "label": "Project 101171793", "shape": "star", "size": 10}, {"color": "red", "id": "project_101040462", "label": "Project 101040462", "shape": "star", "size": 20}, {"color": "gray", "id": "org_937811715", "label": "COOPERNICO  -  COOPERATIVA DE DESENVOLVIMENTO SUSTENTAVEL CRL", "shape": "dot", "size": 8, "title": "COOPERNICO  -  COOPERATIVA DE DESENVOLVIMENTO SUSTENTAVEL CRL (PT)"}, {"color": "gray", "id": "org_955492390", "label": "EA ECO-ENTREPRISES ASSOCIATION", "shape": "dot", "size": 8, "title": "EA ECO-ENTREPRISES ASSOCIATION (FR)"}, {"color": "gray", "id": "org_905100502", "label": "InnoBoost SA", "shape": "dot", "size": 8, "title": "InnoBoost SA (CH)"}, {"color": "gray", "id": "org_923537680", "label": "Munic\u00edpio de Olh\u00e3o", "shape": "dot", "size": 8, "title": "Munic\u00edpio de Olh\u00e3o (PT)"}, {"color": "blue", "id": "org_959077801", "label": "REQUIMTE REDE DE QUIMICA E DE TECNOLOGIA ASSOCIACAO", "shape": "dot", "size": 15, "title": "REQUIMTE REDE DE QUIMICA E DE TECNOLOGIA ASSOCIACAO (PT)"}, {"color": "gray", "id": "org_998801532", "label": "ASOCIACION DE INVESTIGACION METALURGICA DEL NOROESTE", "shape": "dot", "size": 8, "title": "ASOCIACION DE INVESTIGACION METALURGICA DEL NOROESTE (ES)"}, {"color": "gray", "id": "org_999895692", "label": "ARISTOTELIO PANEPISTIMIO THESSALONIKIS", "shape": "dot", "size": 8, "title": "ARISTOTELIO PANEPISTIMIO THESSALONIKIS (EL)"}, {"color": "gray", "id": "org_999947296", "label": "INSTITUTO TECNOLOGICO DE CANARIAS,S.A.", "shape": "dot", "size": 8, "title": "INSTITUTO TECNOLOGICO DE CANARIAS,S.A. (ES)"}, {"color": "gray", "id": "org_917319107", "label": "WME GESELLSCHAFT FUR WINDKRAFTGETRIEBENE MEERWASSERENTSALZUNGS MBH", "shape": "dot", "size": 8, "title": "WME GESELLSCHAFT FUR WINDKRAFTGETRIEBENE MEERWASSERENTSALZUNGS MBH (DE)"}, {"color": "gray", "id": "org_999891715", "label": "COMISSAO DE COORDENACAO E DESENVOLVIMENTO REGIONAL DO ALGARVE, I.P.", "shape": "dot", "size": 8, "title": "COMISSAO DE COORDENACAO E DESENVOLVIMENTO REGIONAL DO ALGARVE, I.P. (PT)"}, {"color": "gray", "id": "org_999734284", "label": "UNIVERSITA DEGLI STUDI DI PALERMO", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI PALERMO (IT)"}, {"color": "gray", "id": "org_926712975", "label": "Munic\u00edpio de Tavira", "shape": "dot", "size": 8, "title": "Munic\u00edpio de Tavira (PT)"}, {"color": "gray", "id": "org_941370257", "label": "ASSOCIACAO IN LOCO", "shape": "dot", "size": 8, "title": "ASSOCIACAO IN LOCO (PT)"}, {"color": "gray", "id": "org_993052051", "label": "REGIONAL DEVELOPMENT FUND OF CENTRAL MACEDONIA", "shape": "dot", "size": 8, "title": "REGIONAL DEVELOPMENT FUND OF CENTRAL MACEDONIA (EL)"}, {"color": "gray", "id": "org_926218566", "label": "DARIACORDAR ASSOCIACAO PARA A RECUPERACAO DE DESPERDICIO", "shape": "dot", "size": 8, "title": "DARIACORDAR ASSOCIACAO PARA A RECUPERACAO DE DESPERDICIO (PT)"}, {"color": "gray", "id": "org_928498357", "label": "ECOFILAE", "shape": "dot", "size": 8, "title": "ECOFILAE (FR)"}, {"color": "gray", "id": "org_952316707", "label": "IQ Consult GmbH", "shape": "dot", "size": 8, "title": "IQ Consult GmbH (CH)"}, {"color": "gray", "id": "org_924251406", "label": "LANDLNG AQUACULTURE BV", "shape": "dot", "size": 8, "title": "LANDLNG AQUACULTURE BV (NL)"}, {"color": "gray", "id": "org_913576750", "label": "COMISSAO DE COORDENACAO E DESENVOLVIMENTO REGIONAL DO ALENTEJO", "shape": "dot", "size": 8, "title": "COMISSAO DE COORDENACAO E DESENVOLVIMENTO REGIONAL DO ALENTEJO (PT)"}, {"color": "gray", "id": "org_953493511", "label": "INSTITUTO DO AMBIENTE E DESENVOLVIMENTO", "shape": "dot", "size": 8, "title": "INSTITUTO DO AMBIENTE E DESENVOLVIMENTO (PT)"}, {"color": "gray", "id": "org_998638087", "label": "BIOAZUL, SL", "shape": "dot", "size": 8, "title": "BIOAZUL, SL (ES)"}, {"color": "gray", "id": "org_951927543", "label": "ULTRAWAVES - WASSER - UND UMWELTTECHNOLOGIEN GMBH", "shape": "dot", "size": 8, "title": "ULTRAWAVES - WASSER - UND UMWELTTECHNOLOGIEN GMBH (DE)"}, {"color": "gray", "id": "org_999928478", "label": "INOVA+ - INNOVATION SERVICES, SA", "shape": "dot", "size": 8, "title": "INOVA+ - INNOVATION SERVICES, SA (PT)"}, {"color": "gray", "id": "org_952902587", "label": "FUNDACION CORPORACION TECNOLOGICA DE ANDALUCIA", "shape": "dot", "size": 8, "title": "FUNDACION CORPORACION TECNOLOGICA DE ANDALUCIA (ES)"}, {"color": "gray", "id": "org_953531147", "label": "OFFICINAE VERDI GROUP SRL", "shape": "dot", "size": 8, "title": "OFFICINAE VERDI GROUP SRL (IT)"}, {"color": "gray", "id": "org_899096396", "label": "MORE - LABORATORIO COLABORATIVO MONTANHAS DE INVESTIGACAO ASSOCIACAO", "shape": "dot", "size": 8, "title": "MORE - LABORATORIO COLABORATIVO MONTANHAS DE INVESTIGACAO ASSOCIACAO (PT)"}, {"color": "gray", "id": "org_952844775", "label": "PAUL RYE KLEDAL", "shape": "dot", "size": 8, "title": "PAUL RYE KLEDAL (DK)"}, {"color": "gray", "id": "org_999993953", "label": "ALMA MATER STUDIORUM - UNIVERSITA DI BOLOGNA", "shape": "dot", "size": 8, "title": "ALMA MATER STUDIORUM - UNIVERSITA DI BOLOGNA (IT)"}, {"color": "gray", "id": "org_999547365", "label": "STICHTING WAGENINGEN RESEARCH", "shape": "dot", "size": 8, "title": "STICHTING WAGENINGEN RESEARCH (NL)"}, {"color": "gray", "id": "org_917811673", "label": "ALLATORVOSTUDOMANYI EGYETEM", "shape": "dot", "size": 8, "title": "ALLATORVOSTUDOMANYI EGYETEM (HU)"}, {"color": "gray", "id": "org_999865137", "label": "SZKOLA GLOWNA GOSPODARSTWA WIEJSKIEGO", "shape": "dot", "size": 8, "title": "SZKOLA GLOWNA GOSPODARSTWA WIEJSKIEGO (PL)"}, {"color": "gray", "id": "org_999953019", "label": "UNIVERSITAT DE VALENCIA", "shape": "dot", "size": 8, "title": "UNIVERSITAT DE VALENCIA (ES)"}, {"color": "gray", "id": "org_957958033", "label": "CONTACTICA SL", "shape": "dot", "size": 8, "title": "CONTACTICA SL (ES)"}, {"color": "gray", "id": "org_887755350", "label": "EDITORIAL AGRICOLA ESPANOLA SA", "shape": "dot", "size": 8, "title": "EDITORIAL AGRICOLA ESPANOLA SA (ES)"}, {"color": "gray", "id": "org_960782479", "label": "UNIVERSIDADE NOVA DE LISBOA", "shape": "dot", "size": 8, "title": "UNIVERSIDADE NOVA DE LISBOA (PT)"}, {"color": "gray", "id": "org_930042694", "label": "UAB ART21", "shape": "dot", "size": 8, "title": "UAB ART21 (LT)"}, {"color": "gray", "id": "org_999894916", "label": "UNIVERSIDADE DO PORTO", "shape": "dot", "size": 8, "title": "UNIVERSIDADE DO PORTO (PT)"}, {"color": "gray", "id": "org_961600480", "label": "INSTYTUT BIOTECHNOLOGII PRZEMYSLU ROLNO-SPOZYWCZEGO IM PROF WACLAWA DABROWSKIEGO - PANSTWOWY INSTYTUT BADAWCZY", "shape": "dot", "size": 8, "title": "INSTYTUT BIOTECHNOLOGII PRZEMYSLU ROLNO-SPOZYWCZEGO IM PROF WACLAWA DABROWSKIEGO - PANSTWOWY INSTYTUT BADAWCZY (PL)"}, {"color": "gray", "id": "org_952835172", "label": "ISANATUR SPAIN SL", "shape": "dot", "size": 8, "title": "ISANATUR SPAIN SL (ES)"}, {"color": "gray", "id": "org_999630494", "label": "UNIVERSIDAD DE VIGO", "shape": "dot", "size": 8, "title": "UNIVERSIDAD DE VIGO (ES)"}]);
+                  edges = new vis.DataSet([{"color": "#cccccc", "from": "project_101135062", "to": "org_937811715"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_955492390"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_905100502"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_923537680"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_959077801"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_998801532"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_999895692"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_999947296"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_917319107"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_999891715"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_999734284"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_926712975"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_941370257"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_993052051"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_926218566"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_928498357"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_952316707"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_924251406"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_913576750"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_953493511"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_998638087"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_951927543"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_999928478"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_952902587"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_953531147"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_899096396"}, {"color": "#cccccc", "from": "project_101135062", "to": "org_952844775"}, {"color": "#cccccc", "from": "project_101159978", "to": "org_959077801"}, {"color": "#cccccc", "from": "project_101159978", "to": "org_999993953"}, {"color": "#cccccc", "from": "project_101159978", "to": "org_999547365"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_917811673"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_999865137"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_959077801"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_999953019"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_957958033"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_887755350"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_960782479"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_930042694"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_999894916"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_961600480"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_952835172"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_999630494"}, {"color": "#cccccc", "from": "project_101084344", "to": "org_999547365"}, {"color": "#cccccc", "from": "project_101171793", "to": "org_959077801"}, {"color": "black", "from": "project_101040462", "to": "org_959077801"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -30,
+            "springConstant": 0.05,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

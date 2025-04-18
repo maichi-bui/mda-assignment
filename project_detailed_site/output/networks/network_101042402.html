@@ -1,0 +1,274 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightgray", "id": "project_101114805", "label": "Project 101114805", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101090315", "label": "Project 101090315", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101086110", "label": "Project 101086110", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101180614", "label": "Project 101180614", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101073954", "label": "Project 101073954", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101061630", "label": "Project 101061630", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101086305", "label": "Project 101086305", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101086258", "label": "Project 101086258", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101109609", "label": "Project 101109609", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101091812", "label": "Project 101091812", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101096368", "label": "Project 101096368", "shape": "star", "size": 10}, {"color": "lightgray", "id": "project_101043219", "label": "Project 101043219", "shape": "star", "size": 10}, {"color": "red", "id": "project_101042402", "label": "Project 101042402", "shape": "star", "size": 20}, {"color": "gray", "id": "org_921767430", "label": "UNIVERSITETET I SOROST-NORGE", "shape": "dot", "size": 8, "title": "UNIVERSITETET I SOROST-NORGE (NO)"}, {"color": "gray", "id": "org_894633814", "label": "DUZCE BELEDIYESI", "shape": "dot", "size": 8, "title": "DUZCE BELEDIYESI (TR)"}, {"color": "blue", "id": "org_999866592", "label": "ISTANBUL TEKNIK UNIVERSITESI", "shape": "dot", "size": 15, "title": "ISTANBUL TEKNIK UNIVERSITESI (TR)"}, {"color": "gray", "id": "org_910945140", "label": "SINTEF AS", "shape": "dot", "size": 8, "title": "SINTEF AS (NO)"}, {"color": "gray", "id": "org_998597056", "label": "UNIVERSIDAD EUROPEA DE MADRID SA", "shape": "dot", "size": 8, "title": "UNIVERSIDAD EUROPEA DE MADRID SA (ES)"}, {"color": "gray", "id": "org_999981731", "label": "DEUTSCHES ZENTRUM FUR LUFT - UND RAUMFAHRT EV", "shape": "dot", "size": 8, "title": "DEUTSCHES ZENTRUM FUR LUFT - UND RAUMFAHRT EV (DE)"}, {"color": "gray", "id": "org_957768495", "label": "DEVLET HAVA MEYDANLARI ISLETMESI GENEL MUDURLUGU - DHMI", "shape": "dot", "size": 8, "title": "DEVLET HAVA MEYDANLARI ISLETMESI GENEL MUDURLUGU - DHMI (TR)"}, {"color": "gray", "id": "org_999497992", "label": "VZLU AEROSPACE AS", "shape": "dot", "size": 8, "title": "VZLU AEROSPACE AS (CZ)"}, {"color": "gray", "id": "org_951375807", "label": "SOPRA STERIA GROUP", "shape": "dot", "size": 8, "title": "SOPRA STERIA GROUP (FR)"}, {"color": "gray", "id": "org_884690247", "label": "KATARA", "shape": "dot", "size": 8, "title": "KATARA (FR)"}, {"color": "gray", "id": "org_935384096", "label": "BRITE HELLAS SA", "shape": "dot", "size": 8, "title": "BRITE HELLAS SA (EL)"}, {"color": "gray", "id": "org_887125335", "label": "SAMMLER V. MICHALOPOULOS A.E.V.E.", "shape": "dot", "size": 8, "title": "SAMMLER V. MICHALOPOULOS A.E.V.E. (EL)"}, {"color": "gray", "id": "org_913462678", "label": "INTERNATIONAL DEVELOPMENT IRELAND LIMITED", "shape": "dot", "size": 8, "title": "INTERNATIONAL DEVELOPMENT IRELAND LIMITED (IE)"}, {"color": "gray", "id": "org_998802502", "label": "ETHNIKO KENTRO EREVNAS KAI TECHNOLOGIKIS ANAPTYXIS", "shape": "dot", "size": 8, "title": "ETHNIKO KENTRO EREVNAS KAI TECHNOLOGIKIS ANAPTYXIS (EL)"}, {"color": "gray", "id": "org_999587135", "label": "TURKIYE BILIMSEL VE TEKNOLOJIK ARASTIRMA KURUMU", "shape": "dot", "size": 8, "title": "TURKIYE BILIMSEL VE TEKNOLOJIK ARASTIRMA KURUMU (TR)"}, {"color": "gray", "id": "org_999646014", "label": "CENTRE FOR RENEWABLE ENERGY SOURCES AND SAVING FONDATION", "shape": "dot", "size": 8, "title": "CENTRE FOR RENEWABLE ENERGY SOURCES AND SAVING FONDATION (EL)"}, {"color": "gray", "id": "org_911160189", "label": "TAT GIDA SANAYI ANONIM SIRKETI", "shape": "dot", "size": 8, "title": "TAT GIDA SANAYI ANONIM SIRKETI (TR)"}, {"color": "gray", "id": "org_893840548", "label": "KALYON GUNES TEKNOLOJILERI URETIM AS", "shape": "dot", "size": 8, "title": "KALYON GUNES TEKNOLOJILERI URETIM AS (TR)"}, {"color": "gray", "id": "org_985464226", "label": "SOLIMPEKS ENERJI SANAYI VE TICARET AS", "shape": "dot", "size": 8, "title": "SOLIMPEKS ENERJI SANAYI VE TICARET AS (TR)"}, {"color": "gray", "id": "org_993052051", "label": "REGIONAL DEVELOPMENT FUND OF CENTRAL MACEDONIA", "shape": "dot", "size": 8, "title": "REGIONAL DEVELOPMENT FUND OF CENTRAL MACEDONIA (EL)"}, {"color": "gray", "id": "org_986039630", "label": "SOLAR HEAT EUROPE/EUROPEAN SOLAR THERMAL INDUSTRY FEDERATION", "shape": "dot", "size": 8, "title": "SOLAR HEAT EUROPE/EUROPEAN SOLAR THERMAL INDUSTRY FEDERATION (BE)"}, {"color": "gray", "id": "org_948603450", "label": "ULUSLARARASI GUNES ENERJISI TOPLULUGU TURKIYE BOLUMU DERNEGI", "shape": "dot", "size": 8, "title": "ULUSLARARASI GUNES ENERJISI TOPLULUGU TURKIYE BOLUMU DERNEGI (TR)"}, {"color": "gray", "id": "org_999824009", "label": "MINISTRY OF AGRICULTURE AND FORESTRY", "shape": "dot", "size": 8, "title": "MINISTRY OF AGRICULTURE AND FORESTRY (TR)"}, {"color": "gray", "id": "org_887040266", "label": "Ankara Golbasi Ziraat Odasi", "shape": "dot", "size": 8, "title": "Ankara Golbasi Ziraat Odasi (TR)"}, {"color": "gray", "id": "org_999857183", "label": "EGE UNIVERSITY", "shape": "dot", "size": 8, "title": "EGE UNIVERSITY (TR)"}, {"color": "gray", "id": "org_891143657", "label": "ODTU GUNES ENERJISI UYGULAMA VE ARA STIRMA MERKEZI", "shape": "dot", "size": 8, "title": "ODTU GUNES ENERJISI UYGULAMA VE ARA STIRMA MERKEZI (TR)"}, {"color": "gray", "id": "org_885535796", "label": "AGROTIKOS SYNETAIRISMOS VEROIAS VENUS GROWERS", "shape": "dot", "size": 8, "title": "AGROTIKOS SYNETAIRISMOS VEROIAS VENUS GROWERS (EL)"}, {"color": "gray", "id": "org_909889683", "label": "KOINONIKI SYNETAIRISTIKI EPICHEIRISI SYLLOGIKIS KAI KOINONIKIS OFELEIAS ILEKTRA ENERGY KOINONIKI SYNETAIRISTIKI EPICHEIRISI ANANEOSIMON PIGO", "shape": "dot", "size": 8, "title": "KOINONIKI SYNETAIRISTIKI EPICHEIRISI SYLLOGIKIS KAI KOINONIKIS OFELEIAS ILEKTRA ENERGY KOINONIKI SYNETAIRISTIKI EPICHEIRISI ANANEOSIMON PIGO (EL)"}, {"color": "gray", "id": "org_999643492", "label": "MIDDLE EAST TECHNICAL UNIVERSITY", "shape": "dot", "size": 8, "title": "MIDDLE EAST TECHNICAL UNIVERSITY (TR)"}, {"color": "gray", "id": "org_998498795", "label": "Istanbul Metropolitan Municipality", "shape": "dot", "size": 8, "title": "Istanbul Metropolitan Municipality (TR)"}, {"color": "gray", "id": "org_962666316", "label": "HET NEDERLANDSE RODE KRUIS", "shape": "dot", "size": 8, "title": "HET NEDERLANDSE RODE KRUIS (NL)"}, {"color": "gray", "id": "org_999603916", "label": "UNIVERSITATEA DIN BUCURESTI", "shape": "dot", "size": 8, "title": "UNIVERSITATEA DIN BUCURESTI (RO)"}, {"color": "gray", "id": "org_998325941", "label": "DEEP BLUE SRL", "shape": "dot", "size": 8, "title": "DEEP BLUE SRL (IT)"}, {"color": "gray", "id": "org_999866883", "label": "UNIVERSITAT WIEN", "shape": "dot", "size": 8, "title": "UNIVERSITAT WIEN (AT)"}, {"color": "gray", "id": "org_949984148", "label": "MINISTERUL AFACERILOR INTERNE", "shape": "dot", "size": 8, "title": "MINISTERUL AFACERILOR INTERNE (RO)"}, {"color": "gray", "id": "org_951879431", "label": "F INICIATIVAS", "shape": "dot", "size": 8, "title": "F INICIATIVAS (FR)"}, {"color": "gray", "id": "org_999900833", "label": "UNIVERSITEIT TWENTE", "shape": "dot", "size": 8, "title": "UNIVERSITEIT TWENTE (NL)"}, {"color": "gray", "id": "org_974802471", "label": "STICHTING INTERNATIONAL RED CROSS RED CRESCENT CENTRE ON CLIMATE CHANGE AND DISASTER PREPAREDNESS", "shape": "dot", "size": 8, "title": "STICHTING INTERNATIONAL RED CROSS RED CRESCENT CENTRE ON CLIMATE CHANGE AND DISASTER PREPAREDNESS (NL)"}, {"color": "gray", "id": "org_919873408", "label": "RESILIENCE ADVISORS LTD", "shape": "dot", "size": 8, "title": "RESILIENCE ADVISORS LTD (UK)"}, {"color": "gray", "id": "org_999887253", "label": "ACCADEMIA EUROPEA DI BOLZANO", "shape": "dot", "size": 8, "title": "ACCADEMIA EUROPEA DI BOLZANO (IT)"}, {"color": "gray", "id": "org_999976202", "label": "UNIVERSITAT POLITECNICA DE CATALUNYA", "shape": "dot", "size": 8, "title": "UNIVERSITAT POLITECNICA DE CATALUNYA (ES)"}, {"color": "gray", "id": "org_999518944", "label": "KONINKLIJK NEDERLANDS METEOROLOGISCH INSTITUUT-KNMI", "shape": "dot", "size": 8, "title": "KONINKLIJK NEDERLANDS METEOROLOGISCH INSTITUUT-KNMI (NL)"}, {"color": "gray", "id": "org_999895595", "label": "ASIAN INSTITUTE OF TECHNOLOGY", "shape": "dot", "size": 8, "title": "ASIAN INSTITUTE OF TECHNOLOGY (TH)"}, {"color": "gray", "id": "org_999452596", "label": "INTERNATIONALES INSTITUT FUER ANGEWANDTE SYSTEMANALYSE", "shape": "dot", "size": 8, "title": "INTERNATIONALES INSTITUT FUER ANGEWANDTE SYSTEMANALYSE (AT)"}, {"color": "gray", "id": "org_998222539", "label": "STOWARZYSZENIE CENTRUM ROZWIAZAN SYSTEMOWYCH", "shape": "dot", "size": 8, "title": "STOWARZYSZENIE CENTRUM ROZWIAZAN SYSTEMOWYCH (PL)"}, {"color": "gray", "id": "org_888533387", "label": "ASFINAG ALPENSTRASSEN GMBH", "shape": "dot", "size": 8, "title": "ASFINAG ALPENSTRASSEN GMBH (AT)"}, {"color": "gray", "id": "org_885855508", "label": "TUZLA BELEDIYESI", "shape": "dot", "size": 8, "title": "TUZLA BELEDIYESI (TR)"}, {"color": "gray", "id": "org_999867659", "label": "ANKARA UNIVERSITESI", "shape": "dot", "size": 8, "title": "ANKARA UNIVERSITESI (TR)"}, {"color": "gray", "id": "org_998078203", "label": "YASAR UNIVERSITESI", "shape": "dot", "size": 8, "title": "YASAR UNIVERSITESI (TR)"}, {"color": "gray", "id": "org_957048367", "label": "GAZIANTEP BUYUKSEHIR BELEDIYESI", "shape": "dot", "size": 8, "title": "GAZIANTEP BUYUKSEHIR BELEDIYESI (TR)"}, {"color": "gray", "id": "org_946846683", "label": "ISTANBUL MILLI EGITIM MUDURLUGU", "shape": "dot", "size": 8, "title": "ISTANBUL MILLI EGITIM MUDURLUGU (TR)"}, {"color": "gray", "id": "org_950850455", "label": "ITUNOVA TEKNOLOJI ANONIM SIRKETI", "shape": "dot", "size": 8, "title": "ITUNOVA TEKNOLOJI ANONIM SIRKETI (TR)"}, {"color": "gray", "id": "org_998868171", "label": "CENTRE SCIENTIFIQUE \u0026 TECHNIQUE DEL\u0027INDUSTRIE TEXTILE BELGE ASBL", "shape": "dot", "size": 8, "title": "CENTRE SCIENTIFIQUE \u0026 TECHNIQUE DEL\u0027INDUSTRIE TEXTILE BELGE ASBL (BE)"}, {"color": "gray", "id": "org_999685687", "label": "BEIA CONSULT INTERNATIONAL SRL", "shape": "dot", "size": 8, "title": "BEIA CONSULT INTERNATIONAL SRL (RO)"}, {"color": "gray", "id": "org_998749249", "label": "GRADO ZERO ESPACE SRL", "shape": "dot", "size": 8, "title": "GRADO ZERO ESPACE SRL (IT)"}, {"color": "gray", "id": "org_999524279", "label": "DEAKIN UNIVERSITY", "shape": "dot", "size": 8, "title": "DEAKIN UNIVERSITY (AU)"}, {"color": "gray", "id": "org_906333081", "label": "OU SPELL DISAIN", "shape": "dot", "size": 8, "title": "OU SPELL DISAIN (EE)"}, {"color": "gray", "id": "org_891045396", "label": "FREYZEIN URBAN OUTDOOR GMBH", "shape": "dot", "size": 8, "title": "FREYZEIN URBAN OUTDOOR GMBH (AT)"}, {"color": "gray", "id": "org_998796682", "label": "MARMARA UNIVERSITY", "shape": "dot", "size": 8, "title": "MARMARA UNIVERSITY (TR)"}, {"color": "gray", "id": "org_903358673", "label": "WEARONICS TEKNOLOJI LIMITED SIRKETI", "shape": "dot", "size": 8, "title": "WEARONICS TEKNOLOJI LIMITED SIRKETI (TR)"}, {"color": "gray", "id": "org_999897729", "label": "TECHNISCHE UNIVERSITAET DRESDEN", "shape": "dot", "size": 8, "title": "TECHNISCHE UNIVERSITAET DRESDEN (DE)"}, {"color": "gray", "id": "org_889887604", "label": "PANGAIA GRADO ZERO SRL", "shape": "dot", "size": 8, "title": "PANGAIA GRADO ZERO SRL (IT)"}, {"color": "gray", "id": "org_999903840", "label": "THE UNIVERSITY OF MANCHESTER", "shape": "dot", "size": 8, "title": "THE UNIVERSITY OF MANCHESTER (UK)"}, {"color": "gray", "id": "org_894234562", "label": "AKILLI TEKSTIL VE SANAYI LIMITED SIRKETI", "shape": "dot", "size": 8, "title": "AKILLI TEKSTIL VE SANAYI LIMITED SIRKETI (TR)"}, {"color": "gray", "id": "org_946753369", "label": "TECH2MARKET SPOLKA Z OGRANICZONA ODPOWIEDZIALNOSCIA", "shape": "dot", "size": 8, "title": "TECH2MARKET SPOLKA Z OGRANICZONA ODPOWIEDZIALNOSCIA (PL)"}, {"color": "gray", "id": "org_999885895", "label": "RHEINLAND-PFALZISCHE TECHNISCHE UNIVERSITAT", "shape": "dot", "size": 8, "title": "RHEINLAND-PFALZISCHE TECHNISCHE UNIVERSITAT (DE)"}, {"color": "gray", "id": "org_906446765", "label": "TOETERS MIENTJE JENNIGJE", "shape": "dot", "size": 8, "title": "TOETERS MIENTJE JENNIGJE (NL)"}, {"color": "gray", "id": "org_999897535", "label": "REGENTS OF UNIVERSITY OF MINNESOTA", "shape": "dot", "size": 8, "title": "REGENTS OF UNIVERSITY OF MINNESOTA (US)"}, {"color": "gray", "id": "org_999645238", "label": "VLAAMSE INSTELLING VOOR TECHNOLOGISCH ONDERZOEK N.V.", "shape": "dot", "size": 8, "title": "VLAAMSE INSTELLING VOOR TECHNOLOGISCH ONDERZOEK N.V. (BE)"}, {"color": "gray", "id": "org_996254021", "label": "SAINT-GOBAIN CENTRE DE RECHERCHES ET D\u0027ETUDES EUROPEEN", "shape": "dot", "size": 8, "title": "SAINT-GOBAIN CENTRE DE RECHERCHES ET D\u0027ETUDES EUROPEEN (FR)"}, {"color": "gray", "id": "org_999856310", "label": "FACHHOCHSCHULE NORDWESTSCHWEIZ FHNW", "shape": "dot", "size": 8, "title": "FACHHOCHSCHULE NORDWESTSCHWEIZ FHNW (CH)"}, {"color": "gray", "id": "org_886837633", "label": "OSILUB", "shape": "dot", "size": 8, "title": "OSILUB (FR)"}, {"color": "gray", "id": "org_999984059", "label": "FRAUNHOFER GESELLSCHAFT ZUR FORDERUNG DER ANGEWANDTEN FORSCHUNG EV", "shape": "dot", "size": 8, "title": "FRAUNHOFER GESELLSCHAFT ZUR FORDERUNG DER ANGEWANDTEN FORSCHUNG EV (DE)"}, {"color": "gray", "id": "org_999604110", "label": "FUNDACION TECNALIA RESEARCH \u0026 INNOVATION", "shape": "dot", "size": 8, "title": "FUNDACION TECNALIA RESEARCH \u0026 INNOVATION (ES)"}, {"color": "gray", "id": "org_974614388", "label": "RAUSCHERT KLOSTER VEILSDORF GMBH", "shape": "dot", "size": 8, "title": "RAUSCHERT KLOSTER VEILSDORF GMBH (DE)"}, {"color": "gray", "id": "org_901020003", "label": "MEMSIS CEVRE TEKNOLOJILERI ARASTIRMA VE GELISTIRME LIMITED SIRKETI", "shape": "dot", "size": 8, "title": "MEMSIS CEVRE TEKNOLOJILERI ARASTIRMA VE GELISTIRME LIMITED SIRKETI (TR)"}, {"color": "gray", "id": "org_999975911", "label": "UNIVERSITEIT MAASTRICHT", "shape": "dot", "size": 8, "title": "UNIVERSITEIT MAASTRICHT (NL)"}, {"color": "gray", "id": "org_886680008", "label": "ERDEMIR MUHENDISLIK YONETIM VE DANISMANLIK HIZMETLERI AS", "shape": "dot", "size": 8, "title": "ERDEMIR MUHENDISLIK YONETIM VE DANISMANLIK HIZMETLERI AS (TR)"}, {"color": "gray", "id": "org_937111860", "label": "EREGLI DEMIR VE CELIK FABRIKALARI TURK AS", "shape": "dot", "size": 8, "title": "EREGLI DEMIR VE CELIK FABRIKALARI TURK AS (TR)"}, {"color": "gray", "id": "org_887233296", "label": "A-MEMBRANES", "shape": "dot", "size": 8, "title": "A-MEMBRANES (BE)"}, {"color": "gray", "id": "org_921384086", "label": "B4PLASTICS", "shape": "dot", "size": 8, "title": "B4PLASTICS (BE)"}, {"color": "gray", "id": "org_999543776", "label": "EUROQUALITY SAS", "shape": "dot", "size": 8, "title": "EUROQUALITY SAS (FR)"}, {"color": "gray", "id": "org_985884333", "label": "PHASE CHANGE MATERIAL PRODUCTS LTD", "shape": "dot", "size": 8, "title": "PHASE CHANGE MATERIAL PRODUCTS LTD (UK)"}, {"color": "gray", "id": "org_999995602", "label": "UNIVERSITA DEGLI STUDI DI PADOVA", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI PADOVA (IT)"}, {"color": "gray", "id": "org_999979500", "label": "CONSIGLIO NAZIONALE DELLE RICERCHE", "shape": "dot", "size": 8, "title": "CONSIGLIO NAZIONALE DELLE RICERCHE (IT)"}, {"color": "gray", "id": "org_999587038", "label": "CONSORZIO FUTURO IN RICERCA", "shape": "dot", "size": 8, "title": "CONSORZIO FUTURO IN RICERCA (IT)"}, {"color": "gray", "id": "org_888321539", "label": "GENERACION DE ENERGIAS ALTERNATIVAS SL", "shape": "dot", "size": 8, "title": "GENERACION DE ENERGIAS ALTERNATIVAS SL (ES)"}, {"color": "gray", "id": "org_929362433", "label": "BEWARRANT", "shape": "dot", "size": 8, "title": "BEWARRANT (BE)"}, {"color": "gray", "id": "org_886572047", "label": "SANHUA INTERNATIONAL EUROPE SL", "shape": "dot", "size": 8, "title": "SANHUA INTERNATIONAL EUROPE SL (ES)"}, {"color": "gray", "id": "org_999940991", "label": "INSTITUT MIHAJLO PUPIN", "shape": "dot", "size": 8, "title": "INSTITUT MIHAJLO PUPIN (RS)"}, {"color": "gray", "id": "org_999976978", "label": "THE UNIVERSITY OF NOTTINGHAM", "shape": "dot", "size": 8, "title": "THE UNIVERSITY OF NOTTINGHAM (UK)"}, {"color": "gray", "id": "org_891747870", "label": "GEMINIS TOOLS S.L.", "shape": "dot", "size": 8, "title": "GEMINIS TOOLS S.L. (ES)"}, {"color": "gray", "id": "org_999864846", "label": "UNIVERSITAT POLITECNICA DE VALENCIA", "shape": "dot", "size": 8, "title": "UNIVERSITAT POLITECNICA DE VALENCIA (ES)"}, {"color": "gray", "id": "org_997904476", "label": "HIREF SPA", "shape": "dot", "size": 8, "title": "HIREF SPA (IT)"}, {"color": "gray", "id": "org_882794770", "label": "IDEAKIM GLOBAL KIMYA ANONIM SIRKETI", "shape": "dot", "size": 8, "title": "IDEAKIM GLOBAL KIMYA ANONIM SIRKETI (TR)"}, {"color": "gray", "id": "org_887069948", "label": "IDEAKIM KIMYA INSAAT ITHALAT IHRACAT SANAYI AS", "shape": "dot", "size": 8, "title": "IDEAKIM KIMYA INSAAT ITHALAT IHRACAT SANAYI AS (TR)"}, {"color": "gray", "id": "org_923854288", "label": "EUROPEAN HEAT PUMP ASSOCIATION", "shape": "dot", "size": 8, "title": "EUROPEAN HEAT PUMP ASSOCIATION (BE)"}, {"color": "gray", "id": "org_898214569", "label": "GREEN ENERGY SOLUTIONS CONSULTANT SRL", "shape": "dot", "size": 8, "title": "GREEN ENERGY SOLUTIONS CONSULTANT SRL (RO)"}, {"color": "gray", "id": "org_999839626", "label": "UNIVERSITA DEGLI STUDI DI FERRARA", "shape": "dot", "size": 8, "title": "UNIVERSITA DEGLI STUDI DI FERRARA (IT)"}, {"color": "gray", "id": "org_970332420", "label": "WARRANT HUB SPA", "shape": "dot", "size": 8, "title": "WARRANT HUB SPA (IT)"}]);
+                  edges = new vis.DataSet([{"color": "#cccccc", "from": "project_101114805", "to": "org_921767430"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_894633814"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_910945140"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_998597056"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_999981731"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_957768495"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_999497992"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_951375807"}, {"color": "#cccccc", "from": "project_101114805", "to": "org_884690247"}, {"color": "#cccccc", "from": "project_101090315", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_935384096"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_887125335"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_913462678"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_998802502"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_999587135"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_999646014"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_911160189"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_893840548"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_985464226"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_999981731"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_993052051"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_986039630"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_948603450"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_999824009"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_887040266"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_999857183"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_891143657"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_885535796"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_909889683"}, {"color": "#cccccc", "from": "project_101086110", "to": "org_999643492"}, {"color": "#cccccc", "from": "project_101180614", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_998498795"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_962666316"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999603916"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_998325941"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999866883"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_949984148"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_951879431"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999900833"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_974802471"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999981731"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_919873408"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999887253"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999976202"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999518944"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999895595"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_999452596"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_998222539"}, {"color": "#cccccc", "from": "project_101073954", "to": "org_888533387"}, {"color": "#cccccc", "from": "project_101061630", "to": "org_885855508"}, {"color": "#cccccc", "from": "project_101061630", "to": "org_999867659"}, {"color": "#cccccc", "from": "project_101061630", "to": "org_999587135"}, {"color": "#cccccc", "from": "project_101061630", "to": "org_998078203"}, {"color": "#cccccc", "from": "project_101061630", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101061630", "to": "org_957048367"}, {"color": "#cccccc", "from": "project_101061630", "to": "org_946846683"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_950850455"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_998868171"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_999685687"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_998749249"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_999524279"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_906333081"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_891045396"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_998796682"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_903358673"}, {"color": "#cccccc", "from": "project_101086305", "to": "org_999897729"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_889887604"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_950850455"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_999903840"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_894234562"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_946753369"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_999885895"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_906446765"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_998796682"}, {"color": "#cccccc", "from": "project_101086258", "to": "org_999897729"}, {"color": "#cccccc", "from": "project_101109609", "to": "org_999897535"}, {"color": "#cccccc", "from": "project_101109609", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_999645238"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_996254021"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_999856310"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_886837633"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_999984059"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_999604110"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_974614388"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_901020003"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_999975911"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_910945140"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_886680008"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_937111860"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_887233296"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_921384086"}, {"color": "#cccccc", "from": "project_101091812", "to": "org_999543776"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999604110"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_985884333"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999995602"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999866592"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999979500"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999587038"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_888321539"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_929362433"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_886572047"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999940991"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999976978"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_891747870"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999864846"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_997904476"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_882794770"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_887069948"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_923854288"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_898214569"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_999839626"}, {"color": "#cccccc", "from": "project_101096368", "to": "org_970332420"}, {"color": "#cccccc", "from": "project_101043219", "to": "org_999866592"}, {"color": "black", "from": "project_101042402", "to": "org_999866592"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -30,
+            "springConstant": 0.05,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
