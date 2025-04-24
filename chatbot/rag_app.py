@@ -118,14 +118,14 @@ def create_chain():
 
 def load_metadata(project_id):
     project_df = pd.read_csv('../horizon-dataset/cleaned-data/projects.csv')
-    project_df = project_df[project_df['project_id'] == project_id]
+    project_df = project_df[project_df['id'] == project_id]
     project_name = project_df.title.values[0]
     description = project_df.objective.values[0]
     return project_name, description
 
 # question = st.chat_input()
 chain = create_chain()
-project_id = 101063575
+project_id = 101039226
 project_name, description = load_metadata(project_id)
 
 # Initialize chat history in session state if not present
