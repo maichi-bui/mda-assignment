@@ -1,0 +1,7 @@
+streamlit
+pandas
+whoosh
+pyvis
+folium
+openpyxl
+streamlit_folium
