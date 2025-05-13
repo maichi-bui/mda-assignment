@@ -66,6 +66,23 @@ class Retriever:
         if hasattr(result, 'data'):
             return result.data
         return []
+    
+    def get_similar_project(self, project_id: int, k: int = 5)-> List[Dict[str, Any]]:
+        """Retrieve top similar projects"""
+        # Build the query with project_id filter
+        query_builder = self.supabase.rpc(
+            'match_project_id',  # Your Supabase function name
+            {
+                'prj_id': project_id,
+                'match_count': k
+            }
+        )
+        # Execute the query
+        result = query_builder.execute()
+        if hasattr(result, 'data'):
+            return result.data
+        return []
+
 
 def create_chain():
     retriever = Retriever()
@@ -123,11 +140,20 @@ def load_metadata(project_id):
     description = project_df.objective.values[0]
     return project_name, description
 
+def load_similar_prj(project_id):
+    retriever = Retriever()
+    similar_projects = retriever.get_similar_project(project_id)
+    return similar_projects
+
 # question = st.chat_input()
 chain = create_chain()
-project_id = 101039226
+project_id = 101080025
 project_name, description = load_metadata(project_id)
+similar_projects = load_similar_prj(project_id)
 
+st.text_input("Project ID", value=project_id, disabled=True)
+st.text_input("Project Name", value=project_name, disabled=True)
+st.text_input("Projects Similar", value=similar_projects, disabled=True)
 # Initialize chat history in session state if not present
 if "messages" not in st.session_state:
     st.session_state.messages = []
