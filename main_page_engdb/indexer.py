@@ -32,7 +32,7 @@ import os
 #base_path = os.path.dirname(os.path.abspath(__file__))
 #csv_file = os.path.join(base_path, 'project.csv')
 #df = pd.read_csv(csv_file, dtype=str, encoding="utf-8-sig")
-df = pd.read_csv("proj.geo.csv", dtype=str, encoding="utf-8-sig")
+df = pd.read_csv("project_geo.csv", dtype=str, encoding="utf-8-sig")
 
 # ⚠️ 填充缺失值，避免报错
 df.fillna("", inplace=True)

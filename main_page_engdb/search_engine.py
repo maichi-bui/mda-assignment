@@ -23,8 +23,8 @@ def app():
     st.title("Welcome to the Search Engine Page")
     st.write("This is the Search Engine section.")
     # 读取项目和组织数据
-    project_df = pd.read_csv(r'C:\Users\lu\Desktop\KUL semester2\mda\mda-assignment\main_page_engdb\proj.geo.csv', encoding="utf-8-sig")  # change to your path
-    org_df = pd.read_csv(r'C:\Users\lu\Desktop\KUL semester2\mda\mda-assignment\main_page_engdb\organization.csv', encoding="utf-8-sig")  # change to your path
+    project_df = pd.read_csv('project_geo.csv', encoding="utf-8-sig")  # change to your path
+    org_df = pd.read_csv('organization.csv', encoding="utf-8-sig")  # change to your path
 
     # 页面配置
     #st.set_page_config(page_title="EU Project Search Engine", page_icon="🔍")

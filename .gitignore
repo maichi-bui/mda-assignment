@@ -180,4 +180,5 @@ chatbot/figures/*
 chatbot/pdfs/*
 !chatbot/pdfs/.gitkeep
 !chatbot/figures/.gitkeep
+main_page_engdb/indexdir/*
 *.csv

@@ -6,10 +6,7 @@ from streamlit_folium import st_folium
 import os
 import matplotlib.pyplot as plt
 import os
-#os.chdir("C:/Users/lu/Desktop/KUL semester2/mda/EngineDashboard")
 
-#import sys
-#sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 def app():
     st.title("Welcome to the Dashboard Page")
@@ -77,49 +74,25 @@ def app():
     # Load data - modified to preserve all original columns
     @st.cache_data
     def load_data():
-        try:
-            df = pd.read_csv("proj.geo.csv")
-            
-            # Preserve all original columns without stripping
-            original_columns = df.columns.tolist()
-            
-            # Check required columns exist
-            required_columns = {'country', 'totalCost', 'ecSignatureDate'}
-            missing_cols = required_columns - set(col.strip() for col in original_columns)
-            if missing_cols:
-                st.warning(f"Missing required columns: {missing_cols}")
-            
-            # Convert data types for known columns
-            if 'totalCost' in df.columns:
-                df['totalCost'] = pd.to_numeric(df['totalCost'], errors='coerce')
-            if 'ecSignatureDate' in df.columns:
-                df['ecSignatureDate'] = pd.to_datetime(df['ecSignatureDate'], errors='coerce')
-            
-            # Country name mapping
-            if 'country' in df.columns:
-                df['country'] = df['country'].map(country_mapping).fillna(df['country'])
-            
-            return df, original_columns
-        except Exception as e:
-            st.error(f"Failed to load data: {str(e)}")
-            return pd.DataFrame(), []
-
-    # Load data and get original columns
-    df, original_columns = load_data()
-
+        df = pd.read_csv("project_geo.csv")
+        df['ecSignatureDate'] = pd.to_datetime(df['ecSignatureDate'], errors='coerce')
+        return df
+    
+    df_europe = load_data()
+    original_columns = df_europe.columns.tolist()
     # Filter European countries
-    df_europe = df[df['country'].isin(european_countries)] if not df.empty else pd.DataFrame()
+    # df_europe = df[df['country'].isin(european_countries)] if not df.empty else pd.DataFrame()
 
-    if df_europe.empty:
-        st.warning("No research project data found for European countries!")
-        st.stop()
+    # if df_europe.empty:
+    #     st.warning("No research project data found for European countries!")
+    #     st.stop()
 
     # Country detail page - modified to show all columns
     def show_country_detail(country_name):
         st.subheader(f"📊 {country_name} - Project Details")
         
         # Get country data with all original columns
-        country_data = df_europe[df_europe['country'] == country_name].copy()
+        country_data = df_europe[df_europe['country'] == country_name]
         
         # Basic info
         cols = st.columns(3)
@@ -202,7 +175,7 @@ def app():
         st.title("🌍 European Research Project Distribution")
         
         # Count projects by country
-        country_counts = df_europe['country'].value_counts().reset_index()
+        country_counts = pd.read_csv("country_count.csv")
         country_counts.columns = ['country', 'count']
         
         # Create map
