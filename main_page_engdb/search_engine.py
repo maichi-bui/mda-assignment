@@ -3,17 +3,19 @@ from searcher import search_projects
 from create_network import create_project_network
 import pandas as pd
 
+if 'button' not in st.session_state:
+    st.session_state.button = False
+
+def click_button():
+    st.session_state.button = not st.session_state.button
+
 def app():
     st.title("Welcome to the Search Engine Page")
     st.write("This is the Search Engine section.")
-    # 读取项目和组织数据
+    
     project_df = pd.read_csv('project_geo.csv', encoding="utf-8-sig")
     org_df = pd.read_csv('organization.csv', encoding="utf-8-sig") 
 
-    # 页面配置
-    #st.set_page_config(page_title="EU Project Search Engine", page_icon="🔍")
-
-    # 初始化 Session State
     if "selected_project_id" not in st.session_state:
         st.session_state.selected_project_id = None
     if "page" not in st.session_state:
@@ -48,7 +50,7 @@ def app():
                 truncated_objective = r['objective'][:100] + "..." if len(r['objective']) > 100 else r['objective']
                 st.write(f"Objective: {truncated_objective}")
 
-                if st.button(f"View Details: {r['projectID']}", key=f"view_{r['projectID']}_{index}"):
+                if st.button(f"View Details: {r['projectID']}", key=f"view_{r['projectID']}_{index}", on_click=click_button):
                     st.session_state.selected_project_id = r['projectID']
                     st.session_state.page = "📄 Project Detail"
 
@@ -81,7 +83,6 @@ def app():
             **EU Contribution:** €{project['ecMaxContribution']}  
             **Topics:** {project['topics']}  
             **Funding Scheme:** {project['fundingScheme']}
-            
             **DOI:** [https://doi.org/{project['grantDoi']}](https://doi.org/{project['grantDoi']})
             """)
 
@@ -99,11 +100,11 @@ def app():
             # 筛选参与组织
             participating_orgs = org_df[org_df['projectID'] == project_id]
 
-            # 调试信息
-            print(f"Selected Project ID: {project_id}")
-            print(f"Number of matching organizations: {len(participating_orgs)}")
-            print("Sample data in participating_orgs:")
-            print(participating_orgs.head())
+            # # 调试信息
+            # print(f"Selected Project ID: {project_id}")
+            # print(f"Number of matching organizations: {len(participating_orgs)}")
+            # print("Sample data in participating_orgs:")
+            # print(participating_orgs.head())
 
             # 显示组织信息表格
             if participating_orgs.empty:
@@ -124,6 +125,6 @@ def app():
             st.components.v1.html(html_content, height=600, scrolling=True)
 
     # 控制台状态提示
-    print("✅ app.py is running the latest version")
+    # print("✅ app.py is running the latest version")
 
 

@@ -171,7 +171,7 @@ cython_debug/
 .pypirc
 
 # notebook draft files
-# notebook/*
+*.ipynb
 .DS_Store
 .log
 *.sh
@@ -181,4 +181,4 @@ chatbot/pdfs/*
 !chatbot/pdfs/.gitkeep
 !chatbot/figures/.gitkeep
 main_page_engdb/indexdir/*
-*.csv
+main_page_engdb/output/*

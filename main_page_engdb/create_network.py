@@ -45,28 +45,30 @@ def create_project_network(project_id, org_df, output_folder='output/networks'):
     )
 
     # 当前项目的所有组织
-    current_orgs = org_df[org_df['projectID'] == project_id]['organisationID'].unique()
+    current_orgs = org_df[org_df['projectID'] == project_id]['organisationID'].unique().tolist()
 
     # 这些组织还参与了哪些项目（邻近项目）
-    neighbor_projects = org_df[org_df['organisationID'].isin(current_orgs)]['projectID'].unique()
+    neighbor_projects = org_df[org_df['organisationID'].isin(current_orgs)]['projectID'].unique().tolist()
 
     # 邻近项目涉及的组织
-    neighbor_orgs = org_df[org_df['projectID'].isin(neighbor_projects)]['organisationID'].unique()
-
+    if len(neighbor_projects) < 3:
+        neighbor_orgs = org_df[org_df['projectID'].isin(neighbor_projects)]['organisationID'].unique().tolist()
+    else:
+        neighbor_orgs = current_orgs
     # 子图数据（只保留相关组织和项目）
     sub_df = org_df[
         org_df['projectID'].isin(neighbor_projects) &
-        org_df['organisationID'].isin(neighbor_orgs)
-    ]
+        org_df['organisationID'].isin(current_orgs)
+    ][['projectID', 'organisationID']].drop_duplicates()
 
-    # 添加项目节点
+    # Add neighbor projects to the network
     for pid in neighbor_projects:
         net.add_node(f"project_{pid}",
                      label=f"Project {pid}",
                      color='red' if pid == project_id else 'lightgray',
                      shape='star',
                      size=20 if pid == project_id else 10)
-
+    
     # 添加组织节点
     for org_id in neighbor_orgs:
         org_rows = org_df[org_df['organisationID'] == org_id].iloc[0]

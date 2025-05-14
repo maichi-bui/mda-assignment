@@ -155,7 +155,7 @@ def app():
         show_cols = ['projectID','acronym', 'title', 'objective','endDate','status', 'project_totalCost', 'ecSignatureDate', 'ecMaxContribution']
         cols_label= ['Project ID', 'Acronym', 'Title', 'Objective', 'End Date', 'Status', 'Total Cost (EUR)', 'Signature Date', 'Max Contribution (EUR)']
         zip_cols = dict(zip(show_cols, cols_label))
-        show_df = country_data[show_cols].drop_duplicates().rename(columns=zip_cols)
+        show_df = country_data[show_cols].drop_duplicates().rename(columns=zip_cols).set_index('Project ID')
         
         st.dataframe(show_df, use_container_width=True)
         
@@ -168,7 +168,7 @@ def app():
         st.title("🌍 European Research Project Distribution")
         
         # Count projects by country
-        heat_data = pd.read_csv("country_count.csv")
+        heat_data = pd.read_csv("../analysis-results/country_count.csv")
         
         # Create map
         m = folium.Map(location=[54.5260, 15.2551], zoom_start=4, tiles='CartoDB positron')

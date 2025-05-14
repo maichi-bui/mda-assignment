@@ -5,7 +5,7 @@ import search_engine
 import ai_tool
 
 # 只能调用一次，且必须放在最上方
-st.set_page_config(page_title="AI Toolkit", layout="wide")
+st.set_page_config(page_title="HORIZON EU DATA EXPLORER", layout="wide")
 
 # 侧边栏导航
 st.sidebar.title("Navigation")
