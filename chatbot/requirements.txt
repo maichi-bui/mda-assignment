@@ -1,7 +1,8 @@
 setuptools
 langchain_core
 langchain_community
-langchain_ollama
 pdfplumber
 langdetect
-unstructured[pdf]
+supabase
+google-genai
+langchain_google_genai

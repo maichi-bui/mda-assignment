@@ -1,93 +1,190 @@
 import os
-
+from dotenv import load_dotenv
 import streamlit as st
+import pandas as pd
+from typing import Optional, List, Dict, Any
+from supabase import create_client
+from langchain_core.output_parsers import StrOutputParser
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.vectorstores import InMemoryVectorStore
-from langchain_ollama import OllamaEmbeddings
-from langchain_ollama.llms import OllamaLLM
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from unstructured.partition.pdf import partition_pdf
-from unstructured.partition.utils.constants import PartitionStrategy
 
-template = """
-You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
-Question: {question} 
-Context: {context} 
-Answer:
-"""
+load_dotenv()
 
-pdfs_directory = 'chatbot/pdfs/'
-figures_directory = 'chatbot/figures/'
 
-embeddings = OllamaEmbeddings(model='nomic-embed-text')
-vector_store = InMemoryVectorStore(embeddings)
+class Retriever:
+    def __init__(self):
+        # Initialize clients
+        self.supabase_url = os.getenv("SUPABASE_URL")
+        self.supabase_key = os.getenv("SUPABASE_KEY")
+        self.google_api_key = os.getenv("GEMINI_API_KEY")
+        
+        self.supabase = create_client(self.supabase_url, self.supabase_key)
+        self.embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/text-embedding-004", 
+            google_api_key=self.google_api_key
+        )
+        
+        # Cache for embeddings to avoid duplicate API calls
+        self.embedding_cache = {}
+    
+    def get_embedding(self, text: str) -> List[float]:
+        """Get embedding with caching to minimize API calls"""
+        if text in self.embedding_cache:
+            return self.embedding_cache[text]
+        
+        embedding = self.embeddings.embed_query(text)
+        self.embedding_cache[text] = embedding
+        return embedding
+    
+    def retrieve_documents(
+        self,
+        query: str,
+        project_id: int,
+        k: int = 10,
+        score_threshold: Optional[float] = None
+    ) -> List[Dict[str, Any]]:
+        """Retrieve documents filtered by project_id with optional score threshold"""
+        # Get query embedding
+        query_embedding = self.get_embedding(query)
+        
+        # Build the query with project_id filter
+        query_builder = self.supabase.rpc(
+            'match_documents',  # Your Supabase function name
+            {
+                'query_embedding': query_embedding,
+                'match_count': k,
+                'filter': {'project_id': project_id}  # Add project filter
+            }
+        )
+        
+        if score_threshold:
+            query_builder.gte('similarity', score_threshold)
+        
+        # Execute the query
+        result = query_builder.execute()
+        
+        if hasattr(result, 'data'):
+            return result.data
+        return []
+    
+    def get_similar_project(self, project_id: int, k: int = 5)-> List[Dict[str, Any]]:
+        """Retrieve top similar projects"""
+        # Build the query with project_id filter
+        query_builder = self.supabase.rpc(
+            'match_project_id',  # Your Supabase function name
+            {
+                'prj_id': project_id,
+                'match_count': k
+            }
+        )
+        # Execute the query
+        result = query_builder.execute()
+        if hasattr(result, 'data'):
+            return result.data
+        return []
 
-model = OllamaLLM(model="gemma3:1b")
 
-def upload_pdf(file):
-    with open(pdfs_directory + file.name, "wb") as f:
-        f.write(file.getbuffer())
-
-def load_pdf(file_path):
-    elements = partition_pdf(
-        file_path,
-        strategy=PartitionStrategy.HI_RES,
-        extract_image_block_types=["Image", "Table"],
-        extract_image_block_output_dir=figures_directory
-    )
-
-    text_elements = [element.text for element in elements if element.category not in ["Image", "Table"]]
-
-    for file in os.listdir(figures_directory):
-        extracted_text = extract_text(figures_directory + file)
-        text_elements.append(extracted_text)
-
-    return "\n\n".join(text_elements)
-
-def extract_text(file_path):
-    model_with_image_context = model.bind(images=[file_path])
-    return model_with_image_context.invoke("Tell me what do you see in this picture.")
-
-def split_text(text):
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
-        add_start_index=True
-    )
-
-    return text_splitter.split_text(text)
-
-def index_docs(texts):
-    vector_store.add_texts(texts)
-
-def retrieve_docs(query):
-    return vector_store.similarity_search(query)
-
-def answer_question(question, documents):
-    context = "\n\n".join([doc.page_content for doc in documents])
+def create_chain():
+    retriever = Retriever()
+    
+    # Define prompt template
+    template = """You are an assistant for project {project_name}.
+    Project description: {description}. 
+    Recent conversation history:
+    {chat_history}
+    Answer the question based on both the context below and our conversation history:
+    {context}
+    
+    Question: {question}
+    
+    Provide a concise answer
+    If you don't know the answer or there is no context, just say that you don't know, do not hallucinate
+    """
     prompt = ChatPromptTemplate.from_template(template)
-    chain = prompt | model
+    
+    # Initialize Gemini
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash-001",
+        google_api_key=os.getenv("GEMINI_API_KEY"),
+        temperature=0.3  # Lower for more factual responses
+    )
+    
+    # Create the chain with project_id parameter
+    chain = (
+        {
+            "context": lambda params: "\n\n".join(
+                f"Document {i+1}:\n{doc['content']}" 
+                for i, doc in enumerate(
+                    retriever.retrieve_documents(
+                        params["question"],
+                        params["project_id"]
+                    )
+                )
+            ),
+            "description": lambda params: params["description"],
+            "question": lambda params: params["question"],
+            "project_name": lambda params: params["project_name"],
+            "chat_history": lambda params: params["chat_history"],
+        }
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+    
+    return chain
 
-    return chain.invoke({"question": question, "context": context})
+def load_metadata(project_id):
+    project_df = pd.read_csv('../horizon-dataset/cleaned-data/projects.csv')
+    project_df = project_df[project_df['id'] == project_id]
+    project_name = project_df.title.values[0]
+    description = project_df.objective.values[0]
+    return project_name, description
 
-uploaded_file = st.file_uploader(
-    "Upload PDF",
-    type="pdf",
-    accept_multiple_files=False
-)
+def load_similar_prj(project_id):
+    retriever = Retriever()
+    similar_projects = retriever.get_similar_project(project_id)
+    return similar_projects
 
-if uploaded_file:
-    upload_pdf(uploaded_file)
-    text = load_pdf(pdfs_directory + uploaded_file.name)
-    chunked_texts = split_text(text)
-    index_docs(chunked_texts)
+# question = st.chat_input()
+chain = create_chain()
+project_id = 101080025
+project_name, description = load_metadata(project_id)
+similar_projects = load_similar_prj(project_id)
 
-    question = st.chat_input()
+st.text_input("Project ID", value=project_id, disabled=True)
+st.text_input("Project Name", value=project_name, disabled=True)
+st.text_input("Projects Similar", value=similar_projects, disabled=True)
+# Initialize chat history in session state if not present
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-    if question:
-        st.chat_message("user").write(question)
-        related_documents = retrieve_docs(question)
-        answer = answer_question(question, related_documents)
-        st.chat_message("assistant").write(answer)
+# Display chat messages from history
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
-
+# Chat input
+if question := st.chat_input("Ask about the project..."):
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": question})
+    
+    # Display user message
+    with st.chat_message("user"):
+        st.markdown(question)
+    
+    # Generate RAG response
+    with st.spinner("Thinking..."):
+        response = chain.invoke({
+            "question": question,
+            "project_id": project_id,
+            "project_name": project_name,
+            "description": description,
+            "chat_history": "\n".join([msg["content"] for msg in st.session_state.messages if msg["role"] == "assistant"][-3:])  # Last 3 assistant messages
+        })
+    
+    # Display assistant response
+    with st.chat_message("assistant"):
+        st.markdown(response)
+    
+    # Add assistant response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": response})

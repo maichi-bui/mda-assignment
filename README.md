@@ -31,7 +31,6 @@ A simple Streamlit app template for you to modify!
 
    
    ```
-   $ curl -fsSL https://ollama.com/install.sh | sh
    $ pip install -r requirements.txt
    ```
 
