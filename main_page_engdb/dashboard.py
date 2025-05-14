@@ -3,14 +3,10 @@ import pandas as pd
 import folium
 from folium.plugins import HeatMap
 from streamlit_folium import st_folium
-import os
-import matplotlib.pyplot as plt
-import os
-
 
 def app():
     st.title("Welcome to the Dashboard Page")
-    st.write("This is the Dashboard section.")
+    # st.write("This is the Dashboard section.")
     # Page configuration
     #st.set_page_config(layout="wide")
 
@@ -78,34 +74,25 @@ def app():
         df['ecSignatureDate'] = pd.to_datetime(df['ecSignatureDate'], errors='coerce')
         return df
     
-    df_europe = load_data()
-    original_columns = df_europe.columns.tolist()
-    # Filter European countries
-    # df_europe = df[df['country'].isin(european_countries)] if not df.empty else pd.DataFrame()
-
-    # if df_europe.empty:
-    #     st.warning("No research project data found for European countries!")
-    #     st.stop()
+    df_europe = load_data()    
 
     # Country detail page - modified to show all columns
     def show_country_detail(country_name):
         st.subheader(f"📊 {country_name} - Project Details")
+        # selected_cols = ['projectID','acronym', 'title', 'objective','endDate','status', 'totalCost', 'ecSignatureDate', 'ecMaxContribution']
         
         # Get country data with all original columns
-        country_data = df_europe[df_europe['country'] == country_name]
-        
+        country_data = df_europe[df_europe['country'] == country_name]#[selected_cols].drop_duplicates()
+        country_data.projectID = country_data.projectID.astype(str)
         # Basic info
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Total Projects", country_data.shape[0])
+            st.metric("Total Projects", country_data['projectID'].nunique())
         
         with cols[1]:
-            if 'totalCost' in country_data.columns:
-                avg_cost = country_data['totalCost'].mean()
-                st.metric("Average Cost", f"€{avg_cost:,.2f}" if not pd.isna(avg_cost) else "N/A")
-            else:
-                st.metric("Average Cost", "Data not available")
-        
+            total_cost = country_data['totalCost'].sum()/1000000 
+            st.metric("Total Cost (million EUR)", f"€{total_cost:,.2f}")
+
         with cols[2]:
             if 'ecSignatureDate' in country_data.columns:
                 earliest_year = pd.to_datetime(country_data['ecSignatureDate']).min().year
@@ -117,7 +104,8 @@ def app():
         if 'ecSignatureDate' in country_data.columns:
             st.write("### Project Distribution by Year-Month")
             country_data['year_month'] = country_data['ecSignatureDate'].dt.to_period('M').astype(str)
-            monthly_counts = country_data['year_month'].value_counts().sort_index()
+            country_data = country_data[country_data['year_month'] != 'NaT']
+            monthly_counts = country_data.groupby('year_month')['projectID'].nunique()
             
             tab1, tab2 = st.tabs(["Project Count", "Total Cost"])
             
@@ -162,9 +150,14 @@ def app():
                 selected_status = st.selectbox("Filter by Status", status_options)
                 if selected_status != 'All':
                     country_data = country_data[country_data['status'] == selected_status]
+        # Display SELECTED columns from the original data
         
-        # Display ALL columns from the original data
-        st.dataframe(country_data, use_container_width=True)
+        show_cols = ['projectID','acronym', 'title', 'objective','endDate','status', 'project_totalCost', 'ecSignatureDate', 'ecMaxContribution']
+        cols_label= ['Project ID', 'Acronym', 'Title', 'Objective', 'End Date', 'Status', 'Total Cost (EUR)', 'Signature Date', 'Max Contribution (EUR)']
+        zip_cols = dict(zip(show_cols, cols_label))
+        show_df = country_data[show_cols].drop_duplicates().rename(columns=zip_cols)
+        
+        st.dataframe(show_df, use_container_width=True)
         
         if st.button("← Back to Map"):
             st.session_state['selected_country'] = None
@@ -175,31 +168,20 @@ def app():
         st.title("🌍 European Research Project Distribution")
         
         # Count projects by country
-        country_counts = pd.read_csv("country_count.csv")
-        country_counts.columns = ['country', 'count']
+        heat_data = pd.read_csv("country_count.csv")
         
         # Create map
         m = folium.Map(location=[54.5260, 15.2551], zoom_start=4, tiles='CartoDB positron')
-        
-        # Prepare heatmap data
-        heat_data = []
-        for _, row in country_counts.iterrows():
-            country = row['country']
-            count = row['count']
-            if country in country_coords:
-                lat, lon = country_coords[country]
-                heat_data.append([lat, lon, count])
-        
         # Add heatmap
-        if heat_data:
-            HeatMap(heat_data, radius=20, blur=15, min_opacity=0.3, max_zoom=1).add_to(m)
+        
+        HeatMap(heat_data[['lat','lng','count']], radius=20, blur=15, min_opacity=0.3, max_zoom=1).add_to(m)
         
         # Add clickable country markers
-        for point in heat_data:
-            country = country_counts[country_counts['count'] == point[2]]['country'].values[0]
+        for point in heat_data.to_dict(orient='records'):
+            country = point['country']
             folium.Marker(
-                location=[point[0], point[1]],
-                popup=folium.Popup(f"<b>{country}</b><br>{point[2]} projects", max_width=200),
+                location=[point['lat'], point['lng']],
+                popup=folium.Popup(f"<b>{country}</b><br>{point['count']} projects", max_width=200),
                 tooltip=f"Click for {country} details",
                 icon=folium.Icon(color='blue', icon='info-sign')
             ).add_to(m)
@@ -220,21 +202,19 @@ def app():
             # Find nearest country
             min_distance = float('inf')
             selected_country = None
-            
-            for country, coords in country_coords.items():
-                if country in country_counts['country'].values:
-                    distance = (coords[0] - click_lat)**2 + (coords[1] - click_lon)**2
-                    if distance < min_distance:
-                        min_distance = distance
-                        selected_country = country
-            
-            if selected_country and min_distance < 1.0:  # Reasonable distance threshold
+            for point in heat_data.to_dict(orient='records'):
+                distance = (point['lat'] - click_lat)**2 + (point['lng'] - click_lon)**2
+                if distance < min_distance:
+                    min_distance = distance
+                    selected_country = point['country']
+        
+            if selected_country and min_distance < 5:  # Reasonable distance threshold
                 st.session_state['selected_country'] = selected_country
                 st.rerun()
         
         # Show data table
         with st.expander("View Country Statistics"):
-            st.dataframe(country_counts.sort_values('count', ascending=False), 
+            st.dataframe(heat_data.sort_values('count', ascending=False), 
                         use_container_width=True)
 
     # Initialize session state

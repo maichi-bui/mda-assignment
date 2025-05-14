@@ -1,30 +1,14 @@
 import streamlit as st
-import streamlit.components.v1 as components
 from searcher import search_projects
 from create_network import create_project_network
 import pandas as pd
-import os
-import sys
-#sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-import streamlit as st
-import pandas as pd
-import folium
-from folium.plugins import HeatMap
-from streamlit_folium import st_folium
-import os
-import matplotlib.pyplot as plt
-import os
-#os.chdir("C:/Users/lu/Desktop/KUL semester2/mda/EngineDashboard")
-#import sys
-#sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 def app():
     st.title("Welcome to the Search Engine Page")
     st.write("This is the Search Engine section.")
     # 读取项目和组织数据
-    project_df = pd.read_csv('project_geo.csv', encoding="utf-8-sig")  # change to your path
-    org_df = pd.read_csv('organization.csv', encoding="utf-8-sig")  # change to your path
+    project_df = pd.read_csv('project_geo.csv', encoding="utf-8-sig")
+    org_df = pd.read_csv('organization.csv', encoding="utf-8-sig") 
 
     # 页面配置
     #st.set_page_config(page_title="EU Project Search Engine", page_icon="🔍")
@@ -93,12 +77,11 @@ def app():
             ### {project['title']} ({project['acronym']})
             **Status:** {project['status']}  
             **Duration:** {project['startDate']} to {project['endDate']}  
-            **Total Cost:** €{project['totalCost.x']}  
+            **Total Cost:** €{project['totalCost']}  
             **EU Contribution:** €{project['ecMaxContribution']}  
             **Topics:** {project['topics']}  
-            **Framework Programme:** {project['frameworkProgramme']}  
-            **Funding Scheme:** {project['fundingScheme']}  
-            **RCN:** {project['rcn']}  
+            **Funding Scheme:** {project['fundingScheme']}
+            
             **DOI:** [https://doi.org/{project['grantDoi']}](https://doi.org/{project['grantDoi']})
             """)
 
