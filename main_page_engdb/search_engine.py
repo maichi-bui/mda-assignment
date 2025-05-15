@@ -12,10 +12,7 @@ def click_button():
 def app():
     st.title("Welcome to the Search Engine Page")
     st.write("This is the Search Engine section.")
-    
-    project_df = pd.read_csv('project_geo.csv', encoding="utf-8-sig")
-    org_df = pd.read_csv('organization.csv', encoding="utf-8-sig") 
-
+     
     if "selected_project_id" not in st.session_state:
         st.session_state.selected_project_id = None
     if "page" not in st.session_state:
@@ -56,18 +53,20 @@ def app():
 
     # 详情页
     elif st.session_state.page == "📄 Project Detail":
+        
+        org_df = pd.read_csv('organization.csv', encoding="utf-8-sig") 
+
         st.title("📄 Project Details")
 
         # 获取选中的项目 ID
         project_id = st.session_state.selected_project_id
         st.subheader(f"Project ID: {project_id}")
 
-        # 确保数据类型一致
-        project_df['projectID'] = project_df['projectID'].astype(str)
-        project_id = str(project_id)
-
-        # 获取项目详细信息
-        filtered_project = project_df[project_df['projectID'] == project_id]
+        filtered_project = pd.read_csv('project_geo.csv', encoding="utf-8-sig")
+        filtered_project['projectID'] = filtered_project['projectID'].astype(str)
+        filtered_project = filtered_project[filtered_project['projectID'] == project_id]
+        
+        
         if filtered_project.empty:
             st.error(f"No project found with Project ID: {project_id}")
             st.stop()  # 停止执行后续代码
@@ -84,6 +83,7 @@ def app():
             **Topics:** {project['topics']}  
             **Funding Scheme:** {project['fundingScheme']}
             **DOI:** [https://doi.org/{project['grantDoi']}](https://doi.org/{project['grantDoi']})
+            ###
             """)
 
             # 显示项目目标
