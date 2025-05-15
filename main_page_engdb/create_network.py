@@ -41,7 +41,7 @@ def create_project_network(project_id, org_df, output_folder='output/networks'):
         )
     # Define role-specific edge styles
     role_styles = {
-        'coordinator': {'color': '#ff0000', 'width': 4, 'dashes': False, 'arrow': 'to'},
+        'coordinator': {'color': '#ff0000', 'width': 2, 'dashes': False, 'arrow': 'to'},
         'associatedPartner': {'color': '#0000ff', 'width': 2, 'dashes': [5,5], 'arrow': 'to'}
     }
 
@@ -79,9 +79,9 @@ def create_project_network(project_id, org_df, output_folder='output/networks'):
         pid = row['projectID']
         
         net.add_node(f"project_{pid}",
-                    label=f"Project {pid}",
                     color='red' if pid == project_id else 'lightgray',
                     shape='star',
+                    label = row['projectAcronym'],
                     size=20 if pid == project_id else 10)
         
         org_id = row['organisationID']
@@ -103,13 +103,13 @@ def create_project_network(project_id, org_df, output_folder='output/networks'):
 
     # 生成HTML内容（改这里！自己生成，不用 net.save_graph）
     html_content = net.generate_html()
-
+    
     # 保存HTML到指定文件
-    network_html_path = os.path.join(output_folder, f"network_{project_id}.html")
-    with open(network_html_path, 'w', encoding='utf-8') as f:
-        f.write(html_content)
+    # network_html_path = os.path.join(output_folder, f"network_{project_id}.html")
+    # with open(network_html_path, 'w', encoding='utf-8') as f:
+    #     f.write(html_content)
 
-    return network_html_path
+    return html_content
 
 
 

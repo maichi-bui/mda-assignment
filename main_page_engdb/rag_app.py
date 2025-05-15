@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 import streamlit as st
 import pandas as pd
 from typing import Optional, List, Dict, Any
@@ -8,15 +7,14 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 
-load_dotenv()
-
 
 class Retriever:
     def __init__(self):
+        
         # Initialize clients
-        self.supabase_url = os.getenv("SUPABASE_URL")
-        self.supabase_key = os.getenv("SUPABASE_KEY")
-        self.google_api_key = os.getenv("GEMINI_API_KEY")
+        self.supabase_url = st.secrets["supabase"]["SUPABASE_URL"]
+        self.supabase_key = st.secrets["supabase"]["SUPABASE_KEY"]
+        self.google_api_key = st.secrets["gemini"]["GEMINI_API_KEY"]
         
         self.supabase = create_client(self.supabase_url, self.supabase_key)
         self.embeddings = GoogleGenerativeAIEmbeddings(
@@ -145,46 +143,43 @@ def load_similar_prj(project_id):
     similar_projects = retriever.get_similar_project(project_id)
     return similar_projects
 
-# question = st.chat_input()
-chain = create_chain()
-project_id = 101080025
-project_name, description = load_metadata(project_id)
-similar_projects = load_similar_prj(project_id)
+def chat_app(project_id: int, project_name: str, description: str):
 
-st.text_input("Project ID", value=project_id, disabled=True)
-st.text_input("Project Name", value=project_name, disabled=True)
-st.text_input("Projects Similar", value=similar_projects, disabled=True)
-# Initialize chat history in session state if not present
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+    chain = create_chain()
+    
+    # project_name, description = load_metadata(project_id)    
 
-# Display chat messages from history
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    # Initialize chat history in session state if not present
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-# Chat input
-if question := st.chat_input("Ask about the project..."):
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": question})
+    # Display chat messages from history
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Chat input
+    if question := st.chat_input("Ask about the project..."):
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": question})
     
-    # Display user message
-    with st.chat_message("user"):
-        st.markdown(question)
-    
-    # Generate RAG response
-    with st.spinner("Thinking..."):
-        response = chain.invoke({
-            "question": question,
-            "project_id": project_id,
-            "project_name": project_name,
-            "description": description,
-            "chat_history": "\n".join([msg["content"] for msg in st.session_state.messages if msg["role"] == "assistant"][-3:])  # Last 3 assistant messages
-        })
-    
-    # Display assistant response
-    with st.chat_message("assistant"):
-        st.markdown(response)
-    
-    # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        # Display user message
+        with st.chat_message("user"):
+            st.markdown(question)
+        
+        # Generate RAG response
+        with st.spinner("Thinking..."):
+            response = chain.invoke({
+                "question": question,
+                "project_id": project_id,
+                "project_name": project_name,
+                "description": description,
+                "chat_history": "\n".join([msg["content"] for msg in st.session_state.messages if msg["role"] == "assistant"][-3:])  # Last 3 assistant messages
+            })
+        
+        # Display assistant response
+        with st.chat_message("assistant"):
+            st.markdown(response)
+        
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": response})

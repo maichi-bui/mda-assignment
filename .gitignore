@@ -182,3 +182,4 @@ chatbot/pdfs/*
 !chatbot/figures/.gitkeep
 main_page_engdb/indexdir/*
 main_page_engdb/output/*
+*.toml

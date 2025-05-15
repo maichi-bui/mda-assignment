@@ -69,9 +69,7 @@ def get_embedding(text):
         
     )
     return response.embeddings[0].values
-        
-    
-
+            
 def send_supabase(chunks, project_id, deliverable_id):
     if len(chunks) > 150:
         print("Documents too long, number of chunks: ", len(chunks))
