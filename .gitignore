@@ -171,11 +171,13 @@ cython_debug/
 .pypirc
 
 # notebook draft files
-# notebook/*
+*.ipynb
 .DS_Store
 .log
 *.sh
+chatbot/chatbot/figures/*
 chatbot/figures/*
 chatbot/pdfs/*
 !chatbot/pdfs/.gitkeep
 !chatbot/figures/.gitkeep
+.streamlit/
