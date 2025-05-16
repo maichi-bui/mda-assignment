@@ -10,7 +10,7 @@ index_dir = "indexdir"
 
 # 📝 定义搜索 schema，仅保留关键字段
 schema = Schema(
-    projectID=ID(stored=True),
+    id=ID(stored=True),
     acronym=TEXT(stored=True, analyzer=StemmingAnalyzer()),
     title=TEXT(stored=True, analyzer=StemmingAnalyzer()),
     objective=TEXT(stored=True, analyzer=StemmingAnalyzer())
@@ -23,7 +23,8 @@ if not os.path.exists(index_dir):
 ix = create_in(index_dir, schema)
 
 # 📊 读取 CSV 文件
-df = pd.read_csv("project_geo.csv", dtype=str, encoding="utf-8-sig")[["projectID", "acronym", "title", "objective"]].drop_duplicates()
+df = pd.read_csv("horizon-dataset/cleaned-data/projects.csv", dtype=str, encoding="utf-8-sig")[["id", "acronym", "title", "objective"]].drop_duplicates()
+df.rename(columns={"id": "projectID"}, inplace=True)
 
 # ⚠️ 填充缺失值，避免报错
 df.fillna("", inplace=True)

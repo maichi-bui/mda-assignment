@@ -180,6 +180,4 @@ chatbot/figures/*
 chatbot/pdfs/*
 !chatbot/pdfs/.gitkeep
 !chatbot/figures/.gitkeep
-main_page_engdb/indexdir/*
-main_page_engdb/output/*
-*.toml
+.streamlit/

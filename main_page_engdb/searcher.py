@@ -4,7 +4,7 @@ from whoosh.query import Or, FuzzyTerm, Prefix, Wildcard, Term
 
 def search_projects(search_term):
     # 1) open the index directory
-    ix = open_dir("indexdir")
+    ix = open_dir("main_page_engdb/indexdir")
 
     # 2) remove trailing wildcards
     term = search_term.rstrip("~*")

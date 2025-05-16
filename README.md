@@ -37,5 +37,6 @@ A simple Streamlit app template for you to modify!
 3. Run the app
 
    ```
-   $ python -m streamlit run app.py
+   $ python main_page_engdb indexer.py
+   $ streamlit run app.py
    ```

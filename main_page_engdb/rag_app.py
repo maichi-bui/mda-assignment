@@ -131,13 +131,6 @@ def create_chain():
     
     return chain
 
-def load_metadata(project_id):
-    project_df = pd.read_csv('../horizon-dataset/cleaned-data/projects.csv')
-    project_df = project_df[project_df['id'] == project_id]
-    project_name = project_df.title.values[0]
-    description = project_df.objective.values[0]
-    return project_name, description
-
 def load_similar_prj(project_id):
     retriever = Retriever()
     similar_projects = retriever.get_similar_project(project_id)

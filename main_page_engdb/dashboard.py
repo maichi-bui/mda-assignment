@@ -6,9 +6,6 @@ from streamlit_folium import st_folium
 
 def app():
     st.title("Welcome to the Dashboard Page")
-    # st.write("This is the Dashboard section.")
-    # Page configuration
-    #st.set_page_config(layout="wide")
 
     # European countries list (keep your original definition)
     european_countries = [
@@ -70,25 +67,26 @@ def app():
     # Load data - modified to preserve all original columns
     @st.cache_data
     def load_data():
-        df = pd.read_csv("project_geo.csv")
-        df['ecSignatureDate'] = pd.to_datetime(df['ecSignatureDate'], errors='coerce')
-        return df
+        project_df = pd.read_csv("horizon-dataset/cleaned-data/projects.csv")
+        project_df['ecSignatureDate'] = pd.to_datetime(project_df['ecSignatureDate'], errors='coerce')
+        org_df = pd.read_csv("horizon-dataset/cleaned-data/organizations.csv")
+        return project_df, org_df
     
-    df_europe = load_data()    
+    
 
     # Country detail page - modified to show all columns
-    def show_country_detail(country_name):
-        st.subheader(f"📊 {country_name} - Project Details")
-        # selected_cols = ['projectID','acronym', 'title', 'objective','endDate','status', 'totalCost', 'ecSignatureDate', 'ecMaxContribution']
-        
+    def show_country_detail(country_code):
+        st.subheader(f"📊 {country_mapping[country_code]} - Project Details")        
+        project_df, org_df = load_data()    
         # Get country data with all original columns
-        country_data = df_europe[df_europe['country'] == country_name]#[selected_cols].drop_duplicates()
+        country_data = org_df[org_df['country'] == country_code]
+        project_df = project_df[project_df['id'].isin(set(country_data['projectID']))]
+        country_data = project_df.rename(columns={'totalCost':'project_totalCost'}).merge(country_data[['projectID','country','totalCost']], left_on='id',right_on='projectID', how='outer')
         country_data.projectID = country_data.projectID.astype(str)
         # Basic info
         cols = st.columns(3)
         with cols[0]:
-            st.metric("Total Projects", country_data['projectID'].nunique())
-        
+            st.metric("Total Projects", country_data['projectID'].nunique())        
         with cols[1]:
             total_cost = country_data['totalCost'].sum()/1000000 
             st.metric("Total Cost (million EUR)", f"€{total_cost:,.2f}")
@@ -168,7 +166,7 @@ def app():
         st.title("🌍 European Research Project Distribution")
         
         # Count projects by country
-        heat_data = pd.read_csv("../analysis-results/country_count.csv")
+        heat_data = pd.read_csv("analysis-results/country_count.csv")
         
         # Create map
         m = folium.Map(location=[54.5260, 15.2551], zoom_start=4, tiles='CartoDB positron')
@@ -206,7 +204,7 @@ def app():
                 distance = (point['lat'] - click_lat)**2 + (point['lng'] - click_lon)**2
                 if distance < min_distance:
                     min_distance = distance
-                    selected_country = point['country']
+                    selected_country = point['code']
         
             if selected_country and min_distance < 5:  # Reasonable distance threshold
                 st.session_state['selected_country'] = selected_country

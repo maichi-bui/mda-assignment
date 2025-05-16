@@ -1,8 +1,8 @@
-import streamlit as st
-from searcher import search_projects
-from create_network import create_project_network
 import pandas as pd
-from rag_app import Retriever, chat_app
+import streamlit as st
+from main_page_engdb.searcher import search_projects
+from main_page_engdb.create_network import create_project_network
+from main_page_engdb.rag_app import Retriever, chat_app
 
 def app():
     
@@ -47,13 +47,15 @@ def app():
         # 获取选中的项目 ID
         project_id = st.session_state.selected_project_id        
 
-        filtered_project = pd.read_csv('project_geo.csv', encoding="utf-8-sig")
+        filtered_project = pd.read_csv("horizon-dataset/cleaned-data/projects.csv", encoding="utf-8-sig")
+        filtered_project.rename(columns={"id": "projectID"}, inplace=True)
         filtered_project['projectID'] = filtered_project['projectID'].astype(str)
         
         
         if filtered_project.empty:
             st.error(f"No project found with Project ID: {project_id}")
             st.stop()  # 停止执行后续代码
+        
         project = filtered_project[filtered_project['projectID'] == project_id].to_dict('records')[0]
         st.title(f"📄 {project['acronym']}")
         st.subheader(f"{project['title']}")    
@@ -71,7 +73,7 @@ def app():
         st.markdown("### Project Objective")
         st.write(project['objective'])
         st.markdown("### Participating Organisations")
-        org_df = pd.read_csv('organization.csv', encoding="utf-8-sig") 
+        org_df = pd.read_csv('analysis-results/organization.csv', encoding="utf-8-sig") 
         org_df['projectID'] = org_df['projectID'].astype(str)
         
         participating_orgs = org_df[org_df['projectID'] == project_id]
@@ -92,7 +94,8 @@ def app():
         
         similar_projects = Retriever().get_similar_project(int(project_id))
         similar_projects = pd.DataFrame(similar_projects)
-        similar_projects['similar_project_id'] = similar_projects['similar_project_id'].astype(str)
-        similar_projects.set_index('similar_project_id', inplace=True)
-        st.dataframe(similar_projects.rename(columns={'similar_project_id':'Project ID','title':"Title"}), use_container_width=True)
+        similar_projects['similar_project_id'] = similar_projects['similar_project_id'].astype(str)        
+        similar_projects.rename(columns={'similar_project_id':'Project ID','title':"Title"}, inplace=True)
+        similar_projects.set_index('Project ID', inplace=True)
+        st.dataframe(similar_projects, use_container_width=True)
 

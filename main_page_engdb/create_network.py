@@ -1,11 +1,9 @@
 from pyvis.network import Network
-import pandas as pd
-import os
 from random import sample
 
 LIMIT_NODE = 60
-def create_project_network(project_id, org_df, output_folder='output/networks'):
-    os.makedirs(output_folder, exist_ok=True)
+
+def create_project_network(project_id, org_df):
 
     net = Network(height='600px', width='100%', notebook=False, directed=False)
     net.barnes_hut(gravity=-5000, central_gravity=0.3, spring_length=95, spring_strength=0.02)
@@ -101,14 +99,9 @@ def create_project_network(project_id, org_df, output_folder='output/networks'):
                         dashes=role_styles[role]['dashes'],
                         arrow=role_styles[role]['arrow'])
 
-    # 生成HTML内容（改这里！自己生成，不用 net.save_graph）
+
     html_content = net.generate_html()
     
-    # 保存HTML到指定文件
-    # network_html_path = os.path.join(output_folder, f"network_{project_id}.html")
-    # with open(network_html_path, 'w', encoding='utf-8') as f:
-    #     f.write(html_content)
-
     return html_content
 
 

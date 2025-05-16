@@ -1,5 +1,0 @@
-whoosh
-pyvis
-folium
-openpyxl
-streamlit_folium
