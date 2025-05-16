@@ -47,7 +47,7 @@ def app():
         # 获取选中的项目 ID
         project_id = st.session_state.selected_project_id        
 
-        filtered_project = pd.read_csv("horizon-dataset/cleaned-data/projects.csv", encoding="utf-8-sig")
+        filtered_project = pd.read_csv("analysis-results/projects.csv", encoding="utf-8-sig")
         filtered_project.rename(columns={"id": "projectID"}, inplace=True)
         filtered_project['projectID'] = filtered_project['projectID'].astype(str)
         

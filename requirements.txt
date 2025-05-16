@@ -6,8 +6,6 @@ setuptools
 langchain_core
 langchain_community
 setuptools
-langchain_core
-langchain_community
 supabase
 google-genai
 langchain_google_genai
@@ -16,3 +14,4 @@ pyvis
 folium
 openpyxl
 streamlit_folium
+tqdm

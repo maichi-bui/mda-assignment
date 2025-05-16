@@ -1,0 +1,33 @@
+# Exclude directories
+venv/
+chatbot/
+notebook/
+
+# Ignore Python cache and virtualenv files
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Exclude IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git and environment files
+.git/
+.gitignore
+.env
+*.env
+
+# Ignore logs and local data
+*.log
+*.sqlite3
+*.db
+
+# Exclude large or unnecessary files
+*.zip
+*.tar.gz
+*.xlsx
+*.pdf

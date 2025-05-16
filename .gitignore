@@ -181,3 +181,4 @@ chatbot/pdfs/*
 !chatbot/pdfs/.gitkeep
 !chatbot/figures/.gitkeep
 .streamlit/
+google-cloud-sdk/*

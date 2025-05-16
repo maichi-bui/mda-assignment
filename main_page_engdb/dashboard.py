@@ -67,9 +67,9 @@ def app():
     # Load data - modified to preserve all original columns
     @st.cache_data
     def load_data():
-        project_df = pd.read_csv("horizon-dataset/cleaned-data/projects.csv")
+        project_df = pd.read_csv("analysis-results/projects.csv")
         project_df['ecSignatureDate'] = pd.to_datetime(project_df['ecSignatureDate'], errors='coerce')
-        org_df = pd.read_csv("horizon-dataset/cleaned-data/organizations.csv")
+        org_df = pd.read_csv("analysis-results/organizations.csv")
         return project_df, org_df
     
     

@@ -1,0 +1,18 @@
+
+runtime: custom
+env: flex
+# Skip unnecessary files/folders (won't be deployed)
+skip_files:
+  - ^venv/.*       # Exclude 'venv' folder
+  - ^chatbot/.*    # Exclude 'chatbot' folder
+  - ^notebook/.*   # Exclude 'notebook' folder
+  - ^horizon-dataset/.*       # Exclude 'horizon-dataset' folder
+  - ^\.git/.*      # Exclude '.git' folder
+  - ^__pycache__/.*  # Exclude Python cache
+  - ^\.env$        # Exclude '.env' file
+  - ^.*\.log$      # Exclude log files
+resources:
+  cpu: 2
+  memory_gb: 4
+manual_scaling:
+  instances: 1  # Start with 1 instance
