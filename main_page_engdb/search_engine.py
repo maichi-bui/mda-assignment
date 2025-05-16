@@ -51,7 +51,7 @@ def app():
         filtered_project.rename(columns={"id": "projectID"}, inplace=True)
         filtered_project['projectID'] = filtered_project['projectID'].astype(str)
         
-        
+        retriever = Retriever()
         if filtered_project.empty:
             st.error(f"No project found with Project ID: {project_id}")
             st.stop()  # 停止执行后续代码
@@ -69,7 +69,7 @@ def app():
         **[DOI](https://doi.org/{project['grantDoi']})**
         """)
         with st.sidebar:
-            chat_app(int(project_id), project['title'], project['objective'])
+            chat_app(int(project_id), project['title'], project['objective'], retriever)
         st.markdown("### Project Objective")
         st.write(project['objective'])
         st.markdown("### Participating Organisations")
@@ -92,7 +92,7 @@ def app():
         st.markdown("### Similar Projects")
         st.write("These projects are similar to the one you are currently viewing. You can explore them further.")
         
-        similar_projects = Retriever().get_similar_project(int(project_id))
+        similar_projects = retriever.get_similar_project(int(project_id))
         similar_projects = pd.DataFrame(similar_projects)
         similar_projects['similar_project_id'] = similar_projects['similar_project_id'].astype(str)        
         similar_projects.rename(columns={'similar_project_id':'Project ID','title':"Title"}, inplace=True)

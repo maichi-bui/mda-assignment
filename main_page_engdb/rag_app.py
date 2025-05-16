@@ -82,9 +82,7 @@ class Retriever:
         return []
 
 
-def create_chain():
-    retriever = Retriever()
-    
+def create_chain(retriever):
     # Define prompt template
     template = """You are an assistant for project {project_name}.
     Project description: {description}. 
@@ -103,7 +101,7 @@ def create_chain():
     # Initialize Gemini
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash-001",
-        google_api_key=os.getenv("GEMINI_API_KEY"),
+        google_api_key=retriever.google_api_key,
         temperature=0.3  # Lower for more factual responses
     )
     
@@ -136,9 +134,9 @@ def load_similar_prj(project_id):
     similar_projects = retriever.get_similar_project(project_id)
     return similar_projects
 
-def chat_app(project_id: int, project_name: str, description: str):
+def chat_app(project_id: int, project_name: str, description: str, retriever: Retriever):
 
-    chain = create_chain()
+    chain = create_chain(retriever)
     
     # project_name, description = load_metadata(project_id)    
 

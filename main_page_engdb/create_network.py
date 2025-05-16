@@ -3,7 +3,7 @@ from random import sample
 
 LIMIT_NODE = 60
 
-def create_project_network(project_id, org_df):
+def create_project_network(project_id:str, org_df):
 
     net = Network(height='600px', width='100%', notebook=False, directed=False)
     net.barnes_hut(gravity=-5000, central_gravity=0.3, spring_length=95, spring_strength=0.02)
@@ -43,7 +43,7 @@ def create_project_network(project_id, org_df):
         'associatedPartner': {'color': '#0000ff', 'width': 2, 'dashes': [5,5], 'arrow': 'to'}
     }
 
-    if project_id!=101096329: # only exception due to this project has no active coordinator
+    if project_id!=str(101096329): # only exception due to this project has no active coordinator
         coordinator_org = org_df.loc[(org_df['projectID'] == project_id)&(org_df['role']=='coordinator'),'organisationID'].values[0]
     else:
         coordinator_org = None
