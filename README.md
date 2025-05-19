@@ -2,37 +2,41 @@
 
 ## Repository structure
     .
+    ├── .streamlit              # Streamlit configure folder
+    │   ├── secrets.toml        # Credentials to run the app, structured as `secret_example.toml`    
+    ├── analysis-results        # Aggregated data folders
+    ├── chatbot                 
+    │   ├── pdfs_to_supabase.py # Function to downdload pdfs file then send embedding to Supabase
+    ├── horizon-dataset         # Raw and cleaned data folders    
+    ├── main_page_engdb         # Streamlit sub-pages and utilities functions
+    │   ├── create_network.py   # Function to create network visualization
+    │   ├── dashboard.py        # Dashboard page
+    │   ├── indexer.py          # Create indices for search engine
+    │   ├── introduction.py     # Introduction page
+    │   ├── rag_app.py          # Function for chatbot
+    │   ├── search_engine.py    # Search page and Individual project page
+    │   ├── searcher.py         # Search function
     ├── notebook                # POC code in Jupyter notebooks
-    ├── horizon-dataset         # Data folders
-    │   ├── clean_script.ipynb  # Script to clean raw files
-    │   ├── clean-data/         # Folder including 6 cleaned data files
-    │   ├── ...         
+    ├── .dockerignore              
     ├── .gitignore              
-    ├── app.py                  # Streamlit app
-    ├── requirements.txt        # All packages required for scripts to run 
+    ├── app.py                  # Streamlit main app
+    ├── app.yaml                # GAE deployment configation
+    ├── Dockerfile              
     ├── README.md               # Instructions to run script
+    ├── requirements.txt        # All packages required for scripts to run 
     └── ...
 
-## Streamlit blank app template
-A simple Streamlit app template for you to modify!
+## How to run it on your own machine
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
-
-### How to run it on your own machine
-
-1. Create virtual environment - Python 3.9
+1. Create virtual environment - Python 3.9 and install requirements
    
    ```
    $ python -m venv venv/
    $ source venv/bin/activate
-   ```
-
-2. Install the requirements
-
-   
-   ```
    $ pip install -r requirements.txt
    ```
+
+2. Create `.streamlit/secrets.toml` as example `secret_example.toml`
 
 3. Run the app
 
@@ -40,3 +44,10 @@ A simple Streamlit app template for you to modify!
    $ python main_page_engdb/indexer.py
    $ streamlit run app.py
    ```
+
+## How to Deploy on Google App Engine
+
+1. Install Google Cloud SDK and authorize: 
+   [Instructions](https://cloud.google.com/sdk/docs/install-sdk)
+
+2. Deploy on Google App Engine via this command: `gcloud app deploy`
