@@ -46,7 +46,6 @@ def app():
         
         # 获取选中的项目 ID
         project_id = st.session_state.selected_project_id        
-
         filtered_project = pd.read_csv("analysis-results/projects.csv", encoding="utf-8-sig")
         filtered_project.rename(columns={"id": "projectID"}, inplace=True)
         filtered_project['projectID'] = filtered_project['projectID'].astype(str)
@@ -93,9 +92,18 @@ def app():
         st.write("These projects are similar to the one you are currently viewing. You can explore them further.")
         
         similar_projects = retriever.get_similar_project(int(project_id))
-        similar_projects = pd.DataFrame(similar_projects)
-        similar_projects['similar_project_id'] = similar_projects['similar_project_id'].astype(str)        
-        similar_projects.rename(columns={'similar_project_id':'Project ID','title':"Title"}, inplace=True)
-        similar_projects.set_index('Project ID', inplace=True)
-        st.dataframe(similar_projects, use_container_width=True)
+        similar_projects = set(pd.DataFrame(similar_projects).similar_project_id.astype(str))
+        similar_projects_df = filtered_project[filtered_project.projectID.isin(similar_projects)][['projectID', 'title','grantDoi']]
+        similar_projects_df['DOI'] = similar_projects_df['grantDoi'].apply(lambda x: f"https://doi.org/{x}" if pd.notna(x) else "N/A")
+        similar_projects_df.rename(columns={'projectID': 'Project ID', 'title': "Title"}, inplace=True)
+        
+        similar_projects_df.set_index('Project ID', inplace=True)
+        similar_projects_df.drop(columns=['grantDoi'], inplace=True)
+        st.dataframe(
+                similar_projects_df,
+                column_config={
+                    "DOI": st.column_config.LinkColumn("DOI")
+                },                
+                use_container_width=True
+            )
 

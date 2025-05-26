@@ -150,7 +150,7 @@ def chat_app(project_id: int, project_name: str, description: str, retriever: Re
             st.markdown(message["content"])
 
     # Chat input
-    if question := st.chat_input("Ask about the project..."):
+    if question := st.chat_input("Ask about the project progress, summary..."):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": question})
     

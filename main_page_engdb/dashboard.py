@@ -3,7 +3,7 @@ import pandas as pd
 import folium
 from folium.plugins import HeatMap
 from streamlit_folium import st_folium
-
+from datetime import datetime
 def app():
     st.title("Welcome to the Dashboard Page")
 
@@ -69,6 +69,7 @@ def app():
     def load_data():
         project_df = pd.read_csv("analysis-results/projects.csv")
         project_df['ecSignatureDate'] = pd.to_datetime(project_df['ecSignatureDate'], errors='coerce')
+        project_df['endDate'] = pd.to_datetime(project_df['endDate'], errors='coerce')
         org_df = pd.read_csv("analysis-results/organizations.csv")
         return project_df, org_df
     
@@ -105,17 +106,17 @@ def app():
             country_data = country_data[country_data['year_month'] != 'NaT']
             monthly_counts = country_data.groupby('year_month')['projectID'].nunique()
             
-            tab1, tab2 = st.tabs(["Project Count", "Total Cost"])
+            # tab1, tab2 = st.tabs(["Project Count", "Total Cost"])
             
-            with tab1:
-                st.bar_chart(monthly_counts)
+            # with tab1:
+            st.bar_chart(monthly_counts)
             
-            with tab2:
-                if 'totalCost' in country_data.columns:
-                    monthly_costs = country_data.groupby('year_month')['totalCost'].sum()
-                    st.line_chart(monthly_costs)
-                else:
-                    st.warning("Total cost data not available for line chart")
+            # with tab2:
+            #     if 'totalCost' in country_data.columns:
+            #         monthly_costs = country_data.groupby('year_month')['totalCost'].sum()
+            #         st.line_chart(monthly_costs)
+            #     else:
+            #         st.warning("Total cost data not available for line chart")
         
         # Project list with all columns
         st.write("### Project Details")
@@ -128,7 +129,7 @@ def app():
             if 'totalCost' in country_data.columns:
                 sort_options.extend(['Total Cost (High to Low)', 'Total Cost (Low to High)'])
             if 'ecSignatureDate' in country_data.columns:
-                sort_options.extend(['Date (Newest First)', 'Date (Oldest First)'])
+                sort_options.extend(['Signature Date (Newest First)', 'Signature Date (Oldest First)'])
             
             sort_by = st.selectbox("Sort by", sort_options)
             
@@ -136,9 +137,9 @@ def app():
                 country_data = country_data.sort_values('totalCost', ascending=False)
             elif sort_by == 'Total Cost (Low to High)':
                 country_data = country_data.sort_values('totalCost', ascending=True)
-            elif sort_by == 'Date (Newest First)':
+            elif sort_by == 'Signature Date (Newest First)':
                 country_data = country_data.sort_values('ecSignatureDate', ascending=False)
-            elif sort_by == 'Date (Oldest First)':
+            elif sort_by == 'Signature Date (Oldest First)':
                 country_data = country_data.sort_values('ecSignatureDate', ascending=True)
         
         # Status filter
@@ -150,13 +151,34 @@ def app():
                     country_data = country_data[country_data['status'] == selected_status]
         # Display SELECTED columns from the original data
         
-        show_cols = ['projectID','acronym', 'title', 'objective','endDate','status', 'project_totalCost', 'ecSignatureDate', 'ecMaxContribution']
-        cols_label= ['Project ID', 'Acronym', 'Title', 'Objective', 'End Date', 'Status', 'Total Cost (EUR)', 'Signature Date', 'Max Contribution (EUR)']
-        zip_cols = dict(zip(show_cols, cols_label))
-        show_df = country_data[show_cols].drop_duplicates().rename(columns=zip_cols).set_index('Project ID')
+        show_cols = ['projectID','acronym', 'title','status', 'ecSignatureDate','endDate', 'project_totalCost',  'ecMaxContribution','grantDoi']
+        show_df = country_data[show_cols].drop_duplicates()
+        show_df['project_totalCost'] = show_df['project_totalCost'].fillna(0) / 1000
+        show_df['ecMaxContribution'] = show_df['ecMaxContribution'].fillna(0) / 1000
+        show_df['grantDoi'] = show_df['grantDoi'].apply(lambda x: f"https://doi.org/{x}" if pd.notna(x) else "N/A")
+       
         
-        st.dataframe(show_df, use_container_width=True)
-        
+        show_df['project_duration'] = (show_df['endDate'] -show_df['ecSignatureDate']).dt.days
+        show_df['remaining_time'] = (show_df['endDate'] - pd.to_datetime(datetime.now())).dt.days 
+        show_df['remaining_time'] = 1 - show_df['remaining_time'] / show_df['project_duration'] 
+        show_df.drop(columns=['project_duration'], inplace=True)
+
+        st.dataframe(show_df, use_container_width=True,
+                     column_config={
+                         'projectID': st.column_config.TextColumn('Project ID', help="Unique project identifier", pinned=True),
+                         'acronym': st.column_config.TextColumn('Acronym', help="Project acronym"),
+                         'title': st.column_config.TextColumn('Title', help="Project title"),
+                         'status': st.column_config.TextColumn('Status', help="Project status"),
+                         'endDate': st.column_config.DateColumn('End Date', help="Project end date", format="YYYY-MM-DD"),
+                         'ecSignatureDate': st.column_config.DateColumn('Signature Date', help="Date when the project was signed",format="YYYY-MM-DD"),
+                        "project_totalCost": st.column_config.NumberColumn('Total Cost (thousand)', help="Total project cost in thousand EUR", format="€ %d"),
+                        "ecMaxContribution": st.column_config.NumberColumn('Max Contribution (thousand)', help="Maximum contribution from the European Commission in thousand EUR", format="€ %d"),
+                         "remaining_time": st.column_config.ProgressColumn('Time remained', help="Remaining time",
+                                                                    min_value=0,
+                                                                    max_value=1),
+                        "grantDoi": st.column_config.LinkColumn("DOI")
+                     }, hide_index=True)
+       
         if st.button("← Back to Map"):
             st.session_state['selected_country'] = None
             st.rerun()
