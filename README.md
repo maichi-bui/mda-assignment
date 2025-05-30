@@ -1,4 +1,12 @@
 # [MDA assignment] Group 16 On-campus 
+## Dataset
+**The CORDIS Horizon Europe Dataset (2021–2027)**
+- €95.5 billion in EU funding for research & innovation
+- Covers over 15,000+ projects across science & technology
+- Open-access, publicly available [data source](https://data.europa.eu/data/datasets/cordis-eu-research-projects-under-horizon-europe-2021-2027?locale=en)
+
+![Horizon EU](https://github.com/user-attachments/assets/dd62a134-ddb4-48af-b581-77b4c6a8695a)
+
 
 ## Repository structure
     .
